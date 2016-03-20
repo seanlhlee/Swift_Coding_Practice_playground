@@ -1,4 +1,5 @@
-/*: [Previous](@previous)
+/*: 
+[Previous](@previous)
 ****
 
 # 圖形搜尋簡介
@@ -43,7 +44,69 @@
 		dfs(g, neighbors[i]);     //   逐一進行訪問
 		}
 	}
+*/
+import UIKit
 
+public class Node<T: Equatable>: CustomStringConvertible {
+	public var name: String
+	public var value: T
+	public var visited: Bool = false
+	private var connects = [Node<T>]()
+	public init(name: String,value: T) {
+		self.name = name
+		self.value = value
+	}
+	public var description: String {
+		return self.name + ":\(self.value)"
+	}
+	public func getConn() -> [Node] {
+		return self.connects
+	}
+	public func addNeighbor(node: Node...) {
+		for i in 0..<node.count {
+			self.connects.append(node[i])
+			node[i].connects.append(self)
+		}
+	}
+}
+
+func dfs<T: Equatable>(g: T, node: Node<T>) {
+	guard !node.visited else { return }
+	node.visited = true
+	if node.value == g {
+		print("Found: \(g) @ \(node)")
+		return
+	}
+	print("@ \(node)")			/// 追蹤搜尋深度
+	let connections = node.getConn()
+	if !connections.isEmpty {
+		for rote in connections {
+			dfs(g, node: rote)
+		}
+	}
+}
+
+var node1 = Node(name: "node1", value: 1), node2 = Node(name: "node2", value: 2), node3 = Node(name: "node3", value: 3)
+var node4 = Node(name: "node4", value: 4), node5 = Node(name: "node5", value: 5), node6 = Node(name: "node6", value: 6)
+
+node1.addNeighbor(node2, node5)
+node2.addNeighbor(node3, node4)
+node3.addNeighbor(node4, node5, node6)
+node4.addNeighbor(node5, node6)
+node5.addNeighbor(node6)
+
+
+print("new search begin.....")
+dfs(5, node: node1)					// 改一下第一個參數, 觀察搜尋的次序
+
+node1.visited
+node2.visited
+node3.visited
+node4.visited
+node5.visited
+node6.visited
+
+/*:
 針對上述的範例圖形，若採用深度優先搜尋，其結果可能如下所示 (圖中紅色的數字代表訪問順序)
 
 ![](http://ccc.nqu.edu.tw/db/ai/dfs.jpg "")
@@ -96,6 +159,55 @@
 		}
 		bfs(g, q);
 	}
+
+*/
+func bfs<T: Equatable>(g: T, inout q: Queue<Node<T>>) { // 廣度優先搜尋
+	guard !q.isEmpty else { return }		// 如果 queue 已空，則返回。
+	if let node = q.dequeue() {				// 否則、取出 queue 的第一個節點。
+		guard !node.visited else {return }	// 如果該節點尚未拜訪過。不繼續搜尋，直接返回。
+		node.visited = true					//   標示為已拜訪
+		if node.value == g {
+			print("Found: \(g) @ \(node)")	// 印出節點
+			return
+		}
+		print("@ \(node)")			/// 追蹤搜尋深度
+		let connections = node.getConn()	// 取出鄰居。
+		if !connections.isEmpty {
+			for rote in connections {		// 對於每個鄰居
+				if !rote.visited {			// 假如該鄰居還沒被拜訪過
+					q.enqueue(rote)			// 就放入 queue 中
+				}
+			}
+			bfs(g, q: &q)
+		}
+	}
+}
+
+var nodeX1 = Node(name: "nodeX1", value: 1), nodeX2 = Node(name: "nodeX2", value: 2), nodeX3 = Node(name: "nodeX3", value: 3)
+var nodeX4 = Node(name: "nodeX4", value: 4), nodeX5 = Node(name: "nodeX5", value: 5), nodeX6 = Node(name: "nodeX6", value: 6)
+
+nodeX1.addNeighbor(nodeX2, nodeX5)
+nodeX2.addNeighbor(nodeX3, nodeX4)
+nodeX3.addNeighbor(nodeX4, nodeX5, nodeX6)
+nodeX4.addNeighbor(nodeX5, nodeX6)
+nodeX5.addNeighbor(nodeX6)
+
+
+var q = Queue<Node<Int>>()
+q.enqueue(nodeX1)
+print("\n\nnew search begin.....")
+bfs(6, q: &q)				// 改一下第一個參數, 觀察搜尋的次序
+
+node1.visited
+node2.visited
+node3.visited
+node4.visited
+node5.visited
+node6.visited
+
+
+
+/*:
 
 ## 最佳優先搜尋
 

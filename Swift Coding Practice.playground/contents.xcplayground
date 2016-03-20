@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<playground version='6.0' target-platform='ios' display-mode='rendered'>
+<playground version='6.0' target-platform='ios' display-mode='raw'>
     <pages>
         <page name='基本練習題'/>
         <page name='陣列'/>
@@ -8,8 +8,8 @@
         <page name='回呼'/>
         <page name='遞迴'/>
         <page name='演算法'/>
-        <page name='模擬退火演算法'/>
         <page name='物件導向'/>
+        <page name='模擬退火演算法'/>
         <page name='單層感知器 (Perceptron)'/>
         <page name='多層感知器(Multilayer perceptron)'/>
         <page name='圖形搜尋簡介'/>

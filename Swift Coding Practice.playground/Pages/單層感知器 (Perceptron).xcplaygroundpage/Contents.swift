@@ -1,6 +1,16 @@
 /*: 
 [Previous](@previous)
 ****
+[陳鍾誠]:http://ccc.nqu.edu.tw/db/ccc/home.html ""
+[創用CC 姓名標示-相同方式分享3.0 台灣 授權條款]:http://creativecommons.org/licenses/by-sa/3.0/tw/ ""
+[ 陳鍾誠 / 教科書 / 人工智慧]:http://ccc.nqu.edu.tw/db/ai/home.html ""
+
+![創用 CC 授權條款](https://i.creativecommons.org/l/by-sa/4.0/88x31.png "創用 CC 授權條款")
+
+本著作以[創用CC 姓名標示-相同方式分享3.0 台灣 授權條款]釋出。
+
+此作品衍生自[ 陳鍾誠 / 教科書 / 人工智慧] : [陳鍾誠] 教授之課程教材。
+****
 
 # 實作：單層感知器 (Perceptron)
 

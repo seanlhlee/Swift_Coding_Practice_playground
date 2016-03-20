@@ -1,6 +1,17 @@
 /*: 
 [Previous](@previous)
 ****
+[陳鍾誠]:http://ccc.nqu.edu.tw/db/ccc/home.html ""
+[創用CC 姓名標示-相同方式分享3.0 台灣 授權條款]:http://creativecommons.org/licenses/by-sa/3.0/tw/ ""
+[ 陳鍾誠 / 教科書 / 人工智慧]:http://ccc.nqu.edu.tw/db/ai/home.html ""
+
+![創用 CC 授權條款](https://i.creativecommons.org/l/by-sa/4.0/88x31.png "創用 CC 授權條款")
+
+本著作以[創用CC 姓名標示-相同方式分享3.0 台灣 授權條款]釋出。
+
+此作品衍生自[ 陳鍾誠 / 教科書 / 人工智慧] : [陳鍾誠] 教授之課程教材。
+****
+
 # 模擬退火
 
 模擬退火是一種通用機率演算法，用來在固定時間內尋求在一個大的搜尋空間內找到的最優解。模擬退火是S. Kirkpatrick, C. D. Gelatt和M. P. Vecchi在1983年所發明。而V. Černý在1985年也獨立發明此演算法。

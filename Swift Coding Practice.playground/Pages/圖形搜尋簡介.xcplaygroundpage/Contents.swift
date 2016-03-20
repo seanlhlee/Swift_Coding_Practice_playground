@@ -80,21 +80,33 @@ public class Node<T: Equatable>: CustomStringConvertible {
 	}
 }
 
-func dfs<T: Equatable>(g: T, node: Node<T>) {
-	guard !node.visited else { return }
-	node.visited = true
-	if node.value == g {
+func dfs<T: Equatable>(g: T, node: Node<T>) {		// 深度優先搜尋
+	guard !node.visited else { return }				// 如果已訪問過，就不再訪問
+	node.visited = true								// 設定為已訪問
+	if node.value == g {							// 否則、印出節點
 		print("Found: \(g) @ \(node)")
 		return
 	}
-	print("@ \(node)")			/// 追蹤搜尋深度
-	let connections = node.getConn()
+	print("@ \(node)")								// 追蹤搜尋深度
+	let connections = node.getConn()				// 取出鄰居節點
 	if !connections.isEmpty {
-		for rote in connections {
-			dfs(g, node: rote)
+		for rote in connections {					// 對於每個鄰居
+			dfs(g, node: rote)						// 逐一進行訪問
 		}
 	}
 }
+
+
+//function dfs(g, node) { // 深度優先搜尋
+//	if (g[node].v !=0) return;   // 如果已訪問過，就不再訪問
+//	printf("%d=>", node);       // 否則、印出節點
+//	g[node].v = 1;              //   並設定為已訪問
+//	var neighbors = g[node].n;  // 取出鄰居節點
+//	for (var i in neighbors) {  // 對於每個鄰居
+//		dfs(g, neighbors[i]);     //   逐一進行訪問
+//	}
+
+
 
 var node1 = Node(name: "node1", value: 1), node2 = Node(name: "node2", value: 2), node3 = Node(name: "node3", value: 3)
 var node4 = Node(name: "node4", value: 4), node5 = Node(name: "node5", value: 5), node6 = Node(name: "node6", value: 6)
@@ -180,7 +192,7 @@ func bfs<T: Equatable>(g: T, inout q: Queue<Node<T>>) { // 廣度優先搜尋
 			print("Found: \(g) @ \(node)")	// 印出節點
 			return
 		}
-		print("@ \(node)")			/// 追蹤搜尋深度
+		print("@ \(node)")					/// 追蹤搜尋深度
 		let connections = node.getConn()	// 取出鄰居。
 		if !connections.isEmpty {
 			for rote in connections {		// 對於每個鄰居

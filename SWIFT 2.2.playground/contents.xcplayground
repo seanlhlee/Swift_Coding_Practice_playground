@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<playground version='6.0' target-platform='ios' display-mode='rendered'>
+    <pages>
+        <page name='Table of Contents'/>
+        <page name='0-0 About Swift'/>
+        <page name='0-1 A Swift Tour'/>
+        <page name='Ch1 The Basics'/>
+        <page name='Ch2 Basic Operators'/>
+        <page name='Ch3 Strings and Characters'/>
+        <page name='Ch4 Collection Types'/>
+        <page name='Ch5 Control Flow'/>
+        <page name='Ch6 Functions'/>
+        <page name='Ch7 Closures'/>
+        <page name='Ch8 Enumerations'/>
+        <page name='Ch9 Classes and Structures'/>
+        <page name='Ch10 Properties'/>
+        <page name='Ch11 Methods'/>
+        <page name='Ch12 Subscripts'/>
+        <page name='Ch13 Inheritance'/>
+        <page name='Ch14 Initialization'/>
+        <page name='Ch15 Deinitialization'/>
+        <page name='Ch16 Automatic Reference Counting'/>
+        <page name='Ch17 Optional Chaining'/>
+        <page name='Ch18 Error Handling'/>
+        <page name='Ch19 Type Casting'/>
+        <page name='Ch20 Nested Types'/>
+        <page name='Ch21 Extensions'/>
+        <page name='Ch22 Protocols'/>
+        <page name='Ch23 Generics '/>
+        <page name='Ch24 Access Control'/>
+        <page name='Ch25 Advanced Operators'/>
+        <page name='Document Revision History'/>
+    </pages>
+</playground>

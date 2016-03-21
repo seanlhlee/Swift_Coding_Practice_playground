@@ -13,3 +13,6 @@
 - 多層感知器(Multilayer perceptron)
 - 圖形搜尋簡介
 - Code Testion Page
+
+
+【本文取材並修改自 [陳鍾誠教授編撰教材](http://ccc.nqu.edu.tw/wd.html#book:home)，採用創作共用的 姓名標示、相同方式分享 授權】

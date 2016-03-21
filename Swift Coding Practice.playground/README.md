@@ -31,6 +31,7 @@ ____________________
 - [*單層感知器(Perceptron)*](單層感知器(Perceptron))
 - [*多層感知器(Multilayer perceptron)*](多層感知器(Multilayer%20perceptron))
 - [*圖形搜尋簡介*](圖形搜尋簡介)
+- [*老鼠走迷宮*](老鼠走迷宮)
 
 ### 程式碼測試頁
 - [*Code Testion Page*](Code%20Testion%20Page)

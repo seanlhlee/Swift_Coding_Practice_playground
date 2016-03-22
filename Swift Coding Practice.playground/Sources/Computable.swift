@@ -102,7 +102,7 @@ extension BitFormRepresentable {
 		let n = self.toInt()
 		var rep = ""
 //		for (var c = size; c >= 0; c--){}
-		for c in (-size+1)..<0 {
+		for c in -size...0 {
 			let k = n >> -c
 			if (k & 1) == 1 { rep += "1" } else { rep += "0" }
 			if -c%8  == 0 && c != 0  && formatted { rep += " " }

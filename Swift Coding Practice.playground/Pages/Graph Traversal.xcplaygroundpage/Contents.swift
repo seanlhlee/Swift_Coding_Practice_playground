@@ -186,13 +186,13 @@ node6.visited
 func bfs<T: Equatable>(g: T, inout q: Queue<Node<T>>) { // 廣度優先搜尋
 	guard !q.isEmpty else { return }		// 如果 queue 已空，則返回。
 	if let node = q.dequeue() {				// 否則、取出 queue 的第一個節點。
-		guard !node.visited else {return }	// 如果該節點尚未拜訪過。不繼續搜尋，直接返回。
-		node.visited = true					//   標示為已拜訪
+		guard !node.visited else {return }	// 如果該節點拜訪過，繼續搜尋；否則，直接返回。
+		node.visited = true					// 標示為已拜訪
 		if node.value == g {
 			print("Found: \(g) @ \(node)")	// 印出節點
 			return
 		}
-		print("@ \(node)")					/// 追蹤搜尋深度
+		print("@ \(node)")					// 追蹤搜尋深度
 		let connections = node.getConn()	// 取出鄰居。
 		if !connections.isEmpty {
 			for rote in connections {		// 對於每個鄰居

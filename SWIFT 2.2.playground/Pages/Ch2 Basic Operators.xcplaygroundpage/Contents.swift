@@ -233,7 +233,23 @@ if name == "world" {
 }
 // prints "hello, world", because name is indeed equal to "world"
 /*:
-For more on the if statement, see Control Flow.
+[Control Flow]:https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/ControlFlow.html#//apple_ref/doc/uid/TP40014097-CH9-ID120 ""
+
+For more on the if statement, see [Control Flow].
+
+<新版新增>
+You can also compare tuples that have the same number of values, as long as each of the values in the tuple can be compared. For example, both Int and String can be compared, which means tuples of the type (Int, String) can be compared. In contrast, Bool can’t be compared, which means tuples that contain a Boolean value can’t be compared.
+
+<新版新增>
+Tuples are compared from left to right, one value at a time, until the comparison finds two values that aren’t equal. If all the elements are equal, then the tuples themselves are equal. For example:
+*/
+// <新版新增>
+(1, "zebra") < (2, "apple")   // true because 1 is less than 2
+(3, "apple") < (3, "bird")    // true because 3 is equal to 3, and "apple" is less than "bird"
+(4, "dog") == (4, "dog")      // true because 4 is equal to 4, and "dog" is equal to "dog"
+/*:
+<新版新增>
+> The Swift standard library includes tuple comparison operators for tuples with less than seven elements. To compare tuples with seven or more elements, you must implement the comparison operators yourself.
 
 ## Ternary Conditional Operator
 

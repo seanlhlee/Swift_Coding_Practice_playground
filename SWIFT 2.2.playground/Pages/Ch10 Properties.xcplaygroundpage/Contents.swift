@@ -219,8 +219,8 @@ Property observers observe and respond to changes in a property’s value. Prope
 
 You can add property observers to any stored properties you define, apart from lazy stored properties. You can also add property observers to any inherited property (whether stored or computed) by overriding the property within a subclass. Property overriding is described in [Overriding].
 
-**Note**
 
+<<新版刪除此段Note>>
 > You don’t need to define property observers for non-overridden computed properties, because you can observe and respond to changes to their value in the computed property’s setter.
 
 You have the option to define either or both of these observers on a property:
@@ -276,9 +276,15 @@ This example’s willSet observer uses a custom parameter name of newTotalSteps 
 
 The didSet observer is called after the value of totalSteps is updated. It compares the new value of totalSteps against the old value. If the total number of steps has increased, a message is printed to indicate how many new steps have been taken. The didSet observer does not provide a custom parameter name for the old value, and the default name of oldValue is used instead.
 
-**Note**
+<<新版刪除此段Note>>
 
 > If you assign a value to a property within its own didSet observer, the new value that you assign will replace the one that was just set.
+
+<<新版新增此段Note>>
+
+[In-Out Parameters]:https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/Declarations.html#//apple_ref/doc/uid/TP40014097-CH34-ID545 ""
+
+> If you pass a property that has observers to a function as an in-out parameter, the willSet and didSet observers are always called. This is because of the copy-in copy-out memory model for in-out parameters: The value is always written back to the property at the end of the function. For a detailed discussion of the behavior of in-out parameters, see [In-Out Parameters].
 
 ## Global and Local Variables
 

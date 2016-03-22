@@ -167,12 +167,20 @@ print(m)
 
 //: You can keep an index in a loop—either by using `..<` to make a range of indexes or by writing an explicit initialization, condition, and increment. These two loops do the same thing:
 //:
+//<新版新增此段程式碼>
+var total = 0
+for i in 0..<4 {
+	total += i
+}
+print(total)
+
+//<新版刪除此段程式碼>
 var firstForLoop = 0
 for i in 0..<4 {
 	firstForLoop += i
 }
 print(firstForLoop)
-
+//<新版刪除此段程式碼>
 var secondForLoop = 0
 for var i = 0; i < 4; ++i {
 	secondForLoop += i
@@ -456,11 +464,15 @@ let aceRawValue = ace.rawValue
 
 //: > **Experiment**:
 //: > Write a function that compares two `Rank` values by comparing their raw values.
-//:
-//: In the example above, the raw-value type of the enumeration is `Int`, so you only have to specify the first raw value. The rest of the raw values are assigned in order. You can also use strings or floating-point numbers as the raw type of an enumeration. Use the `rawValue` property to access the raw value of an enumeration case.
-//:
-//: Use the `init?(rawValue:)` initializer to make an instance of an enumeration from a raw value.
-//:
+/*:
+<新版刪除本段說明>
+In the example above, the raw-value type of the enumeration is `Int`, so you only have to specify the first raw value. The rest of the raw values are assigned in order. You can also use strings or floating-point numbers as the raw type of an enumeration. Use the `rawValue` property to access the raw value of an enumeration case.
+
+<新版新增本段說明>
+By default, Swift assigns the raw values starting at zero and incrementing by one each time, but you can change this behavior by explicitly specifying values. In the example above, Ace is explicitly given a raw value of 1, and the rest of the raw values are assigned in order. You can also use strings or floating-point numbers as the raw type of an enumeration. Use the rawValue property to access the raw value of an enumeration case.
+
+Use the `init?(rawValue:)` initializer to make an instance of an enumeration from a raw value.
+*/
 if let convertedRank = Rank(rawValue: 3) {
 	let threeDescription = convertedRank.simpleDescription()
 }
@@ -589,7 +601,80 @@ print(protocolValue.simpleDescription)
 // print(protocolValue.anotherProperty)  // Uncomment to see the error
 
 //: Even though the variable `protocolValue` has a runtime type of `SimpleClass`, the compiler treats it as the given type of `ExampleProtocol`. This means that you can’t accidentally access methods or properties that the class implements in addition to its protocol conformance.
+/*:
+<新本新增此一Error Handling章節>
+## Error Handling
 
+You represent errors using any type that adopts the ErrorType protocol.
+*/
+enum PrinterError: ErrorType {
+	case OutOfPaper
+	case NoToner
+	case OnFire
+}
+/*:
+Use throw to throw an error and throws to mark a function that can throw an error. If you throw an error in a function, the function returns immediately and the code that called the function handles the error.
+*/
+func sendToPrinter(printerName: String) throws -> String {
+	if printerName == "Never Has Toner" {
+			throw PrinterError.NoToner
+	}
+	return "Job sent"
+}
+/*:
+There are several ways to handle errors. One way is to use do-catch. Inside the do block, you mark code that can throw an error by writing try in front of it. Inside the catch block, the error is automatically given the name error unless you can give it a different name.
+*/
+do {
+	let printerResponse = try sendToPrinter("Bi Sheng")
+	print(printerResponse)
+} catch {
+	print(error)
+}
+/*:
+**EXPERIMENT**
+
+>Change the printer name to "Never Has Toner", so that the sendToPrinter(_:) function throws an error.
+
+You can provide multiple catch blocks that handle specific errors. You write a pattern after catch just as you do after case in a switch.
+*/
+do {
+	let printerResponse = try sendToPrinter("Gutenberg")
+	print(printerResponse)
+} catch PrinterError.OnFire {
+	print("I'll just put this over here, with the rest of the fire.")
+} catch let printerError as PrinterError {
+	print("Printer error: \(printerError).")
+} catch {
+	print(error)
+}
+/*:
+**EXPERIMENT**
+
+> Add code to throw an error inside the do block. What kind of error do you need to throw so that the error is handled by the first catch block? What about the second and third blocks?
+
+Another way to handle errors is to use try? to convert the result to an optional. If the function throws an error, the specific error is discarded and the result is nil. Otherwise, the result is an optional containing the value that the function returned.
+*/
+let printerSuccess = try? sendToPrinter("Mergenthaler")
+let printerFailure = try? sendToPrinter("Never Has Toner")
+/*:
+Use defer to write a block of code that is executed after all other code in the function, just before the function returns. The code is executed regardless of whether the function throws an error. You can use defer to write setup and cleanup code next to each other, even though they need to be executed at different times.
+*/
+var fridgeIsOpen = false
+let fridgeContent = ["milk", "eggs", "leftovers"]
+
+func fridgeContains(itemName: String) -> Bool {
+	fridgeIsOpen = true
+	defer {
+		fridgeIsOpen = false
+	}
+
+	let result = fridgeContent.contains(itemName)
+	return result
+}
+fridgeContains("banana")
+print(fridgeIsOpen)
+
+//以上本章節為新版新增內容
 //: ## Generics
 //:
 //: Write a name inside angle brackets to make a generic function or type.

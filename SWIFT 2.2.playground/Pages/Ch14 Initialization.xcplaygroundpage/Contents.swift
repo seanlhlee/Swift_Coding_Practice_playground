@@ -766,6 +766,8 @@ if unknownUnit == nil {
 }
 // prints "This is not a defined temperature unit, so initialization failed."
 /*:
+<新版刪除這部分說明>
+
 ### Failable Initializers for Classes
 
 A failable initializer for a value type (that is, a structure or enumeration) can trigger an initialization failure at any point within its initializer implementation. In the Animal structure example above, the initializer triggers an initialization failure at the very start of its implementation, before the species property has been set.
@@ -774,6 +776,7 @@ For classes, however, a failable initializer can trigger an initialization failu
 
 The example below shows how you can use an implicitly unwrapped optional property to satisfy this requirement within a failable class initializer:
 */
+// <新版刪除這部分程式碼>
 class Product {
 	let name: String!
 	init?(name: String) {
@@ -782,6 +785,7 @@ class Product {
 	}
 }
 /*:
+<新版刪除這部分說明>
 The Product class defined above is very similar to the Animal structure seen earlier. The Product class has a constant name property that must not be allowed to take an empty string value. To enforce this requirement, the Product class uses a failable initializer to ensure that the property’s value is nonempty before allowing initialization to succeed.
 
 However, Product is a class, not a structure. This means that unlike Animal, any failable initializer for the Product class must provide an initial value for the name property before triggering an initialization failure.
@@ -790,11 +794,16 @@ In the example above, the name property of the Product class is defined as havin
 
 Because the name property is a constant, you can be confident that it will always contain a non-nil value if initialization succeeds. Even though it is defined with an implicitly unwrapped optional type, you can always access its implicitly unwrapped value with confidence, without needing to check for a value of nil:
 */
+
+// <新版刪除這部分程式碼>
 if let bowTie = Product(name: "bow tie") {
 	// no need to check if bowTie.name == nil
 	print("The product's name is \(bowTie.name)")
 }
 // prints "The product's name is bow tie"
+
+
+
 /*:
 ### Propagation of Initialization Failure
 
@@ -817,13 +826,17 @@ class CartItem: Product {
 	}
 }
 /*:
-The quantity property has an implicitly unwrapped integer type (Int!). As with the name property of the Product class, this means that the quantity property has a default value of nil before it is assigned a specific value during initialization.
-
-The failable initializer for CartItem starts by delegating up to the init(name:) initializer from its superclass, Product. This satisfies the requirement that a failable initializer must always perform initializer delegation before triggering an initialization failure.
-
-If the superclass initialization fails because of an empty name value, the entire initialization process fails immediately and no further initialization code is executed. If the superclass initialization succeeds, the CartItem initializer validates that it has received a quantity value of 1 or more.
+The failable initializer for CartItem starts by validating that it has received a quantity value of 1 or more. If the quantity is invalid, the entire initialization process fails immediately and no further initialization code is executed. Likewise, the failable initializer for Product checks the name value, and the initializer process fails immediately if name is the empty string.
 
 If you create a CartItem instance with a nonempty name and a quantity of 1 or more, initialization succeeds:
+
+<舊版> The quantity property has an implicitly unwrapped integer type (Int!). As with the name property of the Product class, this means that the quantity property has a default value of nil before it is assigned a specific value during initialization.
+
+<舊版> The failable initializer for CartItem starts by delegating up to the init(name:) initializer from its superclass, Product. This satisfies the requirement that a failable initializer must always perform initializer delegation before triggering an initialization failure.
+
+<舊版> If the superclass initialization fails because of an empty name value, the entire initialization process fails immediately and no further initialization code is executed. If the superclass initialization succeeds, the CartItem initializer validates that it has received a quantity value of 1 or more.
+
+<舊版> If you create a CartItem instance with a nonempty name and a quantity of 1 or more, initialization succeeds:
 */
 if let twoSocks = CartItem(name: "sock", quantity: 2) {
 	print("Item: \(twoSocks.name), quantity: \(twoSocks.quantity)")

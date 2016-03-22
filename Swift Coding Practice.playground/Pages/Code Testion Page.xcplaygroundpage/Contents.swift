@@ -1,5 +1,6 @@
 //: [Previous](@previous)
 
+
 import Foundation
 
 var pat: [[[Double]]] = [
@@ -22,7 +23,7 @@ var nn = NeuralNet(ni: 7, nh: 5, no: 4);
 nn.train(pat, iterations: 10000, rate: 0.2, moment: 0.01)
 // test it
 nn.test(pat)
-//
+
 nn.update([1,0,1,1,0,1,1])
 nn.update([1,0,0,1,1,1,0])   //input 圖形C
 nn.outputCharacter([1,0,1,1,0,1,1])		//會
@@ -30,7 +31,7 @@ nn.outputCharacter([1,0,0,1,1,1,0])		//不會
 nn.outputCharacter([1,0,0,0,1,1,1])		//不會
 
 pat = [
-	// A B C D E F G
+	//A B C D E F G
 	[[1,1,1,1,1,1,0], [0,0,0,0]], // 0
 	[[0,1,1,0,0,0,0], [0,0,0,1]], // 1
 	[[1,1,0,1,1,0,1], [0,0,1,0]], // 2

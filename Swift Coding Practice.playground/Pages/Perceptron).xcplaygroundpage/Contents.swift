@@ -1,4 +1,4 @@
-/*: 
+/*:
 [Previous](@previous)
 ****
 [陳鍾誠]:http://ccc.nqu.edu.tw/db/ccc/home.html ""

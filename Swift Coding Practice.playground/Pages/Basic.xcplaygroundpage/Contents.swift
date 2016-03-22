@@ -1,13 +1,9 @@
 /*:
 [Previous](@previous)
 ****
-
 # SWIFT程式設計練習題
-
 ## 基本練習題
-
 ### 請寫一個函數 m357(a,b) 列出 a 到 b 之間為 3,5,7 任一數之倍數的所有數值？
-
 範例：m357(10,15) => 10, 12, 14, 15
 */
 enum InputError: ErrorType {

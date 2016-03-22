@@ -342,14 +342,14 @@ let stringIndex = findIndex(["Mike", "Malcolm", "Andrea"], "Andrea")
 /*:
 ## Associated Types
 
-When defining a protocol, it is sometimes useful to declare one or more associated types as part of the protocol’s definition. An associated type gives a placeholder name (or alias) to a type that is used as part of the protocol. The actual type to use for that associated type is not specified until the protocol is adopted. Associated types are specified with the typealias keyword.
+When defining a protocol, it is sometimes useful to declare one or more associated types as part of the protocol’s definition. An associated type gives a placeholder name (or alias) to a type that is used as part of the protocol. The actual type to use for that associated type is not specified until the protocol is adopted. Associated types are specified with the associatedtype keyword.
 
 ### Associated Types in Action
 
 Here’s an example of a protocol called Container, which declares an associated type called ItemType:
 */
 protocol Container {
-	typealias ItemType
+	associatedtype ItemType
 	mutating func append(item: ItemType)
 	var count: Int { get }
 	subscript(i: Int) -> ItemType { get }

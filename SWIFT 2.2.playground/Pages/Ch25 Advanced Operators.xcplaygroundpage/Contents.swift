@@ -56,10 +56,11 @@ extension BitFormRepresentable {
 		}
 		let n = self.toInt()
 		var rep = ""
-		for (var c = size; c >= 0; c--) {
-			let k = n >> c
+//		for (var c = size; c >= 0; c--) {
+		for c in -size...0 {
+			let k = n >> -c
 			if (k & 1) == 1 { rep += "1" } else { rep += "0" }
-			if c%8  == 0 && c != 0 { rep += " " }
+			if -c%8  == 0 && -c != 0 { rep += " " }
 		}
 		return rep
 	}
@@ -538,6 +539,45 @@ ______________________
 //以下為練習, 顏色的數學實際上不是這樣的
 
 import UIKit
+
+// Custom Operators
+infix operator ** { associativity left precedence 160 }
+func ** (left: Double, right: Double) -> Double {
+	return pow(left, right)
+}
+
+2 ** 3 // 8
+
+// When creating custom operators, make sure to also create the corresponding assignment operator, if appropriate:
+
+infix operator **= { associativity right precedence 90 }
+func **= (inout left: Double, right: Double) {
+	left = left ** right
+}
+
+// Use of Mathematical Symbols
+prefix operator √ {}
+prefix func √ (number: Double) -> Double {
+	return sqrt(number)
+}
+√16
+√2
+
+infix operator ± { associativity left precedence 140 }
+func ± (left: Double, right: Double) -> (Double, Double) {
+	return (left + right, left - right)
+}
+
+prefix operator ± {}
+prefix func ± (value: Double) -> (Double, Double) {
+	return 0 ± value
+}
+
+2 ± 3
+±4
+
+
+
 
 func == (left: UIColor, right: UIColor) -> Bool {
 	var rl:CGFloat = 0, gl:CGFloat = 0, bl:CGFloat = 0, al:CGFloat = 0

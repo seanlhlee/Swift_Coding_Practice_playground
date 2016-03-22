@@ -4,7 +4,7 @@ public struct TrackedString1 {
 	private(set) var numberOfEdits = 0
 	public var value: String = "" {
 		didSet {
-			numberOfEdits++
+			numberOfEdits += 1
 		}
 	}
 	public init (numberOfEdits: Int, value: String) {
@@ -21,7 +21,7 @@ public struct TrackedString2 {
 	public private(set) var numberOfEdits = 0
 	public var value: String = "" {
 		didSet {
-			numberOfEdits++
+			numberOfEdits += 1
 		}
 	}
 	public init() {}

@@ -148,9 +148,14 @@
 		backtrace(goal);
 */
 import Foundation
-
+/*
+{
+/// 定義拼圖盤面相等的判斷函式，用於bfs中判斷結點盤面是否符合搜尋目標。
 func == (lhs: [[Int]], rhs: [[Int]]) -> Bool {
-	return lhs.count == rhs.count
+	guard !lhs.isEmpty && !rhs.isEmpty else { return false }
+	guard lhs.count == rhs.count else { return false }
+	guard lhs.description == rhs.description else { return false }
+	return true
 }
 public func ==<T> (lhs: [T], rhs: [T]) -> Bool {
 	guard !lhs.isEmpty && !rhs.isEmpty else { return false }
@@ -158,113 +163,123 @@ public func ==<T> (lhs: [T], rhs: [T]) -> Bool {
 	guard lhs.description == rhs.description else { return false }
 	return true
 }
-
+/// 將Array採納(confirm)Equatable協議, 使其得以作為Node類別之屬性value的值
 extension Array: Equatable { }
-
-/// 定義方向的列舉
-enum Direction: Int {
-	case up = 1, right = 2, down = 3, left = 4
+public func ==<T> (lhs: Node<T>, rhs: Node<T>) -> Bool {
+	guard lhs.value == rhs.value else { return false }
+	guard lhs.name == rhs.name else { return false }
+	return true
 }
-/// 將數字陣列形式的拼圖轉換為易讀的拼圖形式顯示字串
+/// 將Node採納(confirm)Equatable協議, 用以新增相鄰節點時不重複增加已鏈結之節點
+extension Node: Equatable {}
+/** 將數字陣列形式的拼圖轉換為易讀的拼圖形式顯示字串，以方便以print函式觀察結果
+	例如將陣列 [[1,2,3], [8,0,4], [7,6,5]]轉換後顯示為
+										[1,2,3]
+	[[1,2,3], [8,0,4], [7,6,5]]   =>	[8,0,4]
+										[7,6,5]
+*/
+}
+*/
 func board2str(b: [[Int]]) -> String {
 	return b.flatMap{ String($0) }.joinWithSeparator("\n")
 }
-/// 尋找目標值(數字)在拼圖中(數字陣列形式)的位置
-func findXY(board: [[Int]], value: Int) -> (x: Int, y: Int)? {
-	for i in 0..<board.count {
-		for j in 0..<board[0].count {
-			if board[i][j] == value {
-				return (x: i, y: j)
+/// 根據拼圖盤面的狀況取得存在之相鄰節點 (往四個方向移動的可能性，加入節點之鄰居節點關係) moveable參數為可移動之圖塊
+func addNeighbors(node: Node<[[Int]]>, moveable: Int = 0) {
+	/// 定義方向的列舉
+	enum Direction{
+		case up, right, down, left
+	}
+	/// 若可移動，則將移動後的盤面加入為目前該節點的鄰居節點
+	func moveAdd(node: Node<[[Int]]>, dir: Direction, moveable: Int) {
+		/// 將拼圖中的某塊拼圖移動至新的位置後，傳回新的拼圖圖案
+		func move(node: Node<[[Int]]>, dir: Direction) -> Node<[[Int]]>? {
+			/// 置換拼圖中(數字陣列形式)兩塊拼圖(數字)的位置
+			func swap_point(inout b: [[Int]],p1: (Int,Int), p2: (Int,Int)) -> Bool {
+				guard (p2.0 >= 0 && p2.0 <= 2 && p2.1 >= 0 && p2.1 <= 2) else { return false }
+				swap(&b[p1.0][p1.1], &b[p2.0][p2.1])
+				return true
 			}
+			/// 尋找目標值(數字)在拼圖中(數字陣列形式)的位置
+			let board = node.value
+			func findXY(board: [[Int]], value: Int) -> (x: Int, y: Int)? {
+				for i in 0..<board.count {
+					for j in 0..<board[0].count {
+						if board[i][j] == value {
+							return (x: i, y: j)
+						}
+					}
+				}
+				return nil
+			}
+			let x = findXY(board, value: moveable)!.x
+			let y = findXY(board, value: moveable)!.y
+			var nboard = board
+			var s = false
+			switch dir {
+			case .up:
+				s = swap_point(&nboard, p1: (x,y), p2: (x-1,y))
+			case .right:
+				s = swap_point(&nboard, p1: (x,y), p2: (x,y+1))
+			case .down:
+				s = swap_point(&nboard, p1: (x,y), p2: (x+1,y))
+			case .left:
+				s = swap_point(&nboard, p1: (x,y), p2: (x,y-1))
+			}
+			if s {
+				let newNode = Node(name: board2str(nboard), value: nboard)
+				for neighbot in node.getConn() {
+					if newNode == neighbot {
+						return nil
+					}
+				}
+				return newNode
+			} else { return nil }
+		}
+		if let newNode = move(node, dir: dir) {
+			for neighbot in node.getConn() {
+				if newNode == neighbot {
+					return
+				}
+			}
+			node.addNeighbor(newNode)
 		}
 	}
-	return nil
-}
-/// 置換拼圖中(數字陣列形式)兩塊拼圖(數字)的位置
-func swap(inout b: [[Int]],p1: (Int,Int), p2: (Int,Int)) -> Bool {
-	guard (p2.0 >= 0 && p2.0 <= 2 && p2.1 >= 0 && p2.1 <= 2) else { return false }
-	swap(&b[p1.0][p1.1], &b[p2.0][p2.1])
-	return true
-}
-/// 將拼圖中的某塊拼圖移動至新的位置後，傳回新的拼圖圖案
-func move(board: [[Int]], dir: Direction) -> [[Int]]? {
-	let x = findXY(board, value: 0)!.x
-	let y = findXY(board, value: 0)!.y
-	var nboard = board
-	var s = false
-	switch dir {
-	case .up:
-		s = swap(&nboard, p1: (x,y), p2: (x-1,y))
-	case .right:
-		s = swap(&nboard, p1: (x,y), p2: (x,y+1))
-	case .down:
-		s = swap(&nboard, p1: (x,y), p2: (x+1,y))
-	case .left:
-		s = swap(&nboard, p1: (x,y), p2: (x,y-1))
-	}
-	if s { return nboard } else { return nil }
-}
-/// 若可移動，則將移動加入序列
-func moveAdd(board: [[Int]], dir: Direction, inout neighbors: [Node<[[Int]]>]) {
-	if let nboard = move(board, dir: dir) {
-		let newNode = Node(name: "newNode", value: nboard)
-		neighbors.append(newNode)
-	}
-}
-/// 取得相鄰節點 (往四個方向移動的可能性)
-func getNeighbors(board: [[Int]]) -> [Node<[[Int]]>] {
-	var neighbors = [Node<[[Int]]>]()
-	moveAdd(board, dir: .up,    neighbors: &neighbors)
-	moveAdd(board, dir: .down,  neighbors: &neighbors)
-	moveAdd(board, dir: .right, neighbors: &neighbors)
-	moveAdd(board, dir: .left,  neighbors: &neighbors)
-	return neighbors
+	moveAdd(node, dir: .up, moveable: moveable)
+	moveAdd(node, dir: .down, moveable: moveable)
+	moveAdd(node, dir: .right, moveable: moveable)
+	moveAdd(node, dir: .left, moveable: moveable)
 }
 
-var goal = [[1,2,3],
-			[8,0,4],
-			[7,6,5]]
-
-var start = [[1,3,4],
-			[8,2,5],
-			[7,0,6]]
-
-
-
-
-let startNode = Node(name: "start", value: start)
-let goalNode = Node(name: "goal", value: start)
-var queue = Queue<Node<[[Int]]>>()
-queue.enqueue(startNode)            // BFS 用的 queue, 起始點為 1。
-
+/// 定義追蹤歷程的字典型態
 var parent: [String: String] = [:]
+/// 定義搜尋深度的字典型態
 var level: [String: Int] = [:]
-
+/// 追蹤搜尋的字串(用node的name來進行追蹤)
 var nodestr: String? = nil
-/// 廣度優先搜尋
-func bfs(g: [[Int]], inout q: Queue<Node<[[Int]]>>) -> Bool {
+/// 廣度優先搜尋, moveable參數為可移動的圖塊編號, 預設值為0
+func bfs(g: [[Int]], inout q: Queue<Node<[[Int]]>>, moveable: Int = 0) -> Bool {
 	guard !q.isEmpty else { return false }					// 如果 queue 已空，則返回。
 	if let node = q.dequeue() {								// 否則、取出 queue 的第一個節點。
-		nodestr = board2str(node.value)
+		nodestr = node.name
 		guard !node.visited else { return false }			// 如果該節點拜訪過，繼續搜尋；否則，直接返回。
 		node.visited = true									// 標示為已拜訪
 		if node.value == g {
-			print("Found solution @ \(node)")					// 印出節點
+			print("Found solution @\n\(nodestr!)")			// 印出節點
 			return true
 		}
-		print("@ \(node)")									// 追蹤搜尋深度
-//		let neighbors = getNeighbors(node.value)			// 取出鄰居。
-		let neighbors = node.getConn()			// 取出鄰居。
+		addNeighbors(node, moveable: moveable)				// 計算並新增個節點鄰居。
+		let neighbors = node.getConn()						// 取出鄰居。
+		neighbors.count
 		if !neighbors.isEmpty {
 			for rote in neighbors {							// 對於每個鄰居
 				let nstr = board2str(rote.value)
 				if !rote.visited {							// 假如該鄰居還沒被拜訪過
-					parent[nstr] = nodestr
-					level[nstr] = level[nodestr!]! + 1
+					parent[nstr] = nodestr					// 追蹤搜尋節點, 利用紀錄鄰居節點的來源節點為自己之特性追蹤
+					level[nstr] = level[nodestr!]! + 1		// 追蹤搜尋節點的深度
 					q.enqueue(rote)							// 就放入 queue 中
 				}
 			}
-//			bfs(g, q: &q)
+			bfs(g, q: &q)
 		}
 	}
 	return true
@@ -274,18 +289,27 @@ func backtrace(goal: [[Int]]) {
 	print("======= backtrace =========")
 	var nodestr: String? = board2str(goal)
 	while (nodestr != nil) {
-		print(nodestr!)
-		
-		parent
-		
+		print("Tracking Level:\n--- Level:\(level[nodestr!]!) ---")
+		print(nodestr!, terminator: "\n\n")
 		nodestr = parent[nodestr!]
 	}
 }
 
-
+/// 設定起始圖樣與目標圖樣
+var goal = [[1,2,3],
+            [8,0,4],
+            [7,6,5]]
+var start = [[1,3,4],
+             [8,2,5],
+             [7,0,6]]
+let startNode = Node(name: board2str(start), value: start)
+let goalNode = Node(name: board2str(goal), value: start)
+var queue = Queue<Node<[[Int]]>>()
+/// BFS 用的 queue, 起始點為startNode。
+queue.enqueue(startNode)
 
 level[board2str(start)] = 0
-var found = bfs(goal, q: &queue) // 呼叫廣度優先搜尋。
+var found = bfs(goal, q: &queue, moveable: 0) // 呼叫廣度優先搜尋。
 if (found) { backtrace(goal) }
 
 /*:

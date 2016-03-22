@@ -56,8 +56,8 @@ All the material in this file is edited from the book “The Swift Programming L
 - [*Document Revision History*](Document%20Revision%20History)					[文件改版紀錄]
 
 ****
-[The Swift Programming Language (Swift 2.1)]:https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/TheBasics.html#//apple_ref/doc/uid/TP40014097-CH5-ID309 ""
+[The Swift Programming Language (Swift 2.2)]:https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/TheBasics.html#//apple_ref/doc/uid/TP40014097-CH5-ID309 ""
 
-此作品衍生自 Apple Inc. 之 [The Swift Programming Language (Swift 2.1)]
+此作品衍生自 Apple Inc. 之 [The Swift Programming Language (Swift 2.2)] (2016/03/22更新為2.2版)
 ****
 

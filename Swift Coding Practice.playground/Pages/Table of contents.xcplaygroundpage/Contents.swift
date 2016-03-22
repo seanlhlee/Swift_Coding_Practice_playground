@@ -15,6 +15,7 @@ ____________________
 - [*Recursive*](Recursive)											遞迴
 - [*Algorithm*](Algorithm)											演算法
 - [*Objective Programming*](Objective%20Programming)								物件導向
+- [*Cheryls-Birthday*](Cheryls-Birthday)										生日猜謎
 
 ### Swift程式設計 -- 人工智慧
 

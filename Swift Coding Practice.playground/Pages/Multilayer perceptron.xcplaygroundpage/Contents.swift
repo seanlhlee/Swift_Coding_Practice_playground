@@ -30,7 +30,7 @@
 
 以下是本文程式所採用的一個「多層感知器」模型，其中包含「輸入層、隱藏層與輸出層」，這種多層感知器與上一篇「單層感知器」的一個明顯不同點，在於擁有一個隱藏層，因此其能力增強了很多。
 
-![](http://ccc.nqu.edu.tw/db/ai/MLP.jpg "")
+![](MLP.jpg "")
 
 圖、多層感知器模型 (本圖含一個隱藏層)
 
@@ -38,7 +38,7 @@
 
 但是、梯度要怎麼計算呢？先讓我們來看一張多變數的能量曲線圖。
 
-![](http://ccc.nqu.edu.tw/db/ai/Gradient.jpg "")
+![](Gradient.jpg "")
 
 圖、曲面與每一點的梯度向量
 
@@ -54,7 +54,7 @@
 
 為了要計算梯度，我們不能採用「單層感知器裏的那種不可微分的 sign() 步階函數」 (如下圖 a 所示)，因為這樣就不能用微積分的方式計算出梯度了，而必須改用可以微分的連續函數 sigmoid() (如下圖 b 所示)，這樣才能夠透過微分計算出梯度。
 
-![](http://ccc.nqu.edu.tw/db/ai/MLP_neuron.jpg "")
+![](MLP_neuron.jpg "")
 
 圖、兩種神經元之比較
 
@@ -82,7 +82,7 @@
 
 [Python]:http://arctrix.com/nas/python/bpnn.py ""
 
-程式碼
+### 程式碼
 
 檔案：backprop.js
 
@@ -279,7 +279,7 @@ dsigmoid(x)=1-x^2;
 
 	module.exports = NeuralNet; // 匯出 NeuralNet 物件。
 
-執行範例 1 : 學習 XOR 函數
+### 執行範例 1 : 學習 XOR 函數
 
 檔案：backprop_xor.js
 
@@ -502,7 +502,7 @@ var pat:[[[Double]]] = [
 
 ****
 
-執行範例 2 : 學習七段顯示器函數
+### 執行範例 2 : 學習七段顯示器函數
 
 ![](0003.png "")
 

@@ -20,6 +20,7 @@ ____________________
 ### Swift程式設計 -- 人工智慧
 
 - [*Simulated Annealing*](Simulated%20Annealing)										模擬退火演算法
+- [*Artificial neural network*](Artificial%20neural%20network)								神經網絡介紹
 - [*Perceptron*](Perceptron)											單層感知器(Perceptron)
 - [*Multilayer Perceptron*](Multilayer%20Perceptron)									多層感知器(Multilayer perceptron)
 - [*Graph Traversal*](Graph%20Traversal)											圖形搜尋簡介

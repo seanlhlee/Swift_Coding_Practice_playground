@@ -26,7 +26,7 @@
 
 圖形是由節點 (node) 與連線 (edge) 所組成的。舉例而言，以下是一個包含六個節點與十條連線的簡單圖形。
 
-![](http://ccc.nqu.edu.tw/db/ai/graphSearch.jpg "")
+![](graphSearch.jpg "")
 
 圖、圖形 Graph 的範例
 
@@ -131,7 +131,7 @@ node6.visited
 /*:
 針對上述的範例圖形，若採用深度優先搜尋，其結果可能如下所示 (圖中紅色的數字代表訪問順序)
 
-![](http://ccc.nqu.edu.tw/db/ai/dfs.jpg "")
+![](dfs.jpg "")
 
 圖、深度優先搜尋的順序
 
@@ -145,7 +145,7 @@ node6.visited
 
 舉例而言，針對上述的圖形範例，若採用「廣度優先搜尋 BFS 」的方式，那麼拜訪順序將會如下所示：
 
-![](http://ccc.nqu.edu.tw/db/ai/bfs.jpg "")
+![](bfs.jpg "")
 
 圖、廣度優先搜尋的順序
 

@@ -1,4 +1,7 @@
-//: [Previous](@previous)
+/*: 
+[Previous](@previous)
+****
+*/
 import Foundation
 /// 設定起始圖樣與目標圖樣
 var goal = [[1,2,3],
@@ -7,15 +10,16 @@ var goal = [[1,2,3],
 var start = [[1,3,4],
              [8,2,5],
              [7,0,6]]
-let startNode = Node(name: board2str(start), value: start)
-let goalNode = Node(name: board2str(goal), value: start)
-var queue = Queue<Node<[[Int]]>>()
+let startNode = NodeP(name: board2str(start), value: start)
+let goalNode = NodeP(name: board2str(goal), value: start)
+var queue = Queue<NodeP<[[Int]]>>()
 /// BFS 用的 queue, 起始點為startNode。
 queue.enqueue(startNode)
 
 level[board2str(start)] = 0
 var found = bfs(goal, q: &queue, moveable: 0) // 呼叫廣度優先搜尋。
 if (found) { backtrace(goal) }
+
 
 
 /// 多層感知層之神經網路測試
@@ -77,4 +81,7 @@ nn.outputCharacter([1,0,0,1,1,1,0])		//學會了     C
 nn.outputCharacter([1,0,0,0,1,1,1])		//學會了     F
 
 */
-//: [Next](@next)
+/*:
+****
+[Next](@next)
+*/

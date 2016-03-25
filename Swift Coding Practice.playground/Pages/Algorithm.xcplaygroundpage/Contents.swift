@@ -396,29 +396,56 @@ public struct SimulatedAnnealing3D {
 }
 
 
-func eq3D(p: Point3D) -> Double {
+
+/*:
+	求解:	x^2 + 3.0 * y^2 + z^2 - 4.0 * x - 3.0 * y - 5.0 * z + 8.0 之最低點
+	結果:	Initial solution energy: f( 5.0, 5.0, 5.0 ) = 73.0
+			Final solution energy: -3.0
+			Best Solution: ( 2.00000000000006, 0.500000000000063, 2.50000000000005 )
+*/
+// Try 1
+func eq3D_1(p: Point3D) -> Double {
 	let x = p.point.x
 	let y = p.point.y
 	let z = p.point.z
 	return x * x + 3.0 * y * y + z * z - 4.0 * x - 3.0 * y - 5.0 * z + 8.0
 }
-func eq1D(p: Point3D) -> Double {
+var initialPoint3D: Point3D = Point3D(5, 5, 5)
+var job = SimulatedAnnealing3D(equation: eq3D_1, initial: initialPoint3D, temp: 100, coolingRate: 0.003, step: 0.01, randomThreshold: true)
+//job.run()
+//job.description
+
+/*:
+	求解:	√17
+	結果:	Initial solution energy: f( 5.0, 0.0, 0.0 ) = 8.0
+			Final solution energy: 0.0255999999998444
+			Best Solution: ( 4.12000000000002, -0.880000000000001, -0.880000000000001 ) => 只看x座標
+*/
+// Try 2
+func eq1D_1(p: Point3D) -> Double {
 	let x = p.point.x
 	return abs(x * x - 17.0)
 }
-
-// Try 1
-var initialPoint3D: Point3D = Point3D(5, 5, 5)
-var job = SimulatedAnnealing3D(equation: eq1D, initial: initialPoint3D, temp: 100, coolingRate: 0.003, step: 0.01, randomThreshold: true)
-job = SimulatedAnnealing3D(equation: eq3D, initial: initialPoint3D, temp: 100, coolingRate: 0.003, step: 0.01, randomThreshold: true)
-job.run()
-job.description
-
-// Try 2
 initialPoint3D = Point3D(5, 0, 0)
-job = SimulatedAnnealing3D(equation: eq1D, initial: initialPoint3D, temp: 100, coolingRate: 0.003, step: 0.01, randomThreshold: true)
+job = SimulatedAnnealing3D(equation: eq1D_1, initial: initialPoint3D, temp: 100, coolingRate: 0.003, step: 0.01, randomThreshold: true)
+//job.run()
+//job.description
+
+/*:
+	求解: x^4 - 10x^3 + 20x^2 + 5x + 7
+	結果:	Initial solution energy: f( 5.0, 0.0, 0.0 ) = -93.0
+			Final solution energy: -111.03477319
+			Best Solution: ( 5.70999999999998, -0.71, -0.71 )
+*/
+func eq1D_2(p: Point3D) -> Double {
+	let x = p.point.x
+	return x * x * x * x - 10.0 * x * x * x + 20 * x * x + 5 * x + 7
+}
+initialPoint3D = Point3D(10, 0, 0)
+job = SimulatedAnnealing3D(equation: eq1D_2, initial: initialPoint3D, temp: 100, coolingRate: 0.003, step: 0.01, randomThreshold: true)
 job.run()
 job.description
+
 
 /*:
 ****

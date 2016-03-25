@@ -22,6 +22,7 @@ if (found) { backtrace(goal) }
 
 
 
+
 /// 多層感知層之神經網路測試
 /*
 var pat: [[[Double]]] = [

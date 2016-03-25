@@ -18,6 +18,8 @@
         <page name='Graph Traversal'/>
         <page name='Path Finding'/>
         <page name='Puzzle Search'/>
+        <page name='Computer chess'/>
+        <page name='Gomoku'/>
         <page name='Code Testion Page'/>
     </pages>
 </playground>

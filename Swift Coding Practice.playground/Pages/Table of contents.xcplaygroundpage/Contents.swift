@@ -26,6 +26,8 @@ ____________________
 - [*Graph Traversal*](Graph%20Traversal)											圖形搜尋簡介
 - [*Path Finding*](Path%20Finding)											老鼠走迷宮
 - [*Puzzle Search*](Puzzle%20Search)											拼圖問題
+- [*Computer chess*](Computer%20chess)											電腦下棋
+- [*Gomoku*](Gomoku)															五子棋
 
 ### 程式碼測試頁
 - [*Code Testion Page*](Code%20Testion%20Page)								測試區

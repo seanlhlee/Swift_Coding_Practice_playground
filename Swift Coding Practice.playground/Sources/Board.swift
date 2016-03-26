@@ -1,7 +1,7 @@
 import UIKit
 
 
-public func boardView() -> UIView {
+func boardView() -> UIView {
 	let boardView = UIView(frame: CGRect(origin: CGPoint(x: 0.0, y: 0.0), size: CGSize(width: 540.0, height: 540.0)))
 	boardView.backgroundColor = UIColor.blackColor()
 	var x: CGFloat
@@ -35,7 +35,7 @@ public func boardView() -> UIView {
 	}
 	return boardView
 }
-public func board2D(boardView: UIView) -> Array2D<UIView> {
+func board2D(boardView: UIView) -> Array2D<UIView> {
 	var board2D: Array2D<UIView> = Array2D(columns: 18, rows: 18, initialValue: UIView())
 	for i in 0..<18 {
 		for j in 0..<18 {
@@ -64,18 +64,37 @@ public enum Mode {
 public enum Direction {
 	case Horizontal, Vertical, LURD, LDRU
 }
+public enum ChessType: String {
+	case White = "white", Black = "black"
+	func imageSet() -> UIImage {
+		return UIImage(named: rawValue)!
+	}
+}
+
 public class Board {
 	var bv: UIView
 	var board: Array2D<UIView>
+	var userChess: ChessType
+	var comChess: ChessType {
+		return userChess == .Black ? .White : .Black
+	}
+	var vsGame: Bool = true
 	public init() {
 		self.bv = boardView()
 		self.board = board2D(bv)
+		self.userChess = .Black
+		self.vsGame = true
+	}
+	public func setChess(userChess: ChessType) {
+		self.userChess = userChess
+	}
+	public func setChess(userBlack: Bool) {
+		self.userChess = userBlack ? .Black : .White
 	}
 	func chessImage(turn: Turn) -> UIImage {
-		let name = turn == .User ? "black" : "white"
-		return UIImage(named: name)!
+		return turn == .User ? userChess.imageSet() : comChess.imageSet()
 	}
-	public func putChess(x: Int, _ y: Int, turn: Turn) throws {
+	func putChess(x: Int, _ y: Int, turn: Turn = .User) throws {
 		guard x >= 0 && x <= 16 && y >= 0 && y <= 16 else { throw ChessError.OutBound }
 		guard board[x, y].subviews.isEmpty else { throw ChessError.CantPut }
 		let chessImageView = UIImageView(image: chessImage(turn))
@@ -93,7 +112,27 @@ public class Board {
 		}
 		return true
 	}
-	public func winCheck(turn: Turn) -> Bool {
+	func user(x: Int, y: Int) throws -> Bool {
+		do {
+			try putChess(x, y, turn: .User)
+		} catch ChessError.OutBound {
+			print("超出邊界")
+			return true
+		} catch ChessError.CantPut {
+			print("這裡不能下子")
+			return true
+		}
+		
+		return winCheck(.User)
+	}
+	public func user(x: Int, _ y: Int) -> Bool? {
+		if let b = try? user(x, y: y) {
+			guard !b else { return true }
+			try! computerTurn()
+		}
+		return false
+	}
+	func winCheck(turn: Turn) -> Bool {
 		let z5 = [ 0, 0, 0, 0, 0]
 		let i2 = [-2,-1, 0, 1, 2]
 		let d2 = [ 2, 1, 0,-1,-2]
@@ -144,11 +183,15 @@ public class Board {
 		board[r,c].subviews[0].removeFromSuperview()
 		return score
 	}
-	public func computerTurn() throws {
+	func computerTurn() throws {
 		var best_r = 0, best_c = 0, best_score = -1
+		var isBlank: Bool = true
 		for r in 1...16 {
 			for c in 1...16 {
-				guard self.board[r, c].subviews.isEmpty else { continue }
+				guard self.board[r, c].subviews.isEmpty else {
+					isBlank = false
+					continue
+				}
 				let attackScore = try getScore(r, c, .Com, mode: .Attack)	// 攻擊分數
 				let guardScore  = try getScore(r, c, .User, mode: .Guard)	// 防守分數
 				let score = attackScore + guardScore
@@ -159,7 +202,62 @@ public class Board {
 				}
 			}
 		}
+		var array = [6,7,8,9,10,11]
+		if isBlank {
+			try! putChess(array[Int(arc4random_uniform(5))], array[Int(arc4random_uniform(6))], turn: .Com)
+		} else {
+			print("best = \(best_score) @(\(best_r), \(best_c))")
+			try! putChess(best_r, best_c, turn: .Com)			// 否則、將子下在使用者輸入的 (r,c) 位置
+		}
+		if !winCheck(.Com) {
+			if !self.vsGame {
+				try! userTurn()
+			}
+		}
+	}
+	func userTurn() throws {
+		guard !self.vsGame else { return }
+		var best_r = 0, best_c = 0, best_score = -1
+		for r in 1...16 {
+			for c in 1...16 {
+				guard self.board[r, c].subviews.isEmpty else { continue }
+				let attackScore = try getScore(r, c, .User, mode: .Attack)	// 攻擊分數
+				let guardScore  = try getScore(r, c, .Com, mode: .Guard)	// 防守分數
+				let score = attackScore + guardScore
+				if score > best_score {
+					best_r = r
+					best_c = c
+					best_score = score
+				}
+			}
+		}
 		print("best = \(best_score) @(\(best_r), \(best_c))")
-		try! putChess(best_r, best_c, turn: .Com)			// 否則、將子下在使用者輸入的 (r,c) 位置
+		try! putChess(best_r, best_c, turn: .User)			// 否則、將子下在使用者輸入的 (r,c) 位置
+		if !winCheck(.User) {
+			try! computerTurn()
+		}
+	}
+	public func play(first: Turn, vsGame: Bool = false) {
+		self.vsGame = vsGame
+		if vsGame {
+			if first == .User {
+				print("提示: 以user(x: Int, _ y: Int)開始下棋\n 例如user(5,7)")
+			} else {
+				try! computerTurn()
+			}
+		} else {
+			if first == .User {
+				try! userTurn()
+			} else {
+				try! computerTurn()
+			}
+		}
+	}
+	public func play(userFirst userFirst: Bool, vsGame: Bool = false) {
+		if userFirst {
+			play(.User, vsGame: vsGame)
+		} else {
+			play(.Com, vsGame: vsGame)
+		}
 	}
 }

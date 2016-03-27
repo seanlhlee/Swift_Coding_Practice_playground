@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Timeline
+   version = "3.0">
+   <TimelineItems>
+      <LoggerValueHistoryTimelineItem
+         documentLocation = "file:///Users/seanlee/Desktop/swift-algorithm-club-master.playground/Pages/Dynamic%20Programming.xcplaygroundpage#CharacterRangeLen=53&amp;CharacterRangeLoc=546&amp;EndingLineNumber=36&amp;StartingLineNumber=35&amp;Timestamp=480768109.720093"
+         selectedRepresentationIndex = "0"
+         shouldTrackSuperviewWidth = "NO">
+      </LoggerValueHistoryTimelineItem>
+      <LoggerValueHistoryTimelineItem
+         documentLocation = "#CharacterRangeLen=13&amp;CharacterRangeLoc=2610&amp;EndingColumnNumber=14&amp;EndingLineNumber=125&amp;StartingColumnNumber=1&amp;StartingLineNumber=125&amp;Timestamp=480768109.720302"
+         selectedRepresentationIndex = "0"
+         shouldTrackSuperviewWidth = "NO">
+      </LoggerValueHistoryTimelineItem>
+      <LoggerValueHistoryTimelineItem
+         documentLocation = "#CharacterRangeLen=1&amp;CharacterRangeLoc=1686&amp;EndingColumnNumber=15&amp;EndingLineNumber=95&amp;StartingColumnNumber=5&amp;StartingLineNumber=95&amp;Timestamp=480768109.720442"
+         lockedSize = "{249, 161}"
+         selectedRepresentationIndex = "0"
+         shouldTrackSuperviewWidth = "NO">
+      </LoggerValueHistoryTimelineItem>
+   </TimelineItems>
+</Timeline>

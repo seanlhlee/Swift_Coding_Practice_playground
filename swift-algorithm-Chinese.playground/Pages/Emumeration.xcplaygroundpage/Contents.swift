@@ -1,5 +1,5 @@
 /*:
-[Previous](@previous)
+[Previous](@previous) | 本文來源: [演算法筆記](http://www.csie.ntnu.edu.tw/~u91029/AlgorithmDesign.html#3) | [Next](@next)
 _____________________
 # Enumeration
 ### 愚者千慮，必有一得。《史記》
@@ -35,7 +35,7 @@ _____________________
 // ToDo Swift Code
 func print_squares(n: Int) {
 	for i in 0...n {
-		print("Square of interger \(i) is \(i * i)")
+		print("Square of interger \(i) is \(i * i).")
 	}
 }
 print_squares(10)
@@ -58,7 +58,7 @@ func square_test(n: Int) {
 	for i in 0...n {
 		let j = Int(sqrt(Double(i)))
 		if j * j == i {
-			print("\(i) is a square number of an interanger")
+			print("\(i) is a square number of an interanger.")
 		}
 	}
 }
@@ -100,6 +100,7 @@ findMin(findMinArray)
 	}
 */
 // ToDo Swift Code
+// 略
 /*:
 ## 範例：尋找陣列裡的特定數字
 _____________________
@@ -123,6 +124,11 @@ func findSix(array: [Int]) -> (idx: Int?, num: Int?) {
 			idx = i
 			break
 		}
+	}
+	if let index = idx {
+		print("Found \(num!) @ index of \(index).")
+	} else {
+		print("Can't find \(6) in the \(array) array.")
 	}
 	return (idx, num)
 }
@@ -153,10 +159,10 @@ findSix(xxx)
 	}
 */
 // ToDo Swift Code
-func findNumber(n: Int, inArray: [Int]) -> (idx: Int?, num: Int?) {
+func findNumber(n: Int, inArray array: [Int]) -> (idx: Int?, num: Int?) {
 	var idx: Int?, num: Int? = nil
-	for i in 0..<inArray.count {
-		if inArray[i] == n {
+	for i in 0..<array.count {
+		if array[i] == n {
 			num = n
 			idx = i
 			break
@@ -194,21 +200,23 @@ _____________________
 */
 // ToDo Swift Code
 var array2D = [[3, 6, 9, -8, 1], [2, 4, 6, 8, 10], [11, 7, 5, 3, 2]]
-func find(n: Int, in2DArray: [[Int]]) -> (idx: (x: Int?,y: Int?), num: Int?) {
+func find(n: Int, in2DArray array: [[Int]]) -> (idx: (x: Int?,y: Int?), num: Int?) {
 	var x: Int?, y: Int? , num: Int? = nil
-	for i in 0..<in2DArray.count {
-		for j in 0..<in2DArray[i].count {
-			if in2DArray[i][j] == n {
+	for i in 0..<array.count {
+		for j in 0..<array[i].count {
+			if array[i][j] == n {
 				num = n
 				x = i
 				y = j
 				break
 			}
 		}
-		if x != nil {
+		if let px = x {
+			print("Found \(num!) at index of (\(px), \(y!)).")
 			break
 		}
 	}
+	if x == nil { print("Can't find \(n) in the \(array) array.") }
 	return ((x,y), num)
 }
 find(8, in2DArray: array2D)
@@ -234,6 +242,8 @@ find(8, in2DArray: array2D)
 	}
 */
 // ToDo Swift Code
+// 略
+
 /*:
 ## 範例：平面上距離最近的兩個點（ Closest Pair Problem ）
 _____________________
@@ -265,27 +275,29 @@ _____________________
 */
 // ToDo Swift Code
 let points = [[3, 3], [1, 5], [4, 6], [2, 8], [9, 9], [2, 1], [7, 2], [6, 5], [9, 4], [5, 9]]
-func closest(inPoints: [[Int]]) -> (pair: (p1: [Int], p2: [Int]), distance: Double) {
+func closest(inPoints array: [[Int]]) -> (pair: (p1: [Int], p2: [Int]), distance: Double) {
 	var p1: [Int] = [0, 0]
 	var p2: [Int] = [0, 0]
 	var distance = Double(Int.max)
-	for i in 0..<inPoints.count - 1 {
-		for j in (i + 1)..<inPoints.count {
-			let dx = inPoints[i][0] - inPoints[j][0]
-			let dy = inPoints[i][1] - inPoints[j][1]
+	for i in 0..<array.count - 1 {
+		for j in (i + 1)..<array.count {
+			let dx = array[i][0] - array[j][0]
+			let dy = array[i][1] - array[j][1]
 			let dij = sqrt(Double(dx * dx + dy * dy))
 			if dij < distance {
 				distance = dij
-				p1 = inPoints[i]
-				p2 = inPoints[j]
+				p1 = array[i]
+				p2 = array[j]
 			}
 		}
 	}
+	print("The minimun distance of points pairs in the \(array) is \(distance) between \(p1) and \(p2)")
 	return ((p1, p2), distance)
 }
-closest(points).pair.p1
-closest(points).pair.p2
-closest(points).distance
+let closest_dis = closest(inPoints: points)
+closest_dis.pair.p1
+closest_dis.pair.p2
+closest_dis.distance
 
 /*:
 可以把計算距離的程式碼，抽離出來成為一個函式。好處是程式碼變得清爽許多，增加程式碼可讀性。壞處是大量呼叫函式，導致執行速度變慢。
@@ -406,6 +418,7 @@ findTa(".", inStr: "It's a pencil.")
 	}
 */
 // ToDo Swift Code
+// 略
 /*:
 ## 範例：統計字母數量
 _____________________
@@ -442,16 +455,39 @@ func countCharacter(str: String) -> [Int] {
 		array[i] += 1
 	}
 	for i in 0..<array.count {
-		print("\(Character(UnicodeScalar(65 + i)))", separator: "", terminator: ": \(array[i])\t\t")
-		if i % 5 == 4 {
-			print("\n", separator: "", terminator: "")
+		print("\(Character(UnicodeScalar(65 + i)))", terminator: ": \(array[i])\t\t")
+		if i % 5 == 4 || i == array.count - 1 {
+			print("\n")
 		}
 	}
 	return array
 }
 let charArray = countCharacter(hello)
 print("")
-countCharacter("The best way to predict the future is to invent it.")
+countCharacter("The best way to predict the future is to invent it.").description
+
+// 利用dictionary, 不印出時較簡潔易懂
+func countCharacter_(str: String) -> [Character:Int] {
+	var dic = [Character:Int]()
+	for scalar in str.unicodeScalars {
+		let idx = scalar.value > 96 ? Int(scalar.value - 32) : Int(scalar.value)
+		dic[Character(UnicodeScalar(idx))] = dic[Character(UnicodeScalar(idx))] == nil ? 1 : dic[Character(UnicodeScalar(idx))]! + 1
+	}
+	var n = 0
+	for i in 65..<91 {
+		if let char = dic[Character(UnicodeScalar(i))] {
+			n += 1
+			print(Character(UnicodeScalar(i)), terminator: ": \(char)\t\t")
+			if n % 5 == 0 {
+				print("\n")
+			}
+		}
+	}
+	return dic
+}
+countCharacter_("The best way to predict the future is to invent it.").description
+
+
 /*:
 先前曾經介紹過統計字母數量的範例。先前範例當中，雖然耗費記憶體空間，但是執行速度快──簡單來說就是空間大、時間小。此處範例當中，則是空間小，時間大，恰恰相反。這兩種方式各有優缺點，程式員必須自行取捨。
 
@@ -471,16 +507,20 @@ _____________________
 	}
 */
 // ToDo Swift Code
+
 func reverse(str: String) -> String {
 	var array: [Character] = Array(str.characters)
-	for (var i = 0, j = array.count - 1; i < j; i += 1, j -= 1) {
-
-		swap(&array[i], &array[j])
+	for i in 0..<array.count / 2 {
+		swap(&array[i], &array[array.count - 1 - i])
 	}
 	return String(array)
 }
 reverse(hello)
 reverse("The best way to predict the future is to invent it.")
+
+// 使用標準函式庫
+String(hello.characters.reverse())
+
 /*:
 	void reverse(char* s) {
 		int n = strlen(s);
@@ -489,15 +529,7 @@ reverse("The best way to predict the future is to invent it.")
 	}
 */
 // ToDo Swift Code
-func reverse_1(str: String) -> String {
-	var array: [Character] = Array(str.characters)
-	for i in 0..<array.count / 2 {
-		swap(&array[i], &array[array.count - 1 - i])
-	}
-	return String(array)
-}
-reverse_1(hello)
-reverse_1("The best way to predict the future is to invent it.")
+// 略
 /*:
 [1595]:http://uva.onlinejudge.org/external/15/1595.html ""
 _____________________
@@ -575,14 +607,17 @@ findInterval(10, array: nums)
 		}
 	}
 */
-// ToDo Swift Code
+// ToDo Swift Code   => Swift 3.0不能使用c style for loop使得array[i++]要分成兩行寫
 func find_interval(array: [Int], n: Int, num: Int) {
 	var sum = 0
-	for (var i = 0, j = 0; j<=n; ) {
+	var i = 0, j = 0
+	while j <= n {
 		if sum > num {
-			sum -= array[i++]
+			sum -= array[i]
+			i += 1
 		} else {
-			sum += array[j++]
+			sum += array[j]
+			j += 1
 		}
 		if (sum == num) {
 			print("[\(i),\(j - 1)]", separator: "", terminator: "\n")
@@ -590,6 +625,7 @@ func find_interval(array: [Int], n: Int, num: Int) {
 	}
 }
 find_interval(nums, n: 4, num: 10)
+
 /*:
 讀者可以想想看：陣列元素若有零、有負數，是否要調整枚舉方式？
 
@@ -658,6 +694,7 @@ func find(num: Int, inArr: [Int]) -> Int? {
 	repeat {
 		let mid = (idxL + idxR) / 2
 		if sorted[mid] == num {
+			print("Found \(num) at index: \(mid)")
 			return mid
 		} else {
 			if sorted[mid] > num {
@@ -669,7 +706,7 @@ func find(num: Int, inArr: [Int]) -> Int? {
 	} while idxL <= idxR
 	return nil
 }
-find(47, inArr: arrayXX)
+find(13, inArr: arrayXX)
 /*:
 找到所有特定數字：讀者請自行嘗試。
 
@@ -979,5 +1016,5 @@ _____________________
 
 如果給定一個單向函數的輸入，求其輸出，就適合用直接法，套用函數快速算得答案；如果給定一個單向函數的輸出，求其輸入，就適合用試誤法，嘗試各種輸入並套用函數快速驗證答案。
 _____________________
-[Next](@next)
+[Previous](@previous) | 本文來源: [演算法筆記](http://www.csie.ntnu.edu.tw/~u91029/AlgorithmDesign.html#3) | [Next](@next)
 */

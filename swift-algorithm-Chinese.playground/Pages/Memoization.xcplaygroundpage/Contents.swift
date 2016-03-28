@@ -1,5 +1,5 @@
 /*:
-[Previous](@previous)
+[Previous](@previous) | 本文來源: [演算法筆記](http://www.csie.ntnu.edu.tw/~u91029/AlgorithmDesign.html#2) | [Next](@next)
 _____________________
 # Memoization
 ### 惟事事，乃其有備，有備無患。《書經》
@@ -543,5 +543,5 @@ _____________________
 
 拆開迴圈之後，雖然提高了程式的執行速度，但是降低了程式可讀性。程式員必須自行取捨。
 _____________________
-[Next](@next)
+[Previous](@previous) | 本文來源: [演算法筆記](http://www.csie.ntnu.edu.tw/~u91029/AlgorithmDesign.html#2) | [Next](@next)
 */

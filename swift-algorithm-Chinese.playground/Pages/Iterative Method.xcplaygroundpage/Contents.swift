@@ -1,5 +1,5 @@
 /*:
-[Previous](@previous)
+[Previous](@previous) | 本文來源: [演算法筆記](http://www.csie.ntnu.edu.tw/~u91029/AlgorithmDesign.html#4) | [Next](@next)
 _____________________
 # Iterative Method
 ### 道生一，一生二，二生三，三生萬物。《老子》
@@ -48,8 +48,9 @@ _____________________
 		cout << n;
 	}
 */
+import Foundation
 // ToDo Swift Code
-Int("123")
+// 略, 上例法已介紹過
 
 /*:
 更好的方式是遞推法！由高位數到低位數、也就是由左到右讀取字串，每讀取一個字元，就將數值乘以十、加上當前字元的對應數字。
@@ -65,6 +66,22 @@ Int("123")
 	}
 */
 // ToDo Swift Code
+var str: String = String(stringInterpolationSegment: 2696286)
+func stringtoInt(integerLiteralString string: String) -> Int {
+	let chars = string.characters
+	guard !chars.isEmpty else { return 0 }
+	var n = 0
+	for char in chars {
+		n = n * 10 + Int("\(char)")!
+	}
+	return n
+}
+stringtoInt(integerLiteralString: str)
+
+
+// 使用標準函式庫
+Int(str)
+
 /*:
 同一個問題，有著不同的解法。有著程式碼很長、執行速度很慢的方法，也有著程式碼很短，執行速度很快的方法。一支程式的好壞，除了取決於正確性和可讀性之外，同時也取決於計算方法。
 
@@ -90,6 +107,7 @@ func horner(x: Double, polynomial: [Double]) -> Double {
 	}
 	return result
 }
+horner(10.0, polynomial: [2,6,9,6])
 horner(8.0, polynomial: [2,6,9,6])
 /*:
 ## 範例：除法
@@ -98,6 +116,24 @@ _____________________
 
 ![](Iterative5.png "")
 
+*/
+// 上圖有誤，應為0.18867....，取餘數應是%53
+func division(numerator a: Int, denominator b: Int) -> Double {
+	var c:Double = 0.0
+	var reminder = a
+	if a / b > 0  {
+		c = Double((a - (a % b)) / b)
+	}
+	for n in 1...16 {
+		reminder = reminder % b * 10
+		c += Double(reminder / b) / pow(10.0, Double(n))
+		
+	}
+	return c
+}
+division(numerator: 10, denominator: 53)
+Double(10)/Double(53)
+/*:
 ## 範例：牛頓法（ Newton's Method ）
 _____________________
 找到連續函數等於零的位置。一開始隨便設定一個位置，不斷利用斜率求出下一個位置，就是一種遞推。
@@ -107,6 +143,10 @@ _____________________
 	___________________________________
 
 ![](Iterative6.png "")
+
+*/
+
+/*:
 
 ## 範例： 3n+1 猜想（ Collatz Conjecture ）
 _____________________
@@ -377,5 +417,5 @@ _____________________
 
 遞增的標的，選定為老師。老師每次收卷，直接複製貼上前面幾次收卷的部屬方式，是最好的──這段過程就是一種遞推。
 _____________________
-[Next](@next)
+[Previous](@previous) | 本文來源: [演算法筆記](http://www.csie.ntnu.edu.tw/~u91029/AlgorithmDesign.html#4) | [Next](@next)
 */

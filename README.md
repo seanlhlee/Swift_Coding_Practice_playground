@@ -6,7 +6,7 @@ Playground一個互動式的即時顯示程式執行結果的環境，是一種�
 
 本專案主要為學習Swift程式語言時，邊讀邊練習而產生的文件，程式碼中大部分保留Apple Inc.提供的原始範例，少部分會造成playground無法順利運作的錯誤(注: 書籍中需要有一些產生錯誤的範例來讓讀者瞭解要闡述的內容)則修改或注解化，使其成為不影響運作的部分。
 
-本專案分為兩個Playground檔案，分別為：
+本專案分為三個Playground檔案，分別為：
 
 ****
 
@@ -21,7 +21,6 @@ SWIFT 2.2.playground : Use an interactive Swift coding environment without creat
 
 ****
 
-
 - Swift Coding Practice - 以playgroung練習與實作程式設計
 
 取材自[陳鍾誠教授編撰的教材](http://ccc.nqu.edu.tw/wd.html#book:home)，透過部分教材內容將之改以Swift語言並以Playground互動式文件呈現，提供讀者得以練習基本的程式設計包含基礎、陣列、矩陣、字串操作、回呼函式、遞迴與一些演算法。
@@ -31,3 +30,19 @@ Swift Coding Practice.playground : Basic, Array, Matrix, String, Callback, Recur
 * 陳鍾誠教授編撰的教材來源: http://ccc.nqu.edu.tw/wd.html#book:home
 
 ****
+
+- Swift Algorithm Practice - 以playgroung練習與實作程式設計
+
+取材自[演算法筆記](http://www.csie.ntnu.edu.tw/~u91029/index.html)與[Swift Algorithm Club](https://github.com/hollance/swift-algorithm-club)，透過部分教材內容將之改以Swift語言並以Playground互動式文件呈現，提供讀者得以學習資料結構、演算法、演算法設計與分析等課題。
+
+swift-algorithm-Chinese.playground : Algorithm Intruduction, Data, Algorithm Design, Algorithm Analysis, Graph Theory, Combinatorial Optimization & Numerical Method...
+
+
+
+＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊
+# 本專案中之文件取材自以下資料來源
+* [The Swift Programming Language 2.2](https://developer.apple.com/swift/)
+* [陳鍾誠教授編撰的教材](http://ccc.nqu.edu.tw/wd.html#book:home)
+* [演算法筆記](http://www.csie.ntnu.edu.tw/~u91029/index.html)
+* [Swift Algorithm Club](https://github.com/hollance/swift-algorithm-club)
+＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊

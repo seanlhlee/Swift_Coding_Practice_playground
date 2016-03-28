@@ -39,10 +39,17 @@ swift-algorithm-Chinese.playground : Algorithm Intruduction, Data, Algorithm Des
 
 
 
+
+
+
 ＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊
+
+
 # 本專案中之文件取材自以下資料來源
 * [The Swift Programming Language 2.2](https://developer.apple.com/swift/)
 * [陳鍾誠教授編撰的教材](http://ccc.nqu.edu.tw/wd.html#book:home)
 * [演算法筆記](http://www.csie.ntnu.edu.tw/~u91029/index.html)
 * [Swift Algorithm Club](https://github.com/hollance/swift-algorithm-club)
+
+
 ＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊

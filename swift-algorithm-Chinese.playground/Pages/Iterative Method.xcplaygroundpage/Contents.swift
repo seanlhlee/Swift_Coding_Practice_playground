@@ -230,6 +230,13 @@ for p in iniState {
 	cmap[p.x][p.y] = c1
 }
 //______________________________________________________________________________//
+//																				//
+//	復活：一個死的細胞，若是它的八個鄰居，有三個細胞是活的，則在下一刻復活。					//
+//	存活：一個活的細胞，若是它的八個鄰居，有兩個或三個細胞是活的，則在下一刻存活。			//
+//	死於孤單：一個活的細胞，若是它的八個鄰居，只有零個或一個細胞是活的，則在下一刻死亡。		//
+//	死於擁擠：一個活的細胞，若是它的八個鄰居，有四個以上的細胞是活的，則在下一刻死亡。		//
+//______________________________________________________________________________//
+
 // 顯示對應map的UIView
 func buildView(cmap: [[UIColor]]) -> UIView {
 	let view = UIView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
@@ -334,6 +341,96 @@ Please see [vedio].
 
 _____________________
 UVa [11664], ICPC [7478], ICPC [7479]
+*/
+func langtonsAnt() {
+	let g = Grid()		//grid map
+	let grid = g.getGrid()
+	let yellow = UIColor.yellowColor()
+	let green = UIColor.greenColor()
+	func getNewColor(preColor: UIColor) -> UIColor {
+		switch preColor {
+		case UIColor.grayColor():
+			return yellow
+		case yellow:
+			return green
+		case green:
+			return yellow
+		default:
+			return green
+		}
+	}
+	func setBackgroundColorAt(x: Int, _ y: Int, withNewcolor color: UIColor) {
+		grid[x,y].subviews[0].superview?.backgroundColor = color
+	}
+	func getDirection(x: Int, _ y: Int, fromx x0: Int, formy y0: Int) -> String {
+		if x == 27 && y == 27 && x0 == 27 && y0 == 27 { return "↑"}
+		if x - x0 ==  1 {
+			return "→"
+		} else if x - x0 == -1 {
+			return "←"
+		} else if y - y0 == 1 {
+			return "↓"
+		} else {
+			return "↑"
+		}
+	}
+	func nextDirection(color: UIColor, currentDir: String) -> String {
+		let l_r: Bool = color == yellow ? true : false
+		switch currentDir {
+		case "→":
+			return l_r ? "↑" : "↓"
+		case "←":
+			return l_r ? "↓" : "↑"
+		case "↓":
+			return l_r ? "→" : "←"
+		case "↑":
+			return l_r ? "←" : "→"
+		default:
+			return ""
+		}
+	}
+	func getNext(x: Int, _ y: Int, nextDir: String) -> (x1:Int, y1: Int) {
+		var x1: Int {
+			switch nextDir {
+			case "→":
+				return x + 1
+			case "←":
+				return x - 1
+			default:
+				return x
+			}
+		}
+		var y1: Int {
+			switch nextDir {
+			case "↑":
+				return y - 1
+			case "↓":
+				return y + 1
+			default:
+				return y
+			}
+		}
+		return (x1, y1)
+	}
+	func moveTo(x: Int, _ y: Int, fromx x0: Int = 27, formy y0: Int = 27) {
+		let currentDir = getDirection(x, y, fromx: x0, formy: y0)
+		g.setAnt(x, y)
+		let currentColor: UIColor = grid[x,y].subviews.last!.superview!.backgroundColor!
+		let NewColor = getNewColor(currentColor)
+		setBackgroundColorAt(x, y, withNewcolor: NewColor)
+		let nextDir = nextDirection(NewColor, currentDir: currentDir)
+		let next = getNext(x, y, nextDir: nextDir)
+		_ = g.getView()
+		moveTo(next.x1, next.y1, fromx: x, formy: y)
+	}
+	
+	// 1. initialize (1) put ant @ 27,27 (2) the first grid set to be yellow
+	moveTo(27, 27)
+}
+// remove comment markers to test
+//langtonsAnt()
+
+/*:
 _____________________
 ## 範例：數學歸納法（ Mathematical Induction ）
 _____________________
@@ -370,7 +467,7 @@ func insertionSort<T>(array: [T], _ isOrderedBefore: (T, T) -> Bool) -> [T] {
 	var a = array
 	for x in 1..<a.count {
 		var y = x
-		while y > 0 && isOrderedBefore(a[y], a[y - 1]) {
+		while y > 0 && !isOrderedBefore(a[y - 1], a[y]) {
 			swap(&a[y], &a[y - 1])
 			y -= 1
 		}
@@ -386,7 +483,34 @@ _____________________
 從表面上來看是兩層的枚舉法：第一層先枚舉正整數，一一試驗是否為質數；第二層再枚舉所有已知質數，一一試除。
 
 但是從另一個角度來看，利用目前求得的質數，再求出更多質數，其實就是遞推法。
+*/
 
+public struct PrimeTable {
+	static var primes: [Int] = [2,3]
+	public static func primeTable(n: Int) -> [Int] {
+		guard n > primes.last else { return primes }
+		func isPrime(number: Int) -> Bool {
+			for prime in primes {
+				guard !(prime * prime > number) else { break }
+				if number % prime == 0 {
+					return false
+				}
+			}
+			return true
+		}
+		for i in primes.last! + 1 ... n {
+			if isPrime(i) {
+				primes.append(i)
+			}
+		}
+		return primes
+	}
+}
+
+PrimeTable.primeTable(10000)
+PrimeTable.primeTable(100)
+
+/*:
 ## 範例：十分逼近法
 _____________________
 數線分割成十等份區間，從中找出正確區間，把對應的小數位數添到答案末端，然後不斷十等分下去。

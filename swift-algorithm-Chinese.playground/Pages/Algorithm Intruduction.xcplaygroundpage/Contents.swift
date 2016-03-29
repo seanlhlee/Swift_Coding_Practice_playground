@@ -109,7 +109,7 @@ enum ArithmeticError: ErrorType {
 	case NegativeValue
 }
 func gcd<T: IntegerType>(a: T, _ b: T)throws -> T {
-	guard a >= T.allZeros && b > T.allZeros else { throw ArithmeticError.NegativeValue }
+	guard a > T.allZeros && b > T.allZeros else { throw ArithmeticError.NegativeValue }
 	var a_ = a, b_ = b
 	while a_ != b_ {
 		if a_ > b_ {
@@ -122,6 +122,7 @@ func gcd<T: IntegerType>(a: T, _ b: T)throws -> T {
 }
 
 try? gcd(15, 21)
+try? gcd(120,72)
 
 /*:
 對於電機系學生來說，自然就是把演算法設計成[電子電路](http://zh.wikipedia.org/wiki/電子電路)，在[麵包板](http://zh.wikipedia.org/wiki/麵包板)、[印刷電路板](http://zh.wikipedia.org/wiki/印刷電路板)、[PLD](http://zh.wikipedia.org/wiki/可程式邏輯裝置)上面執行。

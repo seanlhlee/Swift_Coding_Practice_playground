@@ -505,10 +505,23 @@ public struct PrimeTable {
 		}
 		return primes
 	}
+	enum InputError: ErrorType {
+		case Negative
+		case RangeErr
+	}
+	public static func primeTable(from: Int, to n: Int) throws -> [Int] {
+		guard from > 1 && n > 1 else { throw InputError.Negative }
+		guard from < n else { throw InputError.RangeErr }
+		guard n > primes.last else { return primes.filter{ $0 >= from && $0 <= n } }
+		primeTable(n)
+		return primes.filter{ $0 >= from && $0 <= n }
+	}
 }
 
 PrimeTable.primeTable(10000)
 PrimeTable.primeTable(100)
+try? PrimeTable.primeTable(100, to: 5000)
+
 
 /*:
 ## 範例：十分逼近法

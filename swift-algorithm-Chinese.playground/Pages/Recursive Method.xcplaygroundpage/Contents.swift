@@ -1,5 +1,5 @@
 /*:
-[Previous](@previous)
+[Previous](@previous) | 本文來源: [演算法筆記](http://www.csie.ntnu.edu.tw/~u91029/AlgorithmDesign.html#5) | [Next](@next)
 _____________________
 # Recursive Method
 ### 易有太極，是生兩儀。兩儀生四象，四象生八卦。《易傳》
@@ -43,53 +43,14 @@ _____________________
 
 ![](Recursive3.png "")
 */
+import Foundation
+
 // ToDo Swift Code
-func primeTable(primes: [Int] = [2, 3], n: Int) -> [Int] {
-	var a = primes
-	func isPrime(number: Int) -> Bool {
-		for prime in a {
-			guard !(prime * prime > number) else { break }
-			if number % prime == 0 {
-				return false
-			}
-		}
-		return true
-	}
-	for i in primes.last! + 1 ... n {
-		if isPrime(i) {
-			a.append(i)
-		}
-	}
-	return a
-}
-enum InputError: ErrorType {
-	case Negative
-	case RangeErr
-}
-func primeTable(inout primes: [Int], from: Int, to n: Int) throws -> [Int] {
-	guard from > 1 && n > 1 else { throw InputError.Negative }
-	guard from < n else { throw InputError.RangeErr }
-	func isPrime(number: Int) -> Bool {
-		for prime in primes {
-			guard !(prime * prime > number) else { break }
-			if number % prime == 0 {
-				return false
-			}
-		}
-		return true
-	}
-	for i in primes.last! + 1 ... n {
-		if isPrime(i) {
-			primes.append(i)
-		}
-	}
-	return primes.filter{ $0 >= from }
-}
+// PrimeTable struc: please refer to PrimeTable.swift in `sources` subdirectory.
 
-
-func integerFactorixation(n: Int, primer: [Int]) -> [Int] {
+func integerFactorixation(n: Int, primer: [Int] = []) -> [Int] {
 	var array = primer
-	let primes = primeTable([2,3],n: n)
+	let primes = PrimeTable.primeTable(n)
 	for prime in primes {
 		guard !(n < prime) else {break}
 		guard n != prime else {
@@ -103,8 +64,10 @@ func integerFactorixation(n: Int, primer: [Int]) -> [Int] {
 	}
 	return array
 }
-integerFactorixation(120, primer: [])
-integerFactorixation(248, primer: [])
+integerFactorixation(120)
+integerFactorixation(248)
+integerFactorixation(10796)
+
 /*:
 ## 範例： L 形磁磚
 _____________________
@@ -145,7 +108,28 @@ _____________________
 	}
 */
 // Todo Swift Code
-func gcd(a: Int, b: Int) -> Int {
+enum ArithmeticError: ErrorType {
+	case NegativeValue
+}
+
+// 用相減
+func gcd<T: IntegerType>(a: T, _ b: T)throws -> T {
+	guard a > T.allZeros && b > T.allZeros else { throw ArithmeticError.NegativeValue }
+	var a_ = a, b_ = b
+	while a_ != b_ {
+		if a_ > b_ {
+			a_ -= b_
+		} else {
+			b_ -= a_
+		}
+	}
+	return a_
+}
+
+
+// 用餘數
+func gcd_1<T: IntegerType>(a: T, _ b: T)throws -> T {
+	guard a > T.allZeros && b >= T.allZeros else { throw ArithmeticError.NegativeValue }
 	var x = max(a, b)
 	var y = min(a, b)
 	while y != 0 {
@@ -155,7 +139,7 @@ func gcd(a: Int, b: Int) -> Int {
 	}
 	return x
 }
-gcd(120, b: 72)
+try gcd_1(120, 72)
 /*:
 	// 運用程式語言的遞迴語法。
 	int gcd(int a, int b) {
@@ -167,13 +151,14 @@ gcd(120, b: 72)
 	}
 */
 // Todo Swift Code
-func gcd1(a: Int, b: Int) -> Int {
+func gcd_recusive<T: IntegerType>(a: T, _ b: T)throws -> T {
+	guard a > T.allZeros && b >= T.allZeros else { throw ArithmeticError.NegativeValue }
 	let x = max(a, b)
 	let y = min(a, b)
 	guard y != 0 else {return x}
-	return gcd1(y, b: x % y)
+	return try! gcd_recusive(y, x % y)
 }
-gcd1(120, b: 72)
+try gcd_recusive(64, 72)
 /*:
 注意到，遞推法、遞歸法，不等於程式語言中的迴圈、遞迴。遞推法、遞歸法是分析問題的方法，用來得到計算過程、用來得到演算法。至於編寫程式時，我們可以自由地採用迴圈或者遞迴。
 
@@ -216,6 +201,22 @@ _____________________
 	Recursive Method:
 	a, *x, +b, *x, +c
 	_____________________
+
+*/
+// ToDo Swift Code
+func horner(x: Double, preceding: Double = 0, polynomial_coefficients: [Double]) -> Double {
+	// A function that implements the Horner Scheme for evaluating a polynomial of coefficients *polynomial in x.
+	guard polynomial_coefficients != [] else { return preceding }
+	var result:Double = preceding
+	var coefficients = polynomial_coefficients
+	result = result * x + coefficients.removeFirst()
+	return horner(x, preceding: result, polynomial_coefficients: coefficients)
+}
+var polynomial = [2.0, 6.0, 9.0 , 6.0]
+horner(10.0, polynomial_coefficients: polynomial)
+horner(8.0, polynomial_coefficients: polynomial)
+
+/*:
 
 [498]:http://uva.onlinejudge.org/external/4/498.html ""
 [10268]:http://uva.onlinejudge.org/external/102/10268.html ""
@@ -293,7 +294,17 @@ _____________________
 	__________________________________________
 
 當然也可以雙向遞歸。就不贅述了。
+*/
+func waysToGet(n: Int) -> Int {
+	guard n > 1 else { return 1 }
+	guard n != 2 else { return 2 }
+	return waysToGet(n - 2) + waysToGet(n - 1)
+}
 
+waysToGet(5)
+waysToGet(20)
+
+/*:
 ## 範例：格雷碼（ Gray Code ）
 _____________________
 
@@ -309,7 +320,51 @@ _____________________
 	第二類最高位數是1，把最高位數拿掉後，即形成GrayCode(n-1)。
 	_______________________________________________________________
 
+![](Gray_code.png "")
+
 也可以用最低位數為主，進行遞推、遞歸，生成順序不同的 Gray Code 。 Gray Code 具有循環的特性，有多種遞推、遞歸方式，不分正向與逆向。
+*/
+// 1. 建立N level的對應表, 2. 依表編碼結果
+struct GrayCode {
+	static var grayCodeTable: [String] = []
+	static func grayCodeBits(N: Int) -> [String] {
+		guard N > 1 else { return ["0", "1"] }
+		guard Int(pow(2.0,Double(N))) > grayCodeTable.count else { return Array(grayCodeTable.prefix(Int(pow(2.0,Double(N))))) }
+		var array: [String] = grayCodeTable
+		for element in grayCodeBits(N-1) {
+			array.append("0" + element)
+		}
+		for element in grayCodeBits(N-1).reverse() {
+			array.append("1" + element)
+		}
+		grayCodeTable = array
+		return Array(grayCodeTable.prefix(Int(pow(2.0,Double(N)))))
+	}
+}
+GrayCode.grayCodeBits(8)
+GrayCode.grayCodeBits(3)
+
+func grayCode(n: Int) -> String {
+	var bits = 0
+	var x = n
+	repeat {
+		bits += 1
+		x /= 2
+	} while x != 0
+	return GrayCode.grayCodeBits(bits)[n]
+}
+grayCode(16)
+
+
+print("\tn\t\tbinary\t\tGray Code")
+print("_______________________________________")
+for i in 0..<64 {
+	let a = Int8(i).bitRep()
+	print("\t\(i)\t\t\(a)\t\t\(grayCode(i))")
+}
+
+
+/*:
 _____________________
-[Next](@next)
+[Previous](@previous) | 本文來源: [演算法筆記](http://www.csie.ntnu.edu.tw/~u91029/AlgorithmDesign.html#5) | [Next](@next)
 */

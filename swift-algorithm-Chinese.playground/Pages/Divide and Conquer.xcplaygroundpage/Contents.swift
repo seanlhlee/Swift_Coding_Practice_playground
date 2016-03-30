@@ -1,5 +1,5 @@
 /*:
-[Previous](@previous)
+[Previous](@previous) | 本文來源: [演算法筆記](http://www.csie.ntnu.edu.tw/~u91029/AlgorithmDesign.html#6) | [Next](@next)
 _____________________
 # Divide and Conquer
 ### 凡治眾如治寡，分數是也。鬥眾如鬥寡，形名是也。《孫子》
@@ -127,11 +127,11 @@ func mergesort<T>(array: [T], isOrdered: (T,T) -> Bool) -> [T] {
 	}
 	repeat {
 		var temp = [[T]]()
-		for (var i = 0; i < sorted.count; i += 2) {
-			if i + 1 == sorted.count {
-				temp.append(sorted[i])
+		for i in 0..<sorted.count / 2 {
+			if i * 2 + 1 == sorted.count {
+				temp.append(sorted[i * 2])
 			} else {
-				temp.append(merge(&sorted[i], b: &sorted[i+1]))
+				temp.append(merge(&sorted[i * 2], b: &sorted[i * 2 + 1]))
 			}
 		}
 		sorted = temp
@@ -141,6 +141,12 @@ func mergesort<T>(array: [T], isOrdered: (T,T) -> Bool) -> [T] {
 
 var array = [1,5,6,8,7,6,6,6,1,7,9,9,9,9]
 mergesort(array, isOrdered: <)
+// 1. 先將原陣列細分並在每個小單位中排序[[1, 5], [6, 8], [6, 7], [6], [1, 6], [7, 9], [9, 9], [9]]
+// 2. 依序合併小單位	[[1, 5, 6, 8], [6, 6, 7], [1, 6, 7, 9], [9, 9, 9]]
+//					[[1, 5, 6, 6, 6, 7, 8], [1, 6, 7, 9, 9, 9, 9]]
+//					[[1, 1, 5, 6, 6, 6, 6, 7, 7, 8, 9, 9, 9, 9]]
+
+
 mergesort(["abc", "copr", "Sean", "Mark", "apple"], isOrdered: <)
 
 ///  Kelvin Lau version
@@ -248,7 +254,18 @@ N 個人當中的其中一個人，叫做甲君好了，我們將原問題分割
 	_____________________________________________
 
 綜合這兩個子問題的組合方式，就得到答案。
+*/
+func combination(n: Int, _ m: Int) -> Int {
+	guard n > 0 || m  > 0 else { return 0 }
+	guard n >= m else { return 0 }
+	guard n != m else { return 1 }
+	guard n > 1 else { return 1 }
+	return combination(n - 1, m - 1) + combination(n - 1, m)
+}
+combination(4, 3)
 
+
+/*:
 ## 範例：河內塔（ Tower of Hanoi ）
 _____________________
 三根柱子、一疊盤子，盤子大小皆不同（盤子中間還得打個洞，這樣盤子才能穿在柱子上）。所有盤子都疊在第一根柱子，大的在下面，小的在上面。現在要將整疊盤子移到第三根柱子，並且保持原來的大小順序。每次只能搬動一個盤子到別根柱子，而且大的盤子一定要保持在小的盤子下面。
@@ -281,7 +298,36 @@ _____________________
 	}
 */
 // ToDo Swift Code
-var p = ["a", "b", "c"]
+import UIKit
+
+// class TowerofHanoi mian part is in the `Sources` sub-directory.
+extension TowerofHanoi {
+	func solve() {
+		func problem(n: Int, from: Int, to: Int)
+		{//解河洛塔的函式: 當河洛塔為少一階時有解, 則河洛塔有解
+			if (n>0){
+				let another = [0, 1, 2].filter{ $0 != from && $0 != to}[0]
+				problem(n-1, from: from, to: another)
+				move((from, n-1), t: (to, n-1))
+				view
+				var a=0
+				for i in 0...3000 {
+					a += i
+				}
+				
+				
+				problem(n-1, from: another, to: to)
+			}
+		}
+		problem(self.numberOfplates, from: 0, to: 1)
+	}
+}
+
+let toh = TowerofHanoi(numberOfplates: 8)
+
+// remove comment markers to test
+// toh.solve()
+
 /*:
 [10017]:http://uva.onlinejudge.org/external/100/10017.html ""
 
@@ -307,7 +353,30 @@ _____________________
 這是在已排序陣列裡面搜尋數值的方法。陣列由中央切成兩邊，一邊數字較小、一邊數字較大。這兩邊一定有一邊不是我們所要的，可以去除，只需要繼續尋找其中一邊。
 
 [10077]:http://uva.onlinejudge.org/external/100/10077.html ""
+*/
+func binarySearch<T: Comparable>(a: [T], key: T, range: Range<Int>? = nil ) -> Int? {
+	var r: Range<Int> = range == nil ? 0..<a.count : range!
+	guard r.startIndex < r.endIndex else { return nil }
+	let midIndex = (r.startIndex + r.endIndex) / 2
+	guard key != a[midIndex] else { return midIndex }
+	if key < a[midIndex] {
+		r = r.startIndex..<midIndex
+	} else {
+		r = midIndex + 1..<r.endIndex
+	}
+	return binarySearch(a, key: key, range: r)
+}
 
+var anArray: [Int] = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47]
+anArray.startIndex
+anArray.endIndex
+anArray.count
+
+
+binarySearch(anArray, key: 43)
+
+
+/*:
 _____________________
 UVa [10077]
 _____________________
@@ -389,5 +458,5 @@ _____________________
 
 _____________________
 
-[Next](@next)
+[Previous](@previous) | 本文來源: [演算法筆記](http://www.csie.ntnu.edu.tw/~u91029/AlgorithmDesign.html#6) | [Next](@next)
 */

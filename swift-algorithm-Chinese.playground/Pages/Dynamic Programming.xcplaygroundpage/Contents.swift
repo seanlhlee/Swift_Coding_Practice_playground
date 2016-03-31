@@ -55,6 +55,27 @@ func factorial(n: Int) -> [Int] {
 }
 let f = factorial(10)
 f[6]
+
+//Struct Static Variable
+public struct Factorial {
+	private static var N: Int = 1
+	private static var factorialArray: [Int] = [0, 1]
+	private static func advanceTo(n: Int) {
+		guard N < n else { return }
+		for i in N+1...n {
+			factorialArray.append(i * factorialArray[i - 1])
+		}
+		N = n
+	}
+	public static func getFactorial(n: Int) -> Int {
+		advanceTo(n)
+		return factorialArray[n]
+	}
+}
+Factorial.getFactorial(6)
+Factorial.getFactorial(3)
+
+
 /*:
 	const int N = 10;
 
@@ -122,15 +143,9 @@ _____________________
 */
 // ToDo Swift Code
 func staircase_walk(x x: Int, y: Int) -> (m: Int, array: [[Int]]) {
-	let t = Array(0..<x)
+	let t = [Int](count: x, repeatedValue: 1)
 	var c = [[Int]](count: y, repeatedValue: t)
-	// [Initial]
-	for i in 0..<x{
-		c[i][0] = 1
-	}
-	for j in 0..<y {
-		c[0][j] = 1
-	}
+	// [Initial] : 這裡運用Array的initializer於建立陣列時一起做了
 	// [Compute]
 	for i in 1..<x{
 		for j in 1..<y {
@@ -169,15 +184,8 @@ staircase_walk(x:8, y: 8).array
 */
 // ToDo Swift Code
 func staircase_walk1(x x: Int, y: Int) -> (m: Int, array: [[Int]]) {
-	let t = Array(0..<x)
+	let t = [Int](count: x, repeatedValue: 1)
 	var c = [[Int]](count: 2, repeatedValue: t)
-	// [Initial]
-	for i in 0..<2{
-		c[i][0] = 1
-	}
-	for j in 0..<y {
-		c[0][j] = 1
-	}
 	// [Compute]
 	for i in 1..<x{
 		for j in 1..<y {
@@ -210,10 +218,6 @@ staircase_walk1(x:8, y: 8).array
 // ToDo Swift Code
 func staircase_walk2(x x: Int, y: Int) -> (m: Int, array: [Int]) {
 	var c = [Int](count: y, repeatedValue: 1)
-	// [Initial]
-	for j in 0..<y {
-		c[j] = 1
-	}
 	// [Compute]
 	for _ in 1..<x{
 		for j in 1..<y {
@@ -244,9 +248,7 @@ staircase_walk2(x:8, y: 8).array
 */
 // ToDo Swift Code
 func staircase_walk3(x x: Int, y: Int) -> (m: Int, array: [Int]) {
-	var c = [Int](count: y, repeatedValue: 0)
-	// [Initial]
-		c[0] = 1
+	var c = [Int](count: y, repeatedValue: 1)
 	// [Compute]
 	for _ in 0..<x{
 		for j in 1..<y {
@@ -311,38 +313,70 @@ _____________________
 	}
 */
 // ToDo Swift Code
-let gridMatrix: [[Int]] = [[3,2,6,4,5,3,8,6], [2,4,5,2,9,7,5,4], [6,3,8,5,4,1,9,2], [5,7,3,2,9,7,2,2], [4,1,1,7,6,9,8,1], [3,1,6,7,2,4,1,7], [1,4,9,8,6,3,2,1], [9,3,1,4,4,7,2,8]]
-func staircase_walk_findpath(matrix:[[Int]]) -> (steps:Int, path: String) {
-	var work: [[Int]] = matrix
-	let x = work.count
-	let y = work[0].count
-	var pathMatrix: [[String]] = work.map{ $0.map{ _ in "" } }
-	pathMatrix[0][0] = "(0,0) -> "
-	for j in 1..<y {
-		work[0][j] += work[0][j-1]
-		pathMatrix[0][j] = pathMatrix[0][j-1] + "(\(0),\(j)) -> "
-	}
-	for i in 1..<x {
-		work[i][0] += work[i-1][0]
-		pathMatrix[i][0] = pathMatrix[i-1][0] + "(\(i),\(0)) -> "
-	}
-	
-	for i in 1..<x {
-		for j in 1..<y {
-			work[i][j] += min(work[i-1][j], work[i][j-1])
-			if work[i-1][j] == min(work[i-1][j], work[i][j-1]) {
-				pathMatrix[i][j] = pathMatrix[i-1][j] + "(\(i),\(j)) -> "
-			} else {
-				pathMatrix[i][j] = pathMatrix[i][j-1] + "(\(i),\(j)) -> "
-			}
+import UIKit
+func buildView(gridMatrix: [[Int]], walk: [[Int]], path: [[String]]) -> UIView {
+	let view = UIView(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: 600, height: 600)))
+	view.backgroundColor = UIColor.blackColor()
+	for i in 0..<gridMatrix.count {
+		for j in 0..<gridMatrix[0].count {
+			let lable = UILabel(frame: CGRect(origin: CGPoint(x: 75 * i, y: 75 * j), size: CGSize(width: 75, height: 37)))
+			lable.backgroundColor = (i + j) % 2 == 0 ? UIColor.lightGrayColor() : UIColor.whiteColor()
+			lable.backgroundColor = path[i][j] == "" ? lable.backgroundColor : UIColor.yellowColor()
+			lable.backgroundColor = (i == gridMatrix.count - 1 && j == gridMatrix[0].count - 1) ? UIColor.yellowColor() : lable.backgroundColor
+			lable.text = "\(gridMatrix[i][j])"
+			lable.textColor = UIColor.blueColor()
+			lable.textAlignment = NSTextAlignment.Center
+			view.addSubview(lable)
+			let stepsLable = UILabel(frame: CGRect(origin: CGPoint(x: 75 * i, y: 75 * j + 37), size: CGSize(width: 75, height: 38)))
+			stepsLable.backgroundColor = lable.backgroundColor
+			stepsLable.text = "\(walk[i][j]) " + path[i][j]
+			stepsLable.textColor = UIColor.blackColor()
+			stepsLable.textAlignment = NSTextAlignment.Center
+			view.addSubview(stepsLable)
 		}
 	}
-	return (work[x-1][y-1], pathMatrix[x-1][y-1])
+	return view
 }
+func staircase_walk_findpath(matrix:[[Int]]) -> (steps:Int, path: String) {
+	var walk: [[Int]] = matrix
+	let x = walk.count
+	let y = walk[0].count
+	var pathMatrix: [[String]] = walk.map{ $0.map{ _ in "" } }
+	for j in 1..<y {
+		walk[0][j] += walk[0][j-1]
+	}
+	for i in 1..<x {
+		walk[i][0] += walk[i-1][0]
+	}
+	for i in 1..<x {
+		for j in 1..<y {
+			walk[i][j] += min(walk[i-1][j], walk[i][j-1])
+		}
+	}
+	func backTrace(i: Int, j: Int) {
+		guard i >= 1 || j >= 1 else { return }
+		if j == 0 {
+			pathMatrix[i - 1][j] = "→"
+			backTrace(i - 1, j: j)
+		} else if i == 0 {
+			pathMatrix[i][j - 1] = "↓"
+			backTrace(i, j: j - 1)
+		}else if walk[i][j] == walk[i - 1][j] + gridMatrix[i][j] {
+			pathMatrix[i - 1][j] = "→"
+			backTrace(i - 1, j: j)
+		} else {
+			pathMatrix[i][j - 1] = "↓"
+			backTrace(i, j: j - 1)
+		}
+	}
+	backTrace(x - 1, j: y - 1)
+	buildView(gridMatrix, walk: walk, path: pathMatrix)
+	return (walk[x-1][y-1], pathMatrix[x-1][y-1])
+}
+let gridMatrix: [[Int]] = [[3,2,6,4,5,3,8,6], [2,4,5,2,9,7,5,4], [6,3,2,5,4,1,9,2], [5,7,3,2,9,7,2,2], [4,1,1,7,6,9,8,1], [3,1,6,7,2,4,1,7], [1,4,9,8,6,3,2,1], [9,3,1,4,4,7,2,8]]
 let solution = staircase_walk_findpath(gridMatrix)
 solution.steps
 solution.path
-
 
 
 /*:
@@ -395,6 +429,7 @@ solution.path
 	}
 */
 // ToDo Swift Code
+// 略
 /*:
 額外介紹一個技巧。為了避免減一超出邊界，需要添補許多程式碼。整個棋盤往右下移動一格，就能精簡許多程式碼。
 
@@ -430,6 +465,7 @@ solution.path
 	}
 */
 // ToDo Swift Code
+// 略
 /*:
 	const int X = 8, Y = 8;
 	int a[X+1][Y+1];    // 整個棋盤往右往下移動一個
@@ -462,6 +498,7 @@ solution.path
 	}
 */
 // ToDo Swift Code
+// 略
 /*:
 ## 範例：樓梯路線（ Staircase Walk ），極值問題
 _____________________
@@ -523,6 +560,88 @@ _____________________
 	}
 */
 // ToDo Swift Code
+func matrixMultiplication(a: [[Int]], _ b: [[Int]]) -> [[Int]]? {
+	//A: m x l  , B: l x n, C: m x n, cij = ai1b1j + ai2b2j + ... + ailblj
+	let m = a.count
+	let l = a[0].count
+	let n = b[0].count
+	guard !a.isEmpty && !b.isEmpty else { return nil }			// check A, B is not empty
+	guard !a[0].isEmpty && !b[0].isEmpty else { return nil }	// check A sub, B sub is not empty
+	guard a[0].count == b.count else { return nil }				// check A columns and B rows is same l.
+	for element in a {
+		if element.count != l { return nil }					// check each A row has same columns
+	}
+	for element in b {
+		if element.count != n { return nil }					// chech each B row has same columns
+	}
+	let row = [Int](count: n, repeatedValue: 0)
+	var matrix = [[Int]](count: m, repeatedValue: row)
+	for i in 0..<matrix.count {
+		for j in 0..<matrix[i].count {
+			for k in 0..<l {
+				matrix[i][j] += a[i][k] * b[k][j]
+			}
+		}
+	}
+	return matrix
+}
+public func * (lhs: [[Int]], rhs: [[Int]]) -> [[Int]]? {
+	return matrixMultiplication(lhs, rhs)
+}
+func matrix_chain_multiplication(matrixes: [[[Int]]]) -> [[Int]]? {
+	guard matrixes.count > 1 else { return nil }
+	var result: [[Int]]? = matrixes[0]
+	let remainings = matrixes[1..<matrixes.count]
+	for matrix in remainings {
+		if let ans = result {
+			result = ans * matrix
+		}
+	}
+	return result
+}
+func matrix_chain_multiplication(matrixes: [[Int]]...) -> [[Int]]? {
+	return matrix_chain_multiplication(matrixes)
+}
+func min_matrix_chain_multiplication(matrixes: [[[Int]]]) -> [[Int]]? {
+	let m: ([[[Int]]]) -> [[Int]]? = min_matrix_chain_multiplication
+	guard !matrixes.isEmpty else { return nil }
+	guard matrixes.count > 1 else { return matrixes[0] }
+	guard matrixes.count > 2 else { return matrixes[0] * matrixes[1] }
+	guard matrixes.count > 3 else {
+		let a = matrixes[0].count, b = matrixes[1].count, c = matrixes[2].count, d = matrixes[2][0].count
+		let forward = a * b * c + a * c * d
+		if forward == min(a * b * c + a * c * d, a * b * d + b * c * d) {
+			return m(Array(matrixes[0..<2]))! * matrixes[2]
+		} else {
+			return matrixes[0] * m(Array(matrixes[1..<3]))!
+		}
+	}
+	let mid = Array(matrixes[1..<matrixes.count - 1])
+	return m([matrixes[0],min_matrix_chain_multiplication(mid)!,matrixes[matrixes.count - 1]])
+}
+func min_matrix_chain_multiplication(matrixes: [[Int]]...) -> [[Int]]? {
+	return min_matrix_chain_multiplication(matrixes)
+}
+
+let aMatrix = [[9, 7, 1], [5, 6, 7], [5, 5, 6], [5, 6, 1]]
+let bMatrix = [[1, 3, 1, 1, 2, 1], [2, 3, 4, 5, 6, 7], [3, 4, 4, 5, 5, 6]]
+let cMatrix = [[1, 1], [2, 3], [3, 4], [2, 3], [2, 3], [2, 4]]
+let dMatrix = [[1, 1, 1], [2, 3, 4]]
+let eMatrix = [[1, 3, 1, 2], [2, 3, 4, 3], [3, 4, 4, 1]]
+
+matrix_chain_multiplication(aMatrix, bMatrix, cMatrix, dMatrix, eMatrix)
+min_matrix_chain_multiplication(aMatrix, bMatrix, cMatrix, dMatrix, eMatrix)
+
+func solvingTimeInterval(parameters: [[[Int]]], problemBlock: ([[[Int]]]) -> [[Int]]?) -> Double {
+	let start = NSDate() // <<<<<<<<<< Start time
+	_ = problemBlock(parameters)
+	let end = NSDate()   // <<<<<<<<<<   end time
+	let timeInterval: Double = end.timeIntervalSinceDate(start) // <<<<< Difference in seconds (double)
+	print("Time to evaluate problem : \(timeInterval) seconds")
+	return timeInterval
+}
+solvingTimeInterval([aMatrix, bMatrix, cMatrix, dMatrix, eMatrix], problemBlock: matrix_chain_multiplication)
+solvingTimeInterval([aMatrix, bMatrix, cMatrix, dMatrix, eMatrix], problemBlock: min_matrix_chain_multiplication)
 /*:
 可以調整成 online 版本。
 

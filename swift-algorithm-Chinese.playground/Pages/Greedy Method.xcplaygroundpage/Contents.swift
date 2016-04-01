@@ -83,7 +83,108 @@ __________________________________________
 注意到：這個方法不一定會成功。我們根本無法證明這個方法會成功，只是乍看起來比較容易成功。
 
 我們當下所做的最佳決定，以長遠的眼光來看，不一定是最佳決定。儘管貪心法不見得得到正確的、最好的答案，卻是個快速得到答案的好方法。
+*/
+import UIKit
+func buildView() -> UIView {
+	let view = UIView(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: 600, height: 600)))
+	view.backgroundColor = UIColor.blackColor()
+	for i in 0..<8 {
+		for j in 0..<8 {
+			let v = UIView(frame: CGRect(origin: CGPoint(x: 75 * i, y: 75 * j), size: CGSize(width: 75, height: 75)))
+			v.backgroundColor = (i + j) % 2 == 0 ? UIColor.lightGrayColor() : UIColor.whiteColor()
+			view.addSubview(v)
+		}
+	}
+	return view
+}
 
+enum Next:Int {
+	case RUU = 1, RRU, RRD, RDD, LDD, LLD, LLU, LUU
+	func next() -> (Int, Int) {
+		var x: Int {
+			switch self {
+			case RRU, RRD:
+				return 2
+			case RUU, RDD:
+				return 1
+			case LUU, LDD:
+				return -1
+			case LLU, LLD:
+				return -2
+			}
+		}
+		var y: Int {
+			switch self {
+			case RUU, LUU:
+				return 2
+			case RRU, LLU:
+				return 1
+			case RRD, LLD:
+				return -1
+			case RDD, LDD:
+				return -2
+			}
+		}
+		return (x, y)
+	}
+}
+
+func + (lhs: (Int, Int), rhs: (Int, Int)) -> (Int, Int) {
+	return (lhs.0 + rhs.0, lhs.1 + rhs.1)
+}
+
+func aroundChessBoard() {
+	var horse = UIImageView(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: 75, height: 75)))
+	horse.image = UIImage(named: "hourse.jpeg")
+	var beenThere = [[Bool]](count: 8, repeatedValue: [Bool](count: 8, repeatedValue: false))
+	var view = buildView()
+	var start: (Int,Int) = (3, 4)
+	var trace: [(Int, Int)] = []
+	func nexts(now: (Int, Int)) -> [(Int, Int)] {
+		let ns: [Next] = [.RUU, .RRU, .RRD, .RDD, .LDD, .LLD, .LLU, .LUU]
+		let nextsteps = ns.flatMap{ now + $0.next() }
+		return nextsteps.filter { (a: (x: Int, y: Int)) -> Bool in
+			guard (a.x >= 0) && (a.x < 8) && (a.y >= 0) && (a.y < 8) else { return false }
+			return !beenThere[a.x][a.y]
+		}
+	}
+	func nOfavailables(next: (Int, Int)) -> Int {
+		return nexts(next).count
+	}
+	func bestNext(now: (Int, Int)) -> (Int, Int)? {
+		let nextCandidates = nexts(now)
+		let availables = nextCandidates.flatMap{ nOfavailables($0) }
+		let minIdx = nextCandidates.flatMap{ nOfavailables($0) }.indexOf{ $0 == availables.minElement()}
+		if let idx = minIdx {
+			return nextCandidates[idx]
+		}
+		return nil
+	}
+	func go(now: (Int, Int)) {
+		var done: Bool {
+			for row in beenThere {
+				for b in row {
+					if !b { return b }
+				}
+			}
+			return true
+		}
+		guard !done else { return }
+		beenThere[now.0][now.1] = true
+		view.subviews[now.0 * 8 + now.1].addSubview(horse)
+		view
+		trace.append(now)
+		if let nextStep = bestNext(now) {
+			go(nextStep)
+		} else { return }
+	}
+	go(start)
+}
+
+aroundChessBoard()
+
+
+/*:
 ## 範例：活動選擇問題（ Activity Selection Problem ）
 __________________________________________
 暑假到了，有好多好多有趣的營隊可以參加囉！攀岩、潛水、單車環島團、吉他營、電腦營、 …… ，每個營隊都好有趣，好想每個營隊都參加──可是卻有好多營隊的活動期間都互相卡到，沒辦法同時參加。到底要參加哪些營隊活動才好呢？當然是越多種越好！
@@ -170,7 +271,73 @@ _____________
 ![](Greedy10.png "")
 
 改答案的原則是：一開始 x 隨意設定一個數值，例如設定 x = 0 。微調 x 值，並且計算 f(x) ──如果 f(x) 減少，就更新 x ；如果 f(x) 沒減少，就不更新 x 。不斷修改 x 值，最後就到達區域最小值。
+*/
+import Foundation
+struct HillClimbing {
+	var f: (Double) -> Double
+	var sol: Double
+	var step: Double
+	
+	var report: String {
+		var solution = sol
+		var neighbor: [Double] {
+			var array = [Double]()
+			for i in 0..<2 {
+				let advance = i % 2 == 0 ? step : -step
+				array.append(solution.advancedBy(advance))
+			}
+			return array
+		}
+		var height: Double {
+			return f(solution)
+		}
+		while true {
+			var solArray = [Double]()
+			if f(neighbor[0]) >= height && f(neighbor[1]) >= height {
+				solArray = [solution, solution]
+				while true {
+					if f(neighbor[0]) >= height {
+						solution = neighbor[0]
+					} else {
+						solArray[0] = solution
+						solution = solArray[1]
+						break
+					}
+				}
+				while true {
+					if f(neighbor[1]) >= height {
+						solution = neighbor[1]
+					} else {
+						solArray[1] = solution
+						break
+					}
+				}
+				print("Solution: \(solArray[0].format("+.2"))\t -> f(x) = \(f(solArray[0]).format("+.4"))\n" +
+					"Solution: \(solArray[1].format("+.2"))\t -> f(x) = \(f(solArray[1]).format("+.4"))")
+				return "Solution: \(solArray[0].format("+.2"))\t -> f(x) = \(f(solArray[0]).format("+.4"))\n" +
+					"Solution: \(solArray[1].format("+.2"))\t -> f(x) = \(f(solArray[1]).format("+.4"))"
+			} else if f(neighbor[0]) >= height {
+				solution = neighbor[0]
+			} else if f(neighbor[1]) >= height {
+				solution = neighbor[1]
+			} else {
+				print("Solution: \(solution.format("+.2"))\t -> f(x) = \(f(solution).format("+.4"))")
+				return "Solution: \(solution.format("+.2"))\t -> f(x) = \(f(solution).format("+.4"))"
+			}
+		}
+	}
+}
 
+var f4 = {
+	(x: Double) -> Double in
+	-abs(x * x - 4)
+}
+
+var x = 0.0, dx = 0.01
+var sol = HillClimbing(f: f4, sol: x, step: dx)
+sol.report
+
+/*:
 ## 範例：交換相鄰數字的排序法
 _____________
 

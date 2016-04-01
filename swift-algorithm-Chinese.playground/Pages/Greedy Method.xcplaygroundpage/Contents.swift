@@ -181,7 +181,7 @@ func aroundChessBoard() {
 	go(start)
 }
 
-aroundChessBoard()
+//aroundChessBoard()
 
 
 /*:
@@ -334,8 +334,9 @@ var f4 = {
 }
 
 var x = 0.0, dx = 0.01
-var sol = HillClimbing(f: f4, sol: x, step: dx)
-sol.report
+// remove comment to test
+//var sol = HillClimbing(f: f4, sol: x, step: dx)
+//sol.report
 
 /*:
 ## 範例：交換相鄰數字的排序法
@@ -438,6 +439,84 @@ _____________
 	}
 */
 // ToDo Swift Code
+struct Job {
+	var time: Int
+	var due: Int
+	init(_ t: Int, _ d:Int) {
+		self.time = t
+		self.due = d
+	}
+}
+
+func performance(jobs: [Job]) -> (times: [Int], dues: [Int], starts: [Int], delays: [Bool], onSKD: Int, lastFinishTime: Int)  {
+	var times = jobs.flatMap{ $0.time }
+	var dues = jobs.flatMap{ $0.due }
+	var starts: [Int] {
+		var a = [Int]()
+		for i in 0..<jobs.count {
+			a.append(Array(times[0..<i]).reduce(0){ $0 + $1 })
+		}
+		return a
+	}
+	var delays: [Bool] {
+		var a = [Bool]()
+		for i in 0..<jobs.count {
+			a.append(starts[i] + times[i] > dues[i])
+		}
+		return a
+	}
+	let onSKD = delays.filter{ !$0 }.count
+	let lastFinishTime = starts[onSKD - 1] + times[onSKD - 1]
+	return (times, dues, starts, delays, onSKD, lastFinishTime)
+}
+
+func buildView(jobs: [Job]) -> UIView {
+	let view = UIView(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: 360, height: 100)))
+	view.backgroundColor = UIColor.init(red: 0.8, green: 0.1, blue: 0.1, alpha: 0.3)
+	var times = performance(jobs).times
+	var dues = performance(jobs).dues
+	var starts = performance(jobs).starts
+	let colors: [UIColor] = [.blueColor(), .yellowColor(), .cyanColor(), .greenColor(), .redColor()]
+	for i in 0..<jobs.count {
+		let acceptv = UIView(frame: CGRect(origin: CGPoint(x: 0, y: i * 10), size: CGSize(width: dues[i] * 10, height: 10)))
+		acceptv.backgroundColor = UIColor.whiteColor()
+		view.addSubview(acceptv)
+		let sub = UIView(frame: CGRect(origin: CGPoint(x: starts[i] * 10, y: i * 10), size: CGSize(width: times[i] * 10, height: 10)))
+		sub.backgroundColor = colors[i % 5]
+		view.addSubview(sub)
+	}
+	return view
+}
+
+var jobs = [Job(2, 24), Job(5, 16), Job(3, 18), Job(2, 24), Job(3, 18), Job(5, 24), Job(4, 18), Job(3, 20), Job(1, 15), Job(6, 18)]
+buildView(jobs)
+
+
+// main goal => sort the jobs to minimize numbers of delays
+var byDue: (Job, Job) -> Bool = { $0.due < $1.due }
+jobs = jobs.sort(byDue)
+buildView(jobs)
+performance(jobs).onSKD
+performance(jobs).lastFinishTime
+
+var byTime_Due: (Job, Job) -> Bool = { (x1: Job,x2: Job) -> Bool in
+		if x1.time < x2.time {
+			return true
+		}
+		return x1.due < x2.due
+	}
+var sbt = jobs.sort(byTime_Due)
+
+buildView(sbt)
+performance(sbt).onSKD
+performance(sbt).lastFinishTime
+
+jobs = Array(sbt[0..<sbt.count - 1]).sort(byDue)
+buildView(jobs)
+performance(jobs).onSKD
+performance(jobs).lastFinishTime
+
+
 /*:
 	struct Job {
 		int time, due;

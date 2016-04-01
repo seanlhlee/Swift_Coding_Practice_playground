@@ -15,7 +15,7 @@ extension String {
 ///Rang的型別擴充, 其Scope只在相同的命名空間, 其為Generic型別不可public給其他命名空間
 extension Range {
 	//在指定範圍之內取亂數
-	public func randR() -> Int? {
+	public func rand() -> Int? {
 		func randomInRange(range: Range<Int>) -> Int {
 			let count = UInt32(range.endIndex - range.startIndex)
 			return Int(arc4random_uniform(count)) + range.startIndex
@@ -32,8 +32,8 @@ extension Range {
 ///Array的型別擴充, 其Scope只在相同的命名空間, 其為Generic型別不可public給其他命名空間
 extension Array {
 	///取得陣列中隨機的陣列索引
-	public func rndIndex() -> Int? {
-		return self.isEmpty ? nil : (0..<self.count).randR()
+	public func randomIndex() -> Int? {
+		return self.isEmpty ? nil : (0..<self.count).rand()
 	}
 	///陣列中元素隨機分佈
 	public func randomize() -> [Element] {
@@ -41,7 +41,7 @@ extension Array {
 			var tempArray = self
 			var randomedArray: [Element] = []
 			for _ in self {
-				randomedArray.append(tempArray.removeAtIndex(tempArray.rndIndex()!))
+				randomedArray.append(tempArray.removeAtIndex(tempArray.randomIndex()!))
 			}
 			return randomedArray
 		} else {

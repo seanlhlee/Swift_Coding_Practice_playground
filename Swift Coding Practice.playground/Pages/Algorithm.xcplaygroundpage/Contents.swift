@@ -224,7 +224,7 @@ var f4 = {
 
 x = 0
 var sol = HillClimbing(f: f4, sol: x, step: dx)
-//sol.report
+sol.report
 
 var f5 = {
 	(x: Double) -> Double in

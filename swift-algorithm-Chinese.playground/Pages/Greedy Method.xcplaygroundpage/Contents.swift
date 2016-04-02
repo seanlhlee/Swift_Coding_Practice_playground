@@ -488,33 +488,60 @@ func buildView(jobs: [Job]) -> UIView {
 	return view
 }
 
-var jobs = [Job(2, 24), Job(5, 16), Job(3, 18), Job(2, 24), Job(3, 18), Job(5, 24), Job(4, 18), Job(3, 20), Job(1, 15), Job(6, 18)]
-buildView(jobs)
-
-
-// main goal => sort the jobs to minimize numbers of delays
-var byDue: (Job, Job) -> Bool = { $0.due < $1.due }
-jobs = jobs.sort(byDue)
-buildView(jobs)
-performance(jobs).onSKD
-performance(jobs).lastFinishTime
-
-var byTime_Due: (Job, Job) -> Bool = { (x1: Job,x2: Job) -> Bool in
+func optimizeSKD(inout jobs: [Job]) {
+	guard performance(jobs).onSKD != jobs.count else { return }
+	// main goal => sort the jobs to minimize numbers of delays
+	let byDue: (Job, Job) -> Bool = { $0.due < $1.due }
+	let byTime_Due: (Job, Job) -> Bool = { (x1: Job,x2: Job) -> Bool in
 		if x1.time < x2.time {
 			return true
 		}
 		return x1.due < x2.due
 	}
-var sbt = jobs.sort(byTime_Due)
-
-buildView(sbt)
-performance(sbt).onSKD
-performance(sbt).lastFinishTime
-
-jobs = Array(sbt[0..<sbt.count - 1]).sort(byDue)
+	jobs = jobs.sort(byDue)
+	if performance(jobs).onSKD != jobs.count {
+		jobs = jobs.sort(byTime_Due)
+		jobs = Array(jobs[0..<jobs.count - 1]).sort(byDue)
+	}
+	optimizeSKD(&jobs)
+}
+var jobs = [Job(8, 24), Job(5, 18), Job(6, 12), Job(4, 30), Job(5, 22), Job(3, 18), Job(2, 18), Job(5, 20), Job(3, 15), Job(6, 20)]
+buildView(jobs)
+performance(jobs).onSKD   //before optimize, only 3 tasks can be finished on time.
+optimizeSKD(&jobs)
 buildView(jobs)
 performance(jobs).onSKD
 performance(jobs).lastFinishTime
+
+// 應還有許多實作方式，例如節點搜尋求解，有再機會實作
+
+//下面的程式碼為實作時實驗與觀察用途，可忽略
+func testBlockForBuildImplmentation() {
+	var jobs = [Job(2, 24), Job(5, 16), Job(3, 18), Job(2, 24), Job(3, 18), Job(5, 24), Job(4, 18), Job(3, 20), Job(1, 15), Job(6, 18)]
+	buildView(jobs)
+	let byDue: (Job, Job) -> Bool = { $0.due < $1.due }
+	jobs = jobs.sort(byDue)
+	buildView(jobs)
+	performance(jobs).onSKD
+	performance(jobs).lastFinishTime
+
+	let byTime_Due: (Job, Job) -> Bool = { (x1: Job,x2: Job) -> Bool in
+		if x1.time < x2.time {
+			return true
+		}
+		return x1.due < x2.due
+	}
+	var sbt = jobs.sort(byTime_Due)
+
+	buildView(sbt)
+	performance(sbt).onSKD
+	performance(sbt).lastFinishTime
+
+	jobs = Array(sbt[0..<sbt.count - 1]).sort(byDue)
+	buildView(jobs)
+	performance(jobs).onSKD
+	performance(jobs).lastFinishTime
+}
 
 
 /*:

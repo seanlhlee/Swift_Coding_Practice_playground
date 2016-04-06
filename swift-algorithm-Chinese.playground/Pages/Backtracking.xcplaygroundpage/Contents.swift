@@ -63,11 +63,11 @@
 另外還可以調整維度先後順序、一個維度之中枚舉值的順序。如果安排得宜，可以更快找到正確的多維度數值。
 
 ## © 2010 [tkcn](http://tkcnandy.blogspot.com/). All rights reserved.
-
+****
 ![](1.png "")
 
 ## 範例：枚舉「數字 1 到 10 選擇五次」全部可能的情形
-
+****
 ![](Backtracking1.png "")
 
 製作一個陣列，用來存放一組可能的情形。
@@ -137,7 +137,7 @@ func backtrace(n: Int) {
 
 /*:
 ## 結合其他技巧
-
+****
 	int solution[MAX_DIMENSION];
 	void backtrack(int dimension){
 	// pruning：在遞迴途中避免枚舉出不正確的數據 //

@@ -1,5 +1,5 @@
 /*:
-[Previous](@previous)
+[Previous](@previous) | 本文來源: [演算法筆記](http://www.csie.ntnu.edu.tw/~u91029/AlgorithmDesign.html#11) | [Next](@next)
 _____________________
 # Parallel Algorithm
 （ Under Construction! ）
@@ -147,5 +147,5 @@ _____________________
 
 ## 範例： branch overhead
 _____________________
-[Next](@next)
+[Previous](@previous) | 本文來源: [演算法筆記](http://www.csie.ntnu.edu.tw/~u91029/AlgorithmDesign.html#11) | [Next](@next)
 */

@@ -1,5 +1,5 @@
 /*:
-[Previous](@previous)
+[Previous](@previous) | 本文來源: [演算法筆記](http://www.csie.ntnu.edu.tw/~u91029/AlgorithmDesign.html#14) | [Next](@next)
 _____________________
 # Modeling
 ### 前事不忘，後事之師。《戰國策》
@@ -194,5 +194,5 @@ _____________________
 
 「數線上距離最近的兩個點」是特例、「平面上距離最近的兩個點」是通例，我們有機會替「數線上距離最近的兩個點」找到計算時間更短、更有效率的演算法。
 _____________________
-[Next](@next)
+[Previous](@previous) | 本文來源: [演算法筆記](http://www.csie.ntnu.edu.tw/~u91029/AlgorithmDesign.html#14) | [Next](@next)
 */

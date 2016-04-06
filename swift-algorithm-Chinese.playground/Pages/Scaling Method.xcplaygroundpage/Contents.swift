@@ -1,5 +1,5 @@
 /*:
-[Previous](@previous)
+[Previous](@previous) | 本文來源: [演算法筆記](http://www.csie.ntnu.edu.tw/~u91029/AlgorithmDesign.html#9) | [Next](@next)
 _____________________
 # Scaling Method
 ### 古之欲明明德於天下者，先治其國。
@@ -59,5 +59,5 @@ _____________________
 
 改善插入排序法的效率，不必每次都挪動一大串數字。
 _____________________
-[Next](@next)
+[Previous](@previous) | 本文來源: [演算法筆記](http://www.csie.ntnu.edu.tw/~u91029/AlgorithmDesign.html#9) | [Next](@next)
 */

@@ -1,5 +1,5 @@
 /*:
-[Previous](@previous)
+[Previous](@previous) | 本文來源: [演算法筆記](http://www.csie.ntnu.edu.tw/~u91029/AlgorithmDesign.html#12) | [Next](@next)
 _____________________
 # Randomized Algorithm
 （ Under Construction! ）
@@ -128,5 +128,5 @@ _____________________
 
 我不知道如何分析時間複雜度，也不知道如何實作。
 _____________________
-[Next](@next)
+[Previous](@previous) | 本文來源: [演算法筆記](http://www.csie.ntnu.edu.tw/~u91029/AlgorithmDesign.html#12) | [Next](@next)
 */

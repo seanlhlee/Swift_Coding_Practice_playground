@@ -1,5 +1,5 @@
 /*:
-[Previous](@previous)
+[Previous](@previous) | 本文來源: [演算法筆記](http://www.csie.ntnu.edu.tw/~u91029/AlgorithmDesign.html#8) | [Next](@next)
 _____________________
 # Greedy Method
 ### 今朝有酒今朝醉，明日愁來明日愁。《羅隱．自遣》
@@ -638,5 +638,5 @@ _____________
 _____________
 UVa [11269], UVa [11729]
 _____________________
-[Next](@next)
+[Previous](@previous) | 本文來源: [演算法筆記](http://www.csie.ntnu.edu.tw/~u91029/AlgorithmDesign.html#8) | [Next](@next)
 */

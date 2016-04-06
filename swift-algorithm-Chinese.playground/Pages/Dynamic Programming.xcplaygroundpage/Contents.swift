@@ -1,5 +1,5 @@
 /*:
-[Previous](@previous)
+[Previous](@previous) | 本文來源: [演算法筆記](http://www.csie.ntnu.edu.tw/~u91029/AlgorithmDesign.html#7) | [Next](@next)
 _____________________
 # Dynamic Programming
 ### 長江後浪催前浪，一替新人趲舊人。《張協狀元》
@@ -661,5 +661,5 @@ solvingTimeInterval([aMatrix, bMatrix, cMatrix, dMatrix, eMatrix], problemBlock:
 _____________________
 UVa [348], UVa [442], ICPC [6669]
 _____________________
-[Next](@next)
+[Previous](@previous) | 本文來源: [演算法筆記](http://www.csie.ntnu.edu.tw/~u91029/AlgorithmDesign.html#7) | [Next](@next)
 */

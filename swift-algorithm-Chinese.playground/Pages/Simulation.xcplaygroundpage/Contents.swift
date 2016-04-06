@@ -1,5 +1,5 @@
 /*:
-[Previous](@previous)
+[Previous](@previous) | 本文來源: [演算法筆記](http://www.csie.ntnu.edu.tw/~u91029/AlgorithmDesign.html#13) | [Next](@next)
 _____________________
 # Simulation
 ### 陽春召我以煙景，大塊假我以文章。《李白．春夜宴桃李園序》
@@ -127,5 +127,5 @@ _____________________
 _____________________
 UVa [253], UVa [10877]
 _____________________
-[Next](@next)
+[Previous](@previous) | 本文來源: [演算法筆記](http://www.csie.ntnu.edu.tw/~u91029/AlgorithmDesign.html#13) | [Next](@next)
 */

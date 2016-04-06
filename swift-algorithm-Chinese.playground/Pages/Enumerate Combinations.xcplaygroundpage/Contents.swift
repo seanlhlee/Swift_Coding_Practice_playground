@@ -40,7 +40,53 @@
 	void enumerate_combinations() {
 			backtrack(0);
 	}
+*/
+// 枚舉 {0,1,2,3,4} 所有組合
+import Foundation
+var solution = [Bool](count: 5, repeatedValue: true)
+// sorting method
+func increment(a: [Int], _ b: [Int]) -> Bool {
+	if a.count < b.count {
+		return true
+	} else if a.count == b.count && a.description < b.description {
+		return true
+	}
+	return false
+}
+// transform an `i-th element` existing matrix to form a real Int matrix. i.e. [F,T,T] x [1,2,3] = [2,3]
+func trans(combination: [Bool]) -> [Int] {
+	var array:[Int] = [Int]()
+	var source = [0, 1, 2, 3, 4]
+	for i in 0..<combination.count {
+		if combination[i] {
+			array.append(source[i])
+		}
+	}
+	return array
+}
 
+func enumerateCombinations() -> [[Int]] {
+	var array = [[Bool]]()
+	var source = [0, 1, 2, 3, 4]
+	func backtrack(n: Int) {
+		guard n < 5 else {
+			array.append(solution)
+			return
+		}
+		solution[n] = true
+		backtrack(n + 1)
+		solution[n] = false
+		backtrack(n + 1)
+		
+	}
+	backtrack(0)
+	return array.flatMap{ trans($0) }
+}
+let combined = enumerateCombinations().sort{ increment($0, $1) }
+combined
+combined.count
+
+/*:
 亦得改用其他資料結構，例如「Set資料結構：循序儲存(http://www.csie.ntnu.edu.tw/~u91029/Set.html)」。
 
 ![](Backtracking5.png "")
@@ -65,7 +111,35 @@
 	void enumerate_combinations() {
 			backtrack(0, 0);
 	}
+*/
+var sol = [Int]()
+func enumerateCombinations_1() -> [[Int]] {
+	var array = [[Int]]()
+	var source = [0, 1, 2, 3, 4]
+	func backtrack(n: Int) {
+		guard n < 5 else {
+			array.append(sol)
+			return
+		}
+		sol.append(source[n])
+		backtrack(n + 1)
+		sol.removeLast()
+		backtrack(n + 1)
+		
+	}
+	backtrack(0)
+	return array
+}
 
+let combined1 = enumerateCombinations_1().sort{ increment($0, $1) }
+combined1
+combined1.count
+let t0 = timeElapsedInSecondsWhenRunningCode({ enumerateCombinations() })
+let t1 = timeElapsedInSecondsWhenRunningCode({ enumerateCombinations_1() })
+t0
+t1
+
+/*:
 ## 範例：枚舉 {0,1,2,3,4} 所有組合
 ****
 依序枚舉每個選取。針對每個選取，試著填入各個位置。

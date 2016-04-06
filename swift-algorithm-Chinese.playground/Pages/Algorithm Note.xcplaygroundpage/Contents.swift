@@ -25,6 +25,16 @@ ____________________
 - [*UC-Randomized Algorithm*](UC-Randomized%20Algorithm)											*隨機法*
 - [*Simulation*](Simulation)															*模擬行為*
 - [*Modeling*](Modeling)															*模型*
+
+## Backtracking
+- [*Backtracking*](Algorithm%20Intruduction)														*回溯*
+- [*Enumerate Permutations*](Enumerate%20Permutations)												*枚舉置換*
+- [*Enumerate Combinations*](Enumerate%20Combinations)												*枚舉組合*
+- [*8 Queen Problem*](8%20Queen%20Problem)														*八皇后問題*
+- [*Euclidean Shortest Path*](Euclidean%20Shortest%20Path)												*歐幾里德最短路徑*
+- [*0/1 Knapsack Problem*](0_1%20Knapsack%20Problem)													*0/1背包問題*
+- [*Inclusion-Exclusion Principle*](Inclusion-Exclusion%20Principle)												*容斥原理*
+
 ## Data													資料與資料結構
 
 - [*Data*](Data)																*資料*

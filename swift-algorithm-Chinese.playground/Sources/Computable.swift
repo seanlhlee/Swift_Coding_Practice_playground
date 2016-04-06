@@ -1,5 +1,13 @@
 import Foundation
 
+public func timeElapsedInSecondsWhenRunningCode(operation:()->()) -> Double {
+	let startTime = CFAbsoluteTimeGetCurrent()
+	operation()
+	let timeElapsed = CFAbsoluteTimeGetCurrent() - startTime
+	return Double(timeElapsed)
+}
+
+
 extension String {
 	// 字串倒轉
 	public func reverse() -> String {

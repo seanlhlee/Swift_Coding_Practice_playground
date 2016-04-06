@@ -18,6 +18,13 @@
         <page name='UC-Randomized Algorithm'/>
         <page name='Simulation'/>
         <page name='Modeling'/>
+        <page name='Backtracking'/>
+        <page name='Enumerate Permutations'/>
+        <page name='Enumerate Combinations'/>
+        <page name='8 Queen Problem'/>
+        <page name='Euclidean Shortest Path'/>
+        <page name='0_1 Knapsack Problem'/>
+        <page name='Inclusion-Exclusion Principle'/>
         <page name='Data'/>
         <page name='Array - List'/>
         <page name='Stack'/>

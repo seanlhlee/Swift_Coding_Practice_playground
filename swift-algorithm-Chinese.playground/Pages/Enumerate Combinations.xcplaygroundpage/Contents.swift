@@ -165,7 +165,11 @@ t1
 	void enumerate_combinations() {
 			backtrack(0);
 	}
+*/
 
+
+
+/*:
 ![](Backtracking7.png "")
 
 	int subset[5];  // 循序儲存

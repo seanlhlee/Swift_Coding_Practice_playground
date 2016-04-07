@@ -299,7 +299,6 @@ public class SimulatedAnnealing {
 }
 
 //SimulatedAnnealing.main()
-
 /*:
 [Origin Result]:http://www.theprojectspot.com/tutorial-post/simulated-annealing-algorithm-for-beginners/6 ""
 

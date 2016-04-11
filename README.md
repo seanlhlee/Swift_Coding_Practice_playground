@@ -37,10 +37,13 @@ Swift Coding Practice.playground : Basic, Array, Matrix, String, Callback, Recur
 
 swift-algorithm-Chinese.playground : Algorithm Intruduction, Data, Algorithm Design, Algorithm Analysis, Graph Theory, Combinatorial Optimization & Numerical Method...
 
+****
 
+## Additional Topics
 
+- The Traveling Salesman with Simulated Annealing
 
-
+The Traveling Salesman with Simulated Annealing.playground : demonstrates solving the shortest path of travel itinerary by using Simulated Annealing method.
 
 ＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊＊
 

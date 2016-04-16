@@ -1,7 +1,66 @@
 /*:
 [Previous](@previous)
 ****
+# SWIFT String Extension
 
+## String Indices 
+### [Described in 'The Swift Programming Language (Swift 2.2)' by Apple Inc.]
+
+Each String value has an associated index type, String.Index, which corresponds to the position of each Character in the string.
+
+As mentioned above, different characters can require different amounts of memory to store, so in order to determine which Character is at a particular position, you must iterate over each Unicode scalar from the start or end of that String. For this reason, Swift strings cannot be indexed by integer values.
+
+Use the startIndex property to access the position of the first Character of a String. The endIndex property is the position after the last character in a String. As a result, the endIndex property isn’t a valid argument to a string’s subscript. If a String is empty, startIndex and endIndex are equal.
+
+A String.Index value can access its immediately preceding index by calling the predecessor() method, and its immediately succeeding index by calling the successor() method. Any index in a String can be accessed from any other index by chaining these methods together, or by using the advancedBy(_:) method. Attempting to access an index outside of a string’s range will trigger a runtime error.
+
+You can use subscript syntax to access the Character at a particular String index.
+
+## Use an integer indexing subscription to access Swift strings
+
+	By using the advancedBy(_:) method, we can use an integer number to alternatively index a Swift string. 
+
+## Use an integer range subscription to access Swift strings
+
+*/
+public extension String {
+	subscript(idx: Int) -> Character {
+		get {
+			let strIdx = self.startIndex.advancedBy(idx, limit: endIndex)
+			guard strIdx != endIndex else { fatalError("String index out of bounds") }
+			return self[strIdx]
+		}
+		set {
+			self.removeAtIndex(startIndex.advancedBy(idx, limit: endIndex))
+			self.insert(newValue, atIndex: startIndex.advancedBy(idx, limit: endIndex))
+		}
+	}
+	subscript(range: Range<Int>) -> String {
+		get {
+			let strRange = self.startIndex.advancedBy(range.startIndex)..<self.startIndex.advancedBy(range.endIndex)
+			return self[strRange]
+		}
+		set {
+			let strRange = self.startIndex.advancedBy(range.startIndex)..<self.startIndex.advancedBy(range.endIndex)
+			self.removeRange(strRange)
+			self.insertContentsOf(newValue.characters, at: strRange.startIndex)
+		}
+	}
+}
+
+var exampleString = "This is an example of a Swift string."
+exampleString[3]  //s
+exampleString[3...9]   //s is an
+exampleString[3] = "g"
+exampleString
+exampleString[3...9] = "s is an"
+exampleString
+exampleString[3...3] = "g"
+exampleString
+exampleString[3] = "s"
+exampleString
+
+/*:
 # SWIFT程式設計練習題
 
 ## 字串
@@ -65,7 +124,7 @@ func evenParity(bitCode: String) -> Int {
 	var countOfOneBits = 0
 	for char in chars {
 		if char != "0" && char != "1" { return -1 }
-		else if char == "1" { ++countOfOneBits }
+		else if char == "1" { countOfOneBits += 1 }
 	}
 	return countOfOneBits % 2
 }
@@ -114,8 +173,8 @@ complement(15)
 func isPaired(str: String) -> Bool {
 	var countL = 0, countR = 0
 	for char in str.characters {
-		if char == "(" { ++countL }
-		if char == ")" { ++countR }
+		if char == "(" { countL += 1 }
+		if char == ")" { countR += 1 }
 	}
 	return countL == countR
 }

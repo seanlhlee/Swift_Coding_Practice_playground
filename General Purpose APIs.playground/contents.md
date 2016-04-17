@@ -3,6 +3,7 @@
 General Purpose APIs using in Swift playgrounds for learning and experimenting Swift programming language.
 
 - String
+- Complex
 - Vector
 - Array2D
 - Matrix
@@ -15,6 +16,7 @@ General Purpose APIs using in Swift playgrounds for learning and experimenting S
 ## Source Code Files
 
 ../Sources/Array2D.swift
+../Sources/Complex.swift
 ../Sources/Matrix.swift
 ../Sources/String.swift
 ../Sources/Vector.swift

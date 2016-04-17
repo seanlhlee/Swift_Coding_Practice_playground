@@ -19,6 +19,7 @@ General Purpose APIs using in Swift playgrounds for learning and experimenting S
 ### Swift程式設計基本練習
 
 - [*String*](String)													字串
+- [*Complex*](Complex)													複數
 - [*Vector*](Vector)													向量
 - [*Array2D*](Array2D)												2維陣列
 - [*Matrix*](Matrix)													矩陣

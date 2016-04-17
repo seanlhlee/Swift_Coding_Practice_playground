@@ -3,6 +3,7 @@
     <pages>
         <page name='Table of contents'/>
         <page name='String'/>
+        <page name='Complex'/>
         <page name='Vector'/>
         <page name='Array2D'/>
         <page name='Matrix'/>

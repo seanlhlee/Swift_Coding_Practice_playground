@@ -45,7 +45,7 @@ General Purpose APIs using in Swift playgrounds for learning and experimenting S
 
 透過建立部分資料結構，並透過可視化的方式來增進利用playgroung學習Swift程式設計的效率。
 
-內容涵蓋：String, Vector, Array2D, Matrix
+內容涵蓋：String, Complex, Vector, Array2D, Matrix
 
 ****
 

@@ -1,10 +1,12 @@
 import Foundation
 
-public protocol SummableMultipliable: Equatable {
+public protocol SummableMultipliable: Comparable {
 	init()
 	func +(lhs: Self, rhs: Self) -> Self
 	func *(lhs: Self, rhs: Self) -> Self
 	func -(lhs: Self, rhs: Self) -> Self
+	func /(lhs: Self, rhs: Self) -> Self
+	prefix func -(rhs: Self) -> Self
 	func +=(inout lhs: Self, rhs: Self)
 	func -=(inout lhs: Self, rhs: Self)
 	func *=(inout lhs: Self, rhs: Self)
@@ -179,6 +181,15 @@ extension Matrix {
 			}
 		}
 		return transpose
+	}
+}
+
+extension Matrix: CustomStringConvertible {
+	public var description: String {
+		if rows * columns != 0 {
+			return "Matrix: \(rows) x \(columns)\t" + representative.description
+		}
+		return "Matrix: \(rows) x \(columns)\t"
 	}
 }
 

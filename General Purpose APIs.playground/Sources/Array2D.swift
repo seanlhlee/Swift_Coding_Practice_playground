@@ -1,5 +1,5 @@
 import Foundation
-
+/// A collection type that supports 2 dimensional subscription function.
 public struct Array2D<T> {
 	public let columns: Int
 	public let rows: Int
@@ -63,5 +63,12 @@ public extension Array2D {
 		var array = [T]()
 		r.forEach{ array.append(self[$0, column]) }
 		return array
+	}
+}
+
+
+extension Array2D: CustomStringConvertible {
+	public var description: String {
+		return "Array2D: \(rows) x \(columns)\t" + array.description
 	}
 }

@@ -202,6 +202,15 @@ extension Matrix {
 	}
 }
 
+extension Matrix: CustomStringConvertible {
+	public var description: String {
+		if rows * columns != 0 {
+			return "Matrix: \(rows) x \(columns)\t" + representative.description
+		}
+		return "Matrix: \(rows) x \(columns)\t"
+	}
+}
+
 
 let emptyMatrix = Matrix<Int>.emptyMatrix
 emptyMatrix.isEmpty

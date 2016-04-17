@@ -75,6 +75,13 @@ public extension Array2D {
 		return array
 	}
 }
+
+extension Array2D: CustomStringConvertible {
+	public var description: String {
+		return "Array2D: \(rows) x \(columns)\t" + array.description
+	}
+}
+
 import UIKit
 
 

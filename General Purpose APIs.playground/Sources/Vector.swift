@@ -8,7 +8,7 @@ public protocol VectorType {
 	func == (lhs: Vector, rhs: Vector) -> Bool
 }
 
-public struct Vector2D: VectorType, Equatable {
+public struct Vector2D: VectorType, Equatable, CustomStringConvertible {
 	public static var zeroVector: Vector2D {
 		return Vector2D(x: 0.0, y: 0.0)
 	}
@@ -49,8 +49,11 @@ public struct Vector2D: VectorType, Equatable {
 		let array = self.arrayForm.map{ $0 / length}
 		return Vector2D(fromArray: array)!
 	}
+	public var description: String {
+		return "x: \(x), y: \(y)"
+	}
 }
-public struct Vector3D: VectorType, Equatable {
+public struct Vector3D: VectorType, Equatable, CustomStringConvertible {
 	public static var zeroVector: Vector3D {
 		return Vector3D(x: 0.0, y: 0.0, z: 0.0)
 	}
@@ -92,6 +95,9 @@ public struct Vector3D: VectorType, Equatable {
 		guard !isZeroVector else { return Vector3D() }
 		let array = self.arrayForm.map{ $0 / length}
 		return Vector3D(fromArray: array)!
+	}
+	public var description: String {
+		return "x: \(x), y: \(y), z: \(z)"
 	}
 }
 

@@ -388,7 +388,20 @@ var ma = Matrix(rows: 2, columns: 3, fromArray: [0,0,3,1,2,0])!
 var mb = Matrix(rows: 3, columns: 2, fromArray: [4,1,3,1,2,1])!
 ma × mb
 mb × ma
+// multiplication element wise
 public func * <T: SummableMultipliable>(lhs: Matrix<T>, rhs: Matrix<T>) -> Matrix<T>? {
+	guard lhs.columns == rhs.columns && lhs.rows == rhs.rows else { fatalError("These two matrix can't be multipled due to the size is not the same.") }
+	var matrix = lhs
+	for i in 0..<matrix.rows {
+		for j in 0..<matrix.columns {
+			matrix[i, j] *= rhs[i, j]
+		}
+	}
+	return matrix
+}
+// cross product - matrix multiplication
+infix operator ** { associativity left precedence 140 }
+public func ** <T: SummableMultipliable>(lhs: Matrix<T>, rhs: Matrix<T>) -> Matrix<T>? {
 	return lhs × rhs
 }
 
@@ -444,7 +457,7 @@ public func min_matrix_chain_multiplication<T: SummableMultipliable>(matrixes: [
 	let m: ([Matrix<T>]) -> Matrix<T>? = min_matrix_chain_multiplication
 	guard !matrixes.isEmpty else { return nil }
 	guard matrixes.count > 1 else { return matrixes[0] }
-	guard matrixes.count > 2 else { return matrixes[0] * matrixes[1] }
+	guard matrixes.count > 2 else { return matrixes[0] × matrixes[1] }
 	guard matrixes.count > 3 else {
 		let a = matrixes[0].rows, b = matrixes[1].rows, c = matrixes[2].rows, d = matrixes[2].columns
 		let forward = a * b * c + a * c * d

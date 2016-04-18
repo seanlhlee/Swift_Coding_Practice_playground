@@ -111,7 +111,7 @@ public extension SummableMultipliable {
 			fatalError("transform divider fail")
 		}
 	}
-	public func transformToDouble() -> Double {
+	public func toDouble() -> Double {
 		switch self {
 		case _ as Double:	return Double(self as! Double)
 		case _ as Int:		return Double(self as! Int)
@@ -134,8 +134,8 @@ public struct Complex<T:SummableMultipliable> : Comparable, CustomStringConverti
 		(re, im) = t
 	}
 	public init(abs:T, arg:T) {
-		let re = abs.transformToDouble() * cos(arg.transformToDouble())
-		let im = abs.transformToDouble() * sin(arg.transformToDouble())
+		let re = abs.toDouble() * cos(arg.toDouble())
+		let im = abs.toDouble() * sin(arg.toDouble())
 		let z = Complex<Double>(t: (re,im))
 		self.init(z)
 	}
@@ -185,7 +185,7 @@ public struct Complex<T:SummableMultipliable> : Comparable, CustomStringConverti
 /*
 public extension Complex {
 	public var arg:Double  {
-		get { return atan2(im.transformToDouble(), re.transformToDouble()) }
+		get { return atan2(im.toDouble(), re.toDouble()) }
 	}
 }
 
@@ -299,11 +299,11 @@ public func *= <T>(inout lhs: Complex<T>, rhs: T) {
 	lhs = lhs * rhs
 }
 public func transformToDoubleComplex <T>(complex: Complex<T>) -> Complex<Double> {
-	return Complex(t: (complex.re.transformToDouble(), complex.im.transformToDouble()))
+	return Complex(t: (complex.re.toDouble(), complex.im.toDouble()))
 }
 public func / <T>(lhs:Complex<T>, rhs:T) -> Complex<Double> {
 	guard rhs != T() else { fatalError("division by zero") }
-	return transformToDoubleComplex(lhs) * (1 / rhs.transformToDouble())
+	return transformToDoubleComplex(lhs) * (1 / rhs.toDouble())
 }
 public func / <T>(lhs:Complex<T>, rhs:Complex<T>) -> Complex<Double> {
 	guard rhs.norm != 0 else { fatalError("division by zero") }
@@ -316,7 +316,7 @@ public func / <T>(lhs:T, rhs:Complex<T>) -> Complex<Double> {
 	return Complex(lhs) / rhs
 }
 public func /= <T:SummableMultipliable>(inout lhs: Complex<Double>, rhs: T) {
-	let right: Double = rhs.transformToDouble()
+	let right: Double = rhs.toDouble()
 	lhs = lhs / right
 }
 public func /= <T>(inout lhs: Complex<Double>, rhs: Complex<T>) {
@@ -324,12 +324,12 @@ public func /= <T>(inout lhs: Complex<Double>, rhs: Complex<T>) {
 	lhs = lhs / right
 }
 public func exp<T:SummableMultipliable>(z:Complex<T>) -> Complex<Double> {
-	let r = exp(z.re.transformToDouble())
-	let a = z.im.transformToDouble()
+	let r = exp(z.re.toDouble())
+	let a = z.im.toDouble()
 	return Complex(t:(r * cos(a), r * sin(a)))
 }
 public func log<T:SummableMultipliable>(z:Complex<T>) -> Complex<Double> {
-	return Complex(t:(log(z.norm), z.arg.transformToDouble()))
+	return Complex(t:(log(z.norm), z.arg.toDouble()))
 }
 public func log10<T:SummableMultipliable>(z:Complex<T>) -> Complex<Double> {
 	return log(z) / M_LN10
@@ -340,7 +340,7 @@ public func pow<T:SummableMultipliable>(lhs:Complex<T>, _ rhs:Complex<T>) -> Com
 	return exp(log(lhs) * right)
 }
 public func pow<T:SummableMultipliable>(lhs:Complex<T>, _ rhs: T) -> Complex<Double> {
-	let right = Complex(rhs.transformToDouble())
+	let right = Complex(rhs.toDouble())
 	return exp(log(lhs) * right)
 }
 */
@@ -357,13 +357,13 @@ public func sqrt<T:SummableMultipliable>(z:Complex<T>) -> Complex<Double> {
 	return Complex<Double>(t: (re,im))
 }
 public func cos<T:SummableMultipliable>(z:Complex<T>) -> Complex<Double> {
-	let re = cos(z.re.transformToDouble()) * cosh(z.im.transformToDouble())
-	let im = -sin(z.re.transformToDouble()) * sinh(z.im.transformToDouble())
+	let re = cos(z.re.toDouble()) * cosh(z.im.toDouble())
+	let im = -sin(z.re.toDouble()) * sinh(z.im.toDouble())
 	return Complex<Double>(t:(re,im))
 }
 public func sin<T:SummableMultipliable>(z:Complex<T>) -> Complex<Double> {
-	let re = sin(z.re.transformToDouble()) * cosh(z.im.transformToDouble())
-	let im = cos(z.re.transformToDouble()) * sinh(z.im.transformToDouble())
+	let re = sin(z.re.toDouble()) * cosh(z.im.toDouble())
+	let im = cos(z.re.toDouble()) * sinh(z.im.toDouble())
 	return Complex<Double>(t:(re,im))
 }
 public func tan<T:SummableMultipliable>(z:Complex<T>) -> Complex<Double> {

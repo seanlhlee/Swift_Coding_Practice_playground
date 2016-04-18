@@ -90,6 +90,9 @@ public struct Vector2D: VectorType, Equatable,CustomStringConvertible {
 	var length: Double {
 		return sqrt(arrayForm.map{ $0 * $0 }.reduce(0){ $0 + $1 })
 	}
+	var theta: Double {
+		return atan2(y, x)
+	}
 	public var isZeroVector: Bool {
 		if x == 0.0 && y == 0.0 {
 			return true
@@ -103,6 +106,9 @@ public struct Vector2D: VectorType, Equatable,CustomStringConvertible {
 	}
 	public var description: String {
 		return "x: \(x), y: \(y)"
+	}
+	public var polar: String {
+		return "(r: \(length), 𝛉: \(theta))"
 	}
 }
 public struct Vector3D: VectorType, Equatable, CustomStringConvertible {

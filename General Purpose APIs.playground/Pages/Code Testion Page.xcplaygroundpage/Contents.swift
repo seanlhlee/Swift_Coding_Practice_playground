@@ -31,7 +31,9 @@ a.visualizeView(column: 4)
 let str = "I am a superman."
 str.visualizeView(7...14)
 
-let v1 = Vector2D(x: 3, y: 2)
+let v1 = Vector2D(x: 1, y: sqrt(3.0))
 v1.visualizeView()
-
+sin(M_PI/3)
+M_PI/3
+v1.polar
 

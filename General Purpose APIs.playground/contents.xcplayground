@@ -2,6 +2,7 @@
 <playground version='6.0' target-platform='ios' display-mode='rendered'>
     <pages>
         <page name='Table of contents'/>
+        <page name='Array'/>
         <page name='String'/>
         <page name='Complex'/>
         <page name='Vector'/>

@@ -210,7 +210,7 @@ public func !|| <T: VectorType> (lhs: T, rhs: T) -> Bool {
 	}
 	return false
 }
-
+// dot operation of vector
 public func * <T:VectorType>(lhs: T, rhs: T) -> Double {
 	let laf = lhs.arrayForm
 	let raf = rhs.arrayForm
@@ -232,7 +232,7 @@ public func -| <T: VectorType> (lhs: T, rhs: T) -> Bool {
 	}
 	return false
 }
-
+// cross operation of vector
 infix operator × { associativity left precedence 140 }
 public func × (lhs: Vector3D, rhs: Vector3D) -> Vector3D {
 	return Vector3D(x: lhs.y * rhs.z - lhs.z * rhs.y,

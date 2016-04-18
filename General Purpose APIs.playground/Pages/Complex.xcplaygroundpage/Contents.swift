@@ -490,6 +490,13 @@ tanh(z3)
 atanh(z3)
 atanh(tanh(z3))
 tanh(atanh(z3))
+
+
+var abc: Int8 = 16
+abc.toComplex()
+var abcd = 17
+abcd.i
+abcd.toComplex()
 /*:
 ****
 [Next](@next)

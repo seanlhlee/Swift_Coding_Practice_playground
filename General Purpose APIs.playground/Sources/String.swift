@@ -23,4 +23,14 @@ public extension String {
 			self.insertContentsOf(newValue.characters, at: strRange.startIndex)
 		}
 	}
+	public func reverse() -> String {
+		let array = self.characters
+		var reverse = String.CharacterView()
+		for i in 0..<array.count {
+			let index = -i - 1
+			reverse.append(array[array.endIndex.advancedBy(index)])
+		}
+		return String(reverse)
+	}
 }
+

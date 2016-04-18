@@ -80,8 +80,21 @@ matrix_chain_multiplication(amatrix, bmatrix, cmatrix, dmatrix, ematrix)
 min_matrix_chain_multiplication(amatrix, bmatrix, cmatrix, dmatrix, ematrix)
 
 
+// tests of performance
+
 solvingTimeInterval([amatrix, bmatrix, cmatrix, dmatrix, ematrix], problemBlock: matrix_chain_multiplication)
 solvingTimeInterval([amatrix, bmatrix, cmatrix, dmatrix, ematrix], problemBlock: min_matrix_chain_multiplication)
+
+
+
+timeElapsedInSecondsWhenRunningCode{
+	matrix_chain_multiplication(amatrix, bmatrix, cmatrix, dmatrix, ematrix)
+}
+timeElapsedInSecondsWhenRunningCode{
+	min_matrix_chain_multiplication(amatrix, bmatrix, cmatrix, dmatrix, ematrix)
+}
+
+
 
 /*:
 ****

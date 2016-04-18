@@ -1,19 +1,4 @@
 import Foundation
-
-public protocol SummableMultipliable: Comparable {
-	init()
-	func +(lhs: Self, rhs: Self) -> Self
-	func *(lhs: Self, rhs: Self) -> Self
-	func -(lhs: Self, rhs: Self) -> Self
-	func /(lhs: Self, rhs: Self) -> Self
-	prefix func -(rhs: Self) -> Self
-	func +=(inout lhs: Self, rhs: Self)
-	func -=(inout lhs: Self, rhs: Self)
-	func *=(inout lhs: Self, rhs: Self)
-}
-extension Int: SummableMultipliable {}
-extension Double: SummableMultipliable {}
-
 public struct Matrix<Element: SummableMultipliable>: CollectionType {
 	public static var emptyMatrix: Matrix<Element> {
 		return Matrix<Element>(rows: 0, columns: 0, fromArray: [Element]())!
@@ -315,6 +300,7 @@ public func min_matrix_chain_multiplication<T: SummableMultipliable>(matrixes:  
 	return min_matrix_chain_multiplication(matrixes)
 }
 
+// performance evaluation functions.
 public func solvingTimeInterval<T>(parameters: [T], problemBlock: ([T]) -> T?) -> Double {
 	let start = NSDate() // <<<<<<<<<< Start time
 	_ = problemBlock(parameters)
@@ -322,5 +308,12 @@ public func solvingTimeInterval<T>(parameters: [T], problemBlock: ([T]) -> T?) -
 	let timeInterval: Double = end.timeIntervalSinceDate(start) // <<<<< Difference in seconds (double)
 	print("Time to evaluate problem : \(timeInterval) seconds")
 	return timeInterval
+}
+public func timeElapsedInSecondsWhenRunningCode(operation:()->()) -> Double {
+	let startTime = CFAbsoluteTimeGetCurrent()
+	operation()
+	let timeElapsed = CFAbsoluteTimeGetCurrent() - startTime
+	print("Time elapsed: \(timeElapsed) seconds")
+	return Double(timeElapsed)
 }
 

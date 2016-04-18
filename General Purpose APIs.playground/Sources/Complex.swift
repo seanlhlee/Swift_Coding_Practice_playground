@@ -1,39 +1,5 @@
 import UIKit
 
-public extension SummableMultipliable {
-	public var i:Complex<Self>{
-		return Complex(t: (Self(),self))
-	}
-	public init<U:SummableMultipliable>(_ x:U) {
-		switch x {
-		case let s as Self:     self.init(s)
-		case let d as Double:   self.init(d)
-		case let i as Int:      self.init(i)
-		default:
-			fatalError("init(\(x)) failed")
-		}
-	}
-	public var isPositive: Bool {
-		return self >= Self()
-	}
-	public func transformToInt() -> Int {
-		switch self {
-		case _ as Double:	return Int(self as! Double)
-		case _ as Int:		return Int(self as! Int)
-		default:
-			fatalError("transform divider fail")
-		}
-	}
-	public func toDouble() -> Double {
-		switch self {
-		case _ as Double:	return Double(self as! Double)
-		case _ as Int:		return Double(self as! Int)
-		default:
-			fatalError("transform divider fail")
-		}
-	}
-}
-
 public struct Complex<T:SummableMultipliable> : Comparable, CustomStringConvertible, Hashable {
 	public typealias Element = T
 	public var (re, im): (T, T)

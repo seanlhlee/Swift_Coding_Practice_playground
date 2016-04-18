@@ -78,6 +78,23 @@ exampleString.visualizeView(3)
 exampleString[3] = "s"
 exampleString.visualizeView()
 
+extension String {
+	// 字串倒轉
+	public func reverse() -> String {
+		let array = self.characters
+		var reverse = String.CharacterView()
+		for i in 0..<array.count {
+			let index = -i - 1
+			reverse.append(array[array.endIndex.advancedBy(index)])
+		}
+		return String(reverse)
+	}
+}
+exampleString.reverse().visualizeView()
+
+
+
+
 /*:
 ****
 [Next](@next)

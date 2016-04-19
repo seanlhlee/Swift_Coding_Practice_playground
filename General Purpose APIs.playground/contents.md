@@ -2,6 +2,8 @@
 
 General Purpose APIs using in Swift playgrounds for learning and experimenting Swift programming language.
 
+- Array
+- Math (Using Array)
 - String
 - Complex
 - Vector

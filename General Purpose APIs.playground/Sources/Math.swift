@@ -228,17 +228,21 @@ public class Math<T: SummableMultipliable> {
 		}
 		return result
 	}
-	public class func sigmoid(x: T) -> Double {
+	public class func sigmoid(x: T) -> T {
 		var s = (1.0 / (1.0 + exp(-x.toDouble())))
 		if(s == 1) {
 			s = 0.99999999999999
 		} else if(s == 0) {
 			s = 1e-14
 		}
-		return s
+		if T() is Double {
+			return s as! T
+		}
+		return s.toInt() as! T
 	}
-	public class func dSigmoid(x: T) -> Double {
-		return sigmoid(x) * (1 - sigmoid(x))
+	public class func dSigmoid(x: T) -> T {
+		let one = T() is Double ? 1.0 as! T : 1.0.toInt() as! T
+		return sigmoid(x) * (one - sigmoid(x))
 	}
 	public class func probToBinaryMat(mat: [[T]]) -> [[T]] {
 		let one = T() is Double ? 1.0 as! T : 1.0.toInt() as! T

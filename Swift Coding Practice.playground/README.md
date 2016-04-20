@@ -28,10 +28,15 @@ ____________________
 ### Swift程式設計 -- 人工智慧
 
 - [*模擬退火演算法*](模擬退火演算法)
+- [*Artificial neural network*](神經網絡介紹)
+- [*Restricted Boltzmann machine*](受限玻爾茲曼機)
 - [*單層感知器(Perceptron)*](單層感知器(Perceptron))
 - [*多層感知器(Multilayer perceptron)*](多層感知器(Multilayer%20perceptron))
 - [*圖形搜尋簡介*](圖形搜尋簡介)
 - [*老鼠走迷宮*](老鼠走迷宮)
+- [*Puzzle Search*](拼圖問題)
+- [*Computer chess*](電腦下棋)
+- [*Gomoku*](五子棋)
 
 ### 程式碼測試頁
 - [*Code Testion Page*](Code%20Testion%20Page)

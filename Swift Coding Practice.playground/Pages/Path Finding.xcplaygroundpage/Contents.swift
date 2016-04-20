@@ -82,16 +82,16 @@ func findPath(inout m: [String], x: Int, y: Int) -> Bool {
 	print("=========================")
 	print("x = \(x)   y= \(y)")
 	matrixPrint(m)
-	var matrix = Array2D(columns: m.count, rows: m[0].characters.count, initialValue: "")
-	for i in 0..<matrix.columns {
-		for j in 0..<matrix.rows {
+	var matrix = Array2D(rows: m.count, columns: m[0].characters.count, initialValue: "")
+	for i in 0..<matrix.rows{
+		for j in 0..<matrix.columns {
 			matrix[i, j] = "\(m[i].characters[m[i].characters.startIndex.advancedBy(j)])"
 		}
 	}					// 將m array轉為matrix (Array2D以方便後續使用) - 因為Swift的字串不為Array
 	func matrix2Array() {
-		for i in 0..<matrix.columns {
+		for i in 0..<matrix.rows {
 			var string: String = ""
-			for j in 0..<matrix.rows {
+			for j in 0..<matrix.columns {
 				string += matrix[i, j]
 			}
 			m[i] = string

@@ -11,7 +11,13 @@
 - 模擬退火演算法
 - 單層感知器 (Perceptron)
 - 多層感知器(Multilayer perceptron)
+- 受限玻爾茲曼機
 - 圖形搜尋簡介
+- 老鼠走迷宮
+- 拼圖問題
+- 電腦下棋
+- 五子棋
+
 - Code Testion Page
 
 

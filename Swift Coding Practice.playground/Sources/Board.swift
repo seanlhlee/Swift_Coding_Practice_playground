@@ -36,7 +36,7 @@ func boardView() -> UIView {
 	return boardView
 }
 func board2D(boardView: UIView) -> Array2D<UIView> {
-	var board2D: Array2D<UIView> = Array2D(columns: 18, rows: 18, initialValue: UIView())
+	var board2D: Array2D<UIView> = Array2D(rows: 18, columns: 18, initialValue: UIView())
 	for i in 0..<18 {
 		for j in 0..<18 {
 			board2D[i, j] = boardView.subviews[i * 18 + j]

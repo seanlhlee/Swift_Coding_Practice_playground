@@ -259,7 +259,7 @@ func boardView() -> UIView {
 	return boardView
 }
 func board2D(boardView: UIView) -> Array2D<UIView> {
-	var board2D: Array2D<UIView> = Array2D(columns: 18, rows: 18, initialValue: UIView())
+	var board2D: Array2D<UIView> = Array2D(rows: 18, columns: 18, initialValue: UIView())
 	for i in 0..<18 {
 		for j in 0..<18 {
 			board2D[i, j] = boardView.subviews[i * 18 + j]
@@ -501,7 +501,7 @@ func user(x: Int, _ y: Int) {
 
 //// 2. 與電腦對戰，電腦先下棋(輸入user(x,y)下子)
 game.play(userFirst: false, vsGame: true)
-//user(6,7)
+user(6,7)
 //user(7,5)
 //user(8,4)
 //user(1,5)

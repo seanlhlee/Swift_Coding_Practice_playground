@@ -15,12 +15,13 @@
         <page name='Artificial neural network'/>
         <page name='Perceptron'/>
         <page name='Multilayer Perceptron'/>
+        <page name='Restricted Boltzmann machine'/>
         <page name='Graph Traversal'/>
         <page name='Path Finding'/>
         <page name='Puzzle Search'/>
         <page name='Computer chess'/>
         <page name='Gomoku'/>
-        <page name='DNN'/>
         <page name='Code Testion Page'/>
+        <page name='Matrix Chain Multiplication'/>
     </pages>
 </playground>

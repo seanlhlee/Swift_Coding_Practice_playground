@@ -23,6 +23,7 @@ ____________________
 - [*Artificial neural network*](Artificial%20neural%20network)								神經網絡介紹
 - [*Perceptron*](Perceptron)											單層感知器(Perceptron)
 - [*Multilayer Perceptron*](Multilayer%20Perceptron)									多層感知器(Multilayer perceptron)
+- [*Restricted Boltzmann machine*](Restricted%20Boltzmann%20machine)								受限玻爾茲曼機
 - [*Graph Traversal*](Graph%20Traversal)											圖形搜尋簡介
 - [*Path Finding*](Path%20Finding)											老鼠走迷宮
 - [*Puzzle Search*](Puzzle%20Search)											拼圖問題

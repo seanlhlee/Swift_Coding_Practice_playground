@@ -81,7 +81,7 @@ transpose(matrixX)
 */
 
 
-func add<T: Computable>(matrixA a: [[T]], matrixB b: [[T]]) -> [[T]]? {
+func add<T: SummableMultipliable>(matrixA a: [[T]], matrixB b: [[T]]) -> [[T]]? {
 	guard !a.isEmpty && !b.isEmpty else { return nil }
 	guard a.count == b.count else { return nil }
 	let row = [T](count: a[0].count, repeatedValue: a[0][0])

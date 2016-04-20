@@ -1,6 +1,9 @@
 import Foundation
 
 public class Math<T: SummableMultipliable> {
+	public class func one() -> T {
+		return T() is Double ? 1.0 as! T : 1.0.toInt() as! T
+	}
 	public class func randn() -> T {
 		// generate random guassian distribution number. (mean : 0, standard deviation : 1)
 		var v1, v2, s: Double
@@ -241,13 +244,11 @@ public class Math<T: SummableMultipliable> {
 		return s.toInt() as! T
 	}
 	public class func dSigmoid(x: T) -> T {
-		let one = T() is Double ? 1.0 as! T : 1.0.toInt() as! T
-		return sigmoid(x) * (one - sigmoid(x))
+		return sigmoid(x) * (one() - sigmoid(x))
 	}
 	public class func probToBinaryMat(mat: [[T]]) -> [[T]] {
-		let one = T() is Double ? 1.0 as! T : 1.0.toInt() as! T
 		let result = mat
-		return result.map{ $0.map{ $0 > randT() ? one : T() } }
+		return result.map{ $0.map{ $0 > randT() ? one() : T() } }
 	}
 	public class func activateVec(vec: [T], activation: (T) -> T) -> [T] {
 		return vec.map{ activation($0) }

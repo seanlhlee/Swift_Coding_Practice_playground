@@ -11,7 +11,10 @@
 - 模擬退火演算法
 - 單層感知器 (Perceptron)
 - 多層感知器(Multilayer perceptron)
-- 受限玻爾茲曼機
+- 受限玻爾茲曼機(RBM)
+- 隱藏層(Hidden Layer)											
+- 多層感知器(Multilayer perceptron - MLP)								
+- 深度置信網路(Deep belief network - DBN)
 - 圖形搜尋簡介
 - 老鼠走迷宮
 - 拼圖問題

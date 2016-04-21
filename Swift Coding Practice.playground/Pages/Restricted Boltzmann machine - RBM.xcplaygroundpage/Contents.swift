@@ -1,5 +1,6 @@
 /*:
-
+[Previous](@previous)
+****
 # 深度學習
 
 深度學習（英語：deep learning）是機器學習的一個分支，它基於試圖使用包含複雜結構或由多重非線性變換構成的多個處理層對資料進行高層抽象的一系列演算法。
@@ -204,3 +205,8 @@ var v: [[Double]] = [[1, 1, 0, 0, 0, 0],
          [0, 0, 0, 1, 1, 0]]
 print(rbm.reconstruct(v))
 print(rbm.sampleHgivenV(v)[0])
+
+/*:
+****
+[Next](@next)
+*/

@@ -32,133 +32,6 @@ mat.visualizeView()
 let new = mat.replace([1,2,3], op: Array.div)
 new.visualizeView()
 
-/*: 
-## Define new operator
-
-Arithmetic operator( + - * /) following with !.
-
-	Operator		  Description					Associativity						Precedence
-	______________________________________________________________________________
-	   *!				Multiply					Left associative				Multiplicative, 150
-	   /!				Divide						Left associative				Multiplicative, 150
-	   +!				Add							Left associative				Additive, 140
-	   -!				Subtract					Left associative				Additive, 140
-	   *!=				Multiply and assign		Right associative				Multiplicative, 90
-	   /!=				Divide and assign			Right associative				Multiplicative, 90
-	   +!=				Add	 and assign				Right associative				Additive, 90
-	   -!=				Subtract and assign		Right associative				Additive, 90
-	______________________________________________________________________________
-
-	   %!				Remainder					Left associative			Multiplicative, 150
-	(not implement)
-*/
-
-infix operator *! { associativity left precedence 150 }
-func *! <T: SummableMultipliable>(lhs: [T], rhs: T) -> [T] {
-	return lhs.replace(rhs, op: *)
-}
-func *! <T: SummableMultipliable>(lhs: [[T]], rhs: [T]) -> [[T]] {
-	return lhs.replace(rhs, op: Array.mul)
-}
-func *! <T: SummableMultipliable>(lhs: [[T]], rhs: T) -> [[T]] {
-	return lhs.map{ $0.replace(rhs, op: *) }
-}
-
-infix operator /! { associativity left precedence 150 }
-func /! <T: SummableMultipliable>(lhs: [T], rhs: T) -> [T] {
-	return lhs.replace(rhs, op: /)
-}
-func /! <T: SummableMultipliable>(lhs: [[T]], rhs: [T]) -> [[T]] {
-	return lhs.replace(rhs, op: Array.div)
-}
-func /! <T: SummableMultipliable>(lhs: [[T]], rhs: T) -> [[T]] {
-	return lhs.map{ $0.replace(rhs, op: /) }
-}
-
-infix operator +! { associativity left precedence 140 }
-func +! <T: SummableMultipliable>(lhs: [T], rhs: T) -> [T] {
-	return lhs.replace(rhs, op: +)
-}
-func +! <T: SummableMultipliable>(lhs: [[T]], rhs: [T]) -> [[T]] {
-	return lhs.replace(rhs, op: Array.add)
-}
-func +! <T: SummableMultipliable>(lhs: [[T]], rhs: T) -> [[T]] {
-	return lhs.map{ $0.replace(rhs, op: +) }
-}
-
-infix operator -! { associativity left precedence 140 }
-func -! <T: SummableMultipliable>(lhs: [T], rhs: T) -> [T] {
-	return lhs.replace(rhs, op: -)
-}
-func -! <T: SummableMultipliable>(lhs: [[T]], rhs: [T]) -> [[T]] {
-	return lhs.replace(rhs, op: Array.sub)
-}
-func -! <T: SummableMultipliable>(lhs: [[T]], rhs: T) -> [[T]] {
-	return lhs.map{ $0.replace(rhs, op: -) }
-}
-
-infix operator *!= { associativity right precedence 90 }
-func *!= <T: SummableMultipliable>(inout lhs: [T], rhs: T) {
-	lhs = lhs *! rhs
-}
-func *!= <T: SummableMultipliable>(inout lhs: [[T]], rhs: [T]) {
-	lhs = lhs *! rhs
-}
-func *!= <T: SummableMultipliable>(inout lhs: [[T]], rhs: T){
-	lhs = lhs *! rhs
-}
-
-infix operator /!= { associativity right precedence 90 }
-func /!= <T: SummableMultipliable>(inout lhs: [T], rhs: T) {
-	lhs = lhs /! rhs
-}
-func /!= <T: SummableMultipliable>(inout lhs: [[T]], rhs: [T]) {
-	lhs = lhs /! rhs
-}
-func /!= <T: SummableMultipliable>(inout lhs: [[T]], rhs: T){
-	lhs = lhs /! rhs
-}
-
-infix operator +!= { associativity right precedence 90 }
-func +!= <T: SummableMultipliable>(inout lhs: [T], rhs: T) {
-	lhs = lhs +! rhs
-}
-func +!= <T: SummableMultipliable>(inout lhs: [[T]], rhs: [T]) {
-	lhs = lhs +! rhs
-}
-func +!= <T: SummableMultipliable>(inout lhs: [[T]], rhs: T){
-	lhs = lhs +! rhs
-}
-
-infix operator -!= { associativity right precedence 90 }
-func -!= <T: SummableMultipliable>(inout lhs: [T], rhs: T) {
-	lhs = lhs -! rhs
-}
-func -!= <T: SummableMultipliable>(inout lhs: [[T]], rhs: [T]) {
-	lhs = lhs -! rhs
-}
-func -!= <T: SummableMultipliable>(inout lhs: [[T]], rhs: T){
-	lhs = lhs -! rhs
-}
-
-let vet = [1,2,3]
-(vet +! 5).visualizeView()
-(mat +! 5).visualizeView()
-(mat +! [1,2,3]).visualizeView()
-
-(vet -! 5).visualizeView()
-(mat -! 5).visualizeView()
-(mat -! [1,2,3]).visualizeView()
-
-(vet *! 5).visualizeView()
-(mat *! 5).visualizeView()
-(mat *! [1,2,3]).visualizeView()
-
-(vet /! 5).visualizeView()
-(mat /! 5).visualizeView()
-(mat /! [1,2,3]).visualizeView()
-
-
 /*:
 	public extension Array where Element: SummableMultipliable {
 		public func replace(e: Element, op: ((Element, Element)->(Element))? ) -> Array<Element> {
@@ -239,6 +112,133 @@ let vet = [1,2,3]
 		}
 	}
 
+## Define new operator
+
+Arithmetic operator( + - * /) following with !.
+
+	Operator		  Description					Associativity						Precedence
+	______________________________________________________________________________
+	   *!				Multiply					Left associative				Multiplicative, 150
+	   /!				Divide						Left associative				Multiplicative, 150
+	   +!				Add							Left associative				Additive, 140
+	   -!				Subtract					Left associative				Additive, 140
+	   *!=				Multiply and assign		Right associative				Multiplicative, 90
+	   /!=				Divide and assign			Right associative				Multiplicative, 90
+	   +!=				Add	 and assign				Right associative				Additive, 90
+	   -!=				Subtract and assign		Right associative				Additive, 90
+	______________________________________________________________________________
+
+	   %!				Remainder					Left associative			Multiplicative, 150
+	(not implement)
+
+****
+
+	infix operator *! { associativity left precedence 150 }
+	func *! <T: SummableMultipliable>(lhs: [T], rhs: T) -> [T] {
+		return lhs.replace(rhs, op: *)
+	}
+	func *! <T: SummableMultipliable>(lhs: [[T]], rhs: [T]) -> [[T]] {
+		return lhs.replace(rhs, op: Array.mul)
+	}
+	func *! <T: SummableMultipliable>(lhs: [[T]], rhs: T) -> [[T]] {
+		return lhs.map{ $0.replace(rhs, op: *) }
+	}
+
+	infix operator /! { associativity left precedence 150 }
+	func /! <T: SummableMultipliable>(lhs: [T], rhs: T) -> [T] {
+		return lhs.replace(rhs, op: /)
+	}
+	func /! <T: SummableMultipliable>(lhs: [[T]], rhs: [T]) -> [[T]] {
+		return lhs.replace(rhs, op: Array.div)
+	}
+	func /! <T: SummableMultipliable>(lhs: [[T]], rhs: T) -> [[T]] {
+		return lhs.map{ $0.replace(rhs, op: /) }
+	}
+
+	infix operator +! { associativity left precedence 140 }
+	func +! <T: SummableMultipliable>(lhs: [T], rhs: T) -> [T] {
+		return lhs.replace(rhs, op: +)
+	}
+	func +! <T: SummableMultipliable>(lhs: [[T]], rhs: [T]) -> [[T]] {
+		return lhs.replace(rhs, op: Array.add)
+	}
+	func +! <T: SummableMultipliable>(lhs: [[T]], rhs: T) -> [[T]] {
+		return lhs.map{ $0.replace(rhs, op: +) }
+	}
+
+	infix operator -! { associativity left precedence 140 }
+	func -! <T: SummableMultipliable>(lhs: [T], rhs: T) -> [T] {
+		return lhs.replace(rhs, op: -)
+	}
+	func -! <T: SummableMultipliable>(lhs: [[T]], rhs: [T]) -> [[T]] {
+		return lhs.replace(rhs, op: Array.sub)
+	}
+	func -! <T: SummableMultipliable>(lhs: [[T]], rhs: T) -> [[T]] {
+		return lhs.map{ $0.replace(rhs, op: -) }
+	}
+
+	infix operator *!= { associativity right precedence 90 }
+	func *!= <T: SummableMultipliable>(inout lhs: [T], rhs: T) {
+		lhs = lhs *! rhs
+	}
+	func *!= <T: SummableMultipliable>(inout lhs: [[T]], rhs: [T]) {
+		lhs = lhs *! rhs
+	}
+	func *!= <T: SummableMultipliable>(inout lhs: [[T]], rhs: T){
+		lhs = lhs *! rhs
+	}
+
+	infix operator /!= { associativity right precedence 90 }
+	func /!= <T: SummableMultipliable>(inout lhs: [T], rhs: T) {
+		lhs = lhs /! rhs
+	}
+	func /!= <T: SummableMultipliable>(inout lhs: [[T]], rhs: [T]) {
+		lhs = lhs /! rhs
+	}
+	func /!= <T: SummableMultipliable>(inout lhs: [[T]], rhs: T){
+		lhs = lhs /! rhs
+	}
+
+	infix operator +!= { associativity right precedence 90 }
+	func +!= <T: SummableMultipliable>(inout lhs: [T], rhs: T) {
+		lhs = lhs +! rhs
+	}
+	func +!= <T: SummableMultipliable>(inout lhs: [[T]], rhs: [T]) {
+		lhs = lhs +! rhs
+	}
+	func +!= <T: SummableMultipliable>(inout lhs: [[T]], rhs: T){
+		lhs = lhs +! rhs
+	}
+
+	infix operator -!= { associativity right precedence 90 }
+	func -!= <T: SummableMultipliable>(inout lhs: [T], rhs: T) {
+		lhs = lhs -! rhs
+	}
+	func -!= <T: SummableMultipliable>(inout lhs: [[T]], rhs: [T]) {
+		lhs = lhs -! rhs
+	}
+	func -!= <T: SummableMultipliable>(inout lhs: [[T]], rhs: T){
+		lhs = lhs -! rhs
+	}
+*/
+let vet = [1,2,3]
+(vet +! 5).visualizeView()
+(mat +! 5).visualizeView()
+(mat +! [1,2,3]).visualizeView()
+
+(vet -! 5).visualizeView()
+(mat -! 5).visualizeView()
+(mat -! [1,2,3]).visualizeView()
+
+(vet *! 5).visualizeView()
+(mat *! 5).visualizeView()
+(mat *! [1,2,3]).visualizeView()
+
+(vet /! 5).visualizeView()
+(mat /! 5).visualizeView()
+(mat /! [1,2,3]).visualizeView()
+
+/*:
 ****
 [Next](@next)
 */

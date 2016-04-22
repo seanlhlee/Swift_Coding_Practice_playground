@@ -78,3 +78,92 @@ public extension Array where Element: ArrayLiteralConvertible {
 		self = self.replace(e, op: op)
 	}
 }
+
+
+infix operator *! { associativity left precedence 150 }
+public func *! <T: SummableMultipliable>(lhs: [T], rhs: T) -> [T] {
+	return lhs.replace(rhs, op: *)
+}
+public func *! <T: SummableMultipliable>(lhs: [[T]], rhs: [T]) -> [[T]] {
+	return lhs.replace(rhs, op: Array.mul)
+}
+public func *! <T: SummableMultipliable>(lhs: [[T]], rhs: T) -> [[T]] {
+	return lhs.map{ $0.replace(rhs, op: *) }
+}
+
+infix operator /! { associativity left precedence 150 }
+public func /! <T: SummableMultipliable>(lhs: [T], rhs: T) -> [T] {
+	return lhs.replace(rhs, op: /)
+}
+public func /! <T: SummableMultipliable>(lhs: [[T]], rhs: [T]) -> [[T]] {
+	return lhs.replace(rhs, op: Array.div)
+}
+public func /! <T: SummableMultipliable>(lhs: [[T]], rhs: T) -> [[T]] {
+	return lhs.map{ $0.replace(rhs, op: /) }
+}
+
+infix operator +! { associativity left precedence 140 }
+public func +! <T: SummableMultipliable>(lhs: [T], rhs: T) -> [T] {
+	return lhs.replace(rhs, op: +)
+}
+public func +! <T: SummableMultipliable>(lhs: [[T]], rhs: [T]) -> [[T]] {
+	return lhs.replace(rhs, op: Array.add)
+}
+public func +! <T: SummableMultipliable>(lhs: [[T]], rhs: T) -> [[T]] {
+	return lhs.map{ $0.replace(rhs, op: +) }
+}
+
+infix operator -! { associativity left precedence 140 }
+public func -! <T: SummableMultipliable>(lhs: [T], rhs: T) -> [T] {
+	return lhs.replace(rhs, op: -)
+}
+public func -! <T: SummableMultipliable>(lhs: [[T]], rhs: [T]) -> [[T]] {
+	return lhs.replace(rhs, op: Array.sub)
+}
+public func -! <T: SummableMultipliable>(lhs: [[T]], rhs: T) -> [[T]] {
+	return lhs.map{ $0.replace(rhs, op: -) }
+}
+
+infix operator *!= { associativity right precedence 90 }
+public func *!= <T: SummableMultipliable>(inout lhs: [T], rhs: T) {
+	lhs = lhs *! rhs
+}
+public func *!= <T: SummableMultipliable>(inout lhs: [[T]], rhs: [T]) {
+	lhs = lhs *! rhs
+}
+public func *!= <T: SummableMultipliable>(inout lhs: [[T]], rhs: T){
+	lhs = lhs *! rhs
+}
+
+infix operator /!= { associativity right precedence 90 }
+public func /!= <T: SummableMultipliable>(inout lhs: [T], rhs: T) {
+	lhs = lhs /! rhs
+}
+public func /!= <T: SummableMultipliable>(inout lhs: [[T]], rhs: [T]) {
+	lhs = lhs /! rhs
+}
+public func /!= <T: SummableMultipliable>(inout lhs: [[T]], rhs: T){
+	lhs = lhs /! rhs
+}
+
+infix operator +!= { associativity right precedence 90 }
+public func +!= <T: SummableMultipliable>(inout lhs: [T], rhs: T) {
+	lhs = lhs +! rhs
+}
+public func +!= <T: SummableMultipliable>(inout lhs: [[T]], rhs: [T]) {
+	lhs = lhs +! rhs
+}
+public func +!= <T: SummableMultipliable>(inout lhs: [[T]], rhs: T){
+	lhs = lhs +! rhs
+}
+
+infix operator -!= { associativity right precedence 90 }
+public func -!= <T: SummableMultipliable>(inout lhs: [T], rhs: T) {
+	lhs = lhs -! rhs
+}
+public func -!= <T: SummableMultipliable>(inout lhs: [[T]], rhs: [T]) {
+	lhs = lhs -! rhs
+}
+public func -!= <T: SummableMultipliable>(inout lhs: [[T]], rhs: T){
+	lhs = lhs -! rhs
+}

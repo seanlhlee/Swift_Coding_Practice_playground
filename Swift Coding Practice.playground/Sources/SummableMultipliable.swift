@@ -39,12 +39,6 @@ public protocol SummableMultipliable: Comparable, DoubleRepresentable {
 }
 extension Int: SummableMultipliable {}
 extension Double: SummableMultipliable {}
-//public func + (lhs: Computable, rhs: Computable) -> Computable {
-//	return lhs.self + rhs.self
-//}
-//public func - (lhs: Computable, rhs: Computable) -> Computable {
-//	return lhs.self - rhs.self
-//}
 
 
 
@@ -82,6 +76,41 @@ public extension SummableMultipliable {
 		}
 	}
 }
+
+/// extensions for DNN
+public extension Double {
+	public mutating func sigmoid() {
+		var s = (1.0 / (1.0 + exp(-self.toDouble())))
+		if(s == 1) {
+			s = 0.99999999999999
+		} else if(s == 0) {
+			s = 1e-14
+		}
+		self = s
+	}
+	public mutating func dSigmoid() {
+		self.sigmoid()
+		let x = self
+		self =  x * (1 - x)
+	}
+}
+public extension Int {
+	public mutating func sigmoid() {
+		var s = (1.0 / (1.0 + exp(-self.toDouble())))
+		if(s == 1) {
+			s = 0.99999999999999
+		} else if(s == 0) {
+			s = 1e-14
+		}
+		self = s.toInt()
+	}
+	public mutating func dSigmoid() {
+		var d = self.toDouble()
+		d.dSigmoid()
+		self = d.toInt()
+	}
+}
+
 
 
 //可顯示bit形式的整數型態, 方便使用
@@ -203,5 +232,21 @@ public extension Int {
 public extension Double {
 	public func format(f: String) -> String {
 		return String(format: "%\(f)f", self)
+	}
+	public static func rand() -> Double {
+		return arc4random().toDouble() / UInt32.max.toDouble()
+	}
+	/// generate random guassian distribution number. (mean : 0, standard deviation : 1)
+	public static func randn() -> Double {
+		// generate random guassian distribution number. (mean : 0, standard deviation : 1)
+		var v1, v2, s: Double
+		repeat {
+			v1 = 2.0 * arc4random().toDouble() / UInt32.max.toDouble() - 1.0   // -1.0 ~ 1.0
+			v2 = 2.0 * arc4random().toDouble() / UInt32.max.toDouble() - 1.0   // -1.0 ~ 1.0
+			s = v1 * v1 + v2 * v2
+		} while (s >= 1.0 || s == 0.0)
+		
+		s = sqrt( (-2.0 * log(s)) / s )
+		return v1 * s
 	}
 }

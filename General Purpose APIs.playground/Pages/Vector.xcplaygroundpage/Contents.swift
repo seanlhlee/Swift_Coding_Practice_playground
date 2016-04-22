@@ -317,7 +317,8 @@ public func * <T:VectorType>(lhs: T, rhs: T) -> Double {
 	}
 	return array.reduce(0){ $0 + $1 }
 }
-
+v1
+v2
 v1 * v2
 
 

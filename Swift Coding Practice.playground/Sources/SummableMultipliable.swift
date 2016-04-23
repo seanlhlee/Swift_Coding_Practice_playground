@@ -17,7 +17,7 @@ extension Int: DoubleRepresentable { public func toDouble() -> Double { return D
 extension Float: DoubleRepresentable { public func toDouble() -> Double { return Double(self) } }
 extension Double: DoubleRepresentable { public func toDouble() -> Double { return self } }
 
-// turn into COmplex
+// turn into Complex
 public extension DoubleRepresentable {
 	public func toComplex() -> Complex<Double> {
 		let re = self.toDouble()
@@ -95,35 +95,35 @@ public extension SummableMultipliable {
 
 /// extensions for DNN
 public extension Double {
-	public mutating func sigmoid() {
+	public func sigmoid() -> Double {
 		var s = (1.0 / (1.0 + exp(-self.toDouble())))
 		if(s == 1) {
 			s = 0.99999999999999
 		} else if(s == 0) {
 			s = 1e-14
 		}
-		self = s
+		return s
 	}
-	public mutating func dSigmoid() {
+	public func dSigmoid() -> Double {
 		self.sigmoid()
 		let x = self
-		self =  x * (1 - x)
+		return  x * (1 - x)
 	}
 }
 public extension Int {
-	public mutating func sigmoid() {
+	public func sigmoid() -> Int {
 		var s = (1.0 / (1.0 + exp(-self.toDouble())))
 		if(s == 1) {
 			s = 0.99999999999999
 		} else if(s == 0) {
 			s = 1e-14
 		}
-		self = s.toInt()
+		return s.toInt()
 	}
-	public mutating func dSigmoid() {
-		var d = self.toDouble()
+	public func dSigmoid() -> Int {
+		let d = self.toDouble()
 		d.dSigmoid()
-		self = d.toInt()
+		return d.toInt()
 	}
 }
 

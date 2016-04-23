@@ -27,6 +27,8 @@ public extension DoubleRepresentable {
 }
 
 public protocol SummableMultipliable: Comparable, DoubleRepresentable {
+	static var one: Self {get}
+	static var zero: Self {get}
 	init()
 	func +(lhs: Self, rhs: Self) -> Self
 	func *(lhs: Self, rhs: Self) -> Self
@@ -37,8 +39,22 @@ public protocol SummableMultipliable: Comparable, DoubleRepresentable {
 	func -=(inout lhs: Self, rhs: Self)
 	func *=(inout lhs: Self, rhs: Self)
 }
-extension Int: SummableMultipliable {}
-extension Double: SummableMultipliable {}
+extension Int: SummableMultipliable {
+	public static var one: Int {
+		return 1
+	}
+	public static var zero: Int {
+		return 0
+	}
+}
+extension Double: SummableMultipliable {
+	public static var one: Double {
+		return 1.0
+	}
+	public static var zero: Double {
+		return 0.0
+	}
+}
 
 
 

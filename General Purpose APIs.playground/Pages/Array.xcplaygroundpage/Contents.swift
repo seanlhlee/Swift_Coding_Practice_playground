@@ -1,11 +1,127 @@
 /*:
 [Previous](@previous)
 ****
-# SWIFT Array Extension
+# SWIFT Array Extensions
+## Replace Array element with definded operations
 
-## Zero/One Array for vector & matrix
+Sometimes, we need to change all element in the array. Here comes a easy way to replace all elements in the array or creat a new array to store this change, if the element of the array is confirmed to SummableMultipliable protocol.
+
+	Example:
+	[1, 2, 3, 4] -> [5, 6, 7, 8]    >> each element is added by 4.
+
+We can easily use a native map function to achieve.
+
+	let newArray = [1, 2, 3, 4].map{ $0 + 4 }		// [5, 6, 7, 8]
+
+If the arry we want to handle is multi-dimational, there are more steps we have to do. For example, we have a 3x3 matrix form array **mat**. 
+**mat** = [[1, 2, 3], [2, 4, 6], [5, 10, 15]]. 
+We want to get a new array in which each element array is divided by another array [1, 2, 3], i.e. for the first element [1, 2, 3] after operation the first sub-element is 1/1 and followed by 2/2, 3/3 . Finally, the new array is become [[1, 1, 1], [2, 2, 2], [5, 5, 5]]. We can easily find the operation is like `array.forEach{ $0 / [1, 2, 3] }`. We can write a closure to deal with two arrays to obtain a new array and become effective for each array.
+
+There are many methods to obtain an array by passing two arrays, 3-dimensional vector's cross product is an example. It is too hard to achieve by implementing closures everytime. Following is the implematation for simplifying the process.
 */
+import Foundation
 
+let newArray = [1,2,3,4].map{$0+4}
+newArray.visualizeView()
+
+var mat = [[1, 2, 3], [2, 4, 6], [5, 10, 15]]
+mat.visualizeView()
+
+let new = mat.replace([1,2,3], op: Array.div)
+new.visualizeView()
+
+/*
+public extension Array where Element: SummableMultipliable {
+	public func replace(e: Element, op: ((Element, Element)->(Element))? ) -> Array<Element> {
+		var result = self
+		if let o = op {
+			for i in self.indices {
+				let x = o(self[i], e)
+				result.replaceRange(i...i, with: [x])
+			}
+		} else {
+			for i in self.indices {
+				result.replaceRange(i...i, with: [e])
+			}
+		}
+		return result
+	}
+	public mutating func replaced(e: Element, op: ((Element, Element)->(Element))? ) {
+		self = self.replace(e, op: op)
+	}
+	private static func operatable(a: Array<Element>, _ b: Array<Element>) -> Bool {
+		guard !a.isEmpty && !b.isEmpty else { return false }
+		guard a.count == b.count else { print("the counts of element is not the same"); return false }
+		return true
+	}
+	
+	public static func add(a: Array<Element>, b: Array<Element>) -> Array<Element> {
+		guard operatable(a,b) else { return Array<Element>() }
+		var result = Array<Element>()
+		for i in a.indices {
+			result.append(a[i] + b[i])
+		}
+		return result
+	}
+	public static func sub(a: Array<Element>, b: Array<Element>) -> Array<Element> {
+		guard operatable(a,b) else { return Array<Element>() }
+		var result = Array<Element>()
+		for i in a.indices {
+			result.append(a[i] - b[i])
+		}
+		return result
+	}
+	public static func mul(a: Array<Element>, b: Array<Element>) -> Array<Element> {
+		guard operatable(a,b) else { return Array<Element>() }
+		var result = Array<Element>()
+		for i in a.indices {
+			result.append(a[i] * b[i])
+		}
+		return result
+	}
+	public static func div(a: Array<Element>, b: Array<Element>) -> Array<Element> {
+		guard operatable(a,b) else { return Array<Element>() }
+		var result = Array<Element>()
+		for i in a.indices {
+			// Element() is 0
+			let x = b[i] == Element() ? Element() : a[i] / b[i]
+			result.append(x)
+		}
+		return result
+	}
+}
+
+public extension Array where Element: ArrayLiteralConvertible {
+	public func replace(e: Element, op: ((Element, Element)->(Element))? ) -> Array<Element> {
+		var result = self
+		if let o = op {
+			for i in self.indices {
+				let x = o(self[i], e)
+				result.replaceRange(i...i, with: [x])
+			}
+		} else {
+			for i in self.indices {
+				result.replaceRange(i...i, with: [e])
+			}
+		}
+		return result
+	}
+	public mutating func replaced(e: Element, op: ((Element, Element)->(Element))? ) {
+		self = self.replace(e, op: op)
+	}
+}
+*/
+/*:
+## Array extensions for vector & matrix using in DNN program developmemnt
+* zeroVet, zeroMat, oneVet, oneMat, valueFilled vector and matrix.
+* randVec, randMat: vector and matrix forms from random numbers.
+* randnVec, randnMat: vector and matrix forms from random guassian distribution numbers. (mean : 0, standard deviation : 1)
+* identity matrix
+* mapTwoVec, mapTwoMat: memberwise to membereise operation of two vectors or two matrixes
+* min, max
+* squareVec, squareMat: memberwise squared vector or metrix
+* mapMat: memberwise operation to matrix
+*/
 /*
 public extension Array where Element: SummableMultipliable {
 	public static func zeroVec(n: Int) -> [Element] {
@@ -25,6 +141,12 @@ public extension Array where Element: SummableMultipliable {
 			return [[Element]](count: row, repeatedValue: [Element](count: col, repeatedValue: 1.toDouble() as! Element))
 		}
 		return [[Element]](count: row, repeatedValue: [Element](count: col, repeatedValue: 1 as! Element))
+	}
+	public static func fillVec(n: Int, value:Element) -> [Element] {
+		return [Element](count: n, repeatedValue: value)
+	}
+	public static func fillMat(row: Int, col: Int, value:Element) -> [[Element]] {
+		return [[Element]](count: row, repeatedValue: [Element](count: col, repeatedValue: value))
 	}
 	public static func randVec(n: Int, lower: Element, upper: Element) -> [Element] {
 		let l = lower <= upper ? lower.toDouble() : upper.toDouble()
@@ -60,15 +182,65 @@ public extension Array where Element: SummableMultipliable {
 		}
 		return result
 	}
-	
+	public static func mapTwoVec(vec1: [Element], vec2: [Element], activation: (Element, Element) -> Element) -> [Element] {
+		guard vec1.count == vec2.count else { fatalError("Matrix shape error : not same") }
+		var result = vec1
+		for i in vec1.indices {
+			result[i] = activation(vec1[i], vec2[i])
+		}
+		return result
+	}
+	public static func mapTwoMat(mat1: [[Element]], mat2: [[Element]], activation: (Element, Element) -> Element) -> [[Element]] {
+		guard mat1.count == mat2.count && mat1[0].count == mat2[0].count else { fatalError("Matrix shape error : not same") }
+		var result = mat1
+		for i in 0..<mat1.count {
+			for j in 0..<mat1[0].count {
+				result[i][j] = activation(mat1[i][j],mat2[i][j])
+			}
+		}
+		return result
+	}
+	public func min() -> Element {
+		guard let min = self.minElement() else { fatalError("wrong to get min") }
+		return min
+	}
+	public func max() -> Element {
+		guard let max = self.maxElement() else { fatalError("wrong to get max") }
+		return max
+	}
+	public func squareVec() -> [Element] {
+		return self.map{ $0 * $0 }
+	}
+}
+
+public extension Array where Element: CollectionType, Element.Generator.Element: SummableMultipliable {
+	public func min() -> Element.Generator.Element {
+		let x = self.flatten().map{ $0 }
+		guard let min = x.minElement() else { fatalError("wrong to get min") }
+		return min
+	}
+	public func max() -> Element.Generator.Element {
+		let x = self.flatten().map{ $0 }
+		guard let max = x.maxElement() else { fatalError("wrong to get max") }
+		return max
+	}
+	public func mapMat(activation: (Element.Generator.Element) -> Element.Generator.Element) -> [[Element.Generator.Element]] {
+		return self.map{ $0.map{ activation($0) } }
+	}
+	public func squareMat() -> [[Element.Generator.Element]] {
+		return self.mapMat{ $0 * $0 }
+	}
 }
 */
 
-import Foundation
 [Int].zeroVec(3)
 [Double].zeroMat(3, col: 2)
 [Int].oneVec(3)
 [Double].oneMat(3, col: 2)
+[Int].fillVec(3, value: 2)
+[Double].fillVec(3, value: 2)
+[Int].fillMat(3, col: 4, value: 5)
+[Double].fillMat(3, col: 4, value: 5)
 [Int].randVec(10,lower: 3,upper: 8)
 [Double].randVec(10,lower: 3,upper: 8)
 [Int].randMat(2, col: 4, lower: 0, upper: 10)
@@ -84,116 +256,17 @@ Math.sigmoid(8.0)
 sigmoid_pre.dSigmoid()
 Math.dSigmoid(Math.sigmoid(8.0))
 
-/*:
-## Replace Array element with definded operations
-
-Sometimes, we need to change all element in the array. Here comes a easy way to replace all elements in the array or creat a new array to store this change, if the element of the array is confirmed to SummableMultipliable protocol.
-
-	Example:
-	[1, 2, 3, 4] -> [5, 6, 7, 8]    >> each element is added by 4.
-
-We can easily use a native map function to achieve.
-
-	let newArray = [1, 2, 3, 4].map{ $0 + 4 }		// [5, 6, 7, 8]
-
-If the arry we want to handle is multi-dimational, there are more steps we have to do. For example, we have a 3x3 matrix form array **mat**. 
-**mat** = [[1, 2, 3], [2, 4, 6], [5, 10, 15]]. 
-We want to get a new array in which each element array is divided by another array [1, 2, 3], i.e. for the first element [1, 2, 3] after operation the first sub-element is 1/1 and followed by 2/2, 3/3 . Finally, the new array is become [[1, 1, 1], [2, 2, 2], [5, 5, 5]]. We can easily find the operation is like `array.forEach{ $0 / [1, 2, 3] }`. We can write a closure to deal with two arrays to obtain a new array and become effective for each array.
-
-There are many methods to obtain an array by passing two arrays, 3-dimensional vector's cross product is an example. It is too hard to achieve by implementing closures everytime. Following is the implematation for simplifying the process.
-*/
-
-let newArray = [1,2,3,4].map{$0+4}
-newArray.visualizeView()
-
-var mat = [[1, 2, 3], [2, 4, 6], [5, 10, 15]]
-mat.visualizeView()
-
-let new = mat.replace([1,2,3], op: Array.div)
-new.visualizeView()
-
-
+var vet1 = [6,5,4], vet2 = [3,2,1], vet3 = [1,2]
+var mat1 = [[6,5,4],[3,2,1]], mat2 = [[2,2,2],[1,1,1]], mat3 = [[1,2]]
+vet1.max()
+mat1.min()
+Array<Int>.mapTwoVec(vet1, vec2: vet2){ (x,y) in x + y }
+Array<Int>.mapTwoMat(mat1, mat2: mat2){ (x,y) in x + y }
+vet2.squareVec()
+mat2.squareMat()
+mat2.mapMat{ $0 * 5 }
 
 /*:
-	public extension Array where Element: SummableMultipliable {
-		public func replace(e: Element, op: ((Element, Element)->(Element))? ) -> Array<Element> {
-			var result = self
-			if let o = op {
-				for i in self.indices {
-					let x = o(self[i], e)
-					result.replaceRange(i...i, with: [x])
-				}
-			} else {
-				for i in self.indices {
-					result.replaceRange(i...i, with: [e])
-				}
-			}
-			return result
-		}
-		public mutating func replaced(e: Element, op: ((Element, Element)->(Element))? ) {
-			self = self.replace(e, op: op)
-		}
-		private static func operatable(a: Array<Element>, _ b: Array<Element>) -> Bool {
-			guard !a.isEmpty && !b.isEmpty else { return false }
-			guard a.count == b.count else { print("the counts of element is not the same"); return false }
-			return true
-		}
-		
-		public static func add(a: Array<Element>, b: Array<Element>) -> Array<Element> {
-			guard operatable(a,b) else { return Array<Element>() }
-			var result = Array<Element>()
-			for i in a.indices {
-				result.append(a[i] + b[i])
-			}
-			return result
-		}
-		public static func sub(a: Array<Element>, b: Array<Element>) -> Array<Element> {
-			guard operatable(a,b) else { return Array<Element>() }
-			var result = Array<Element>()
-			for i in a.indices {
-				result.append(a[i] - b[i])
-			}
-			return result
-		}
-		public static func mul(a: Array<Element>, b: Array<Element>) -> Array<Element> {
-			guard operatable(a,b) else { return Array<Element>() }
-			var result = Array<Element>()
-			for i in a.indices {
-				result.append(a[i] * b[i])
-			}
-			return result
-		}
-		public static func div(a: Array<Element>, b: Array<Element>) -> Array<Element> {
-			guard operatable(a,b) else { return Array<Element>() }
-			var result = Array<Element>()
-			for i in a.indices {
-				// Element() is 0
-				let x = b[i] == Element() ? Element() : a[i] / b[i]
-				result.append(x)
-			}
-			return result
-		}
-	}
-	public extension Array where Element: ArrayLiteralConvertible {
-		public func replace(e: Element, op: ((Element, Element)->(Element))? ) -> Array<Element> {
-			var result = self
-			if let o = op {
-				for i in self.indices {
-					let x = o(self[i], e)
-					result.replaceRange(i...i, with: [x])
-				}
-			} else {
-				for i in self.indices {
-					result.replaceRange(i...i, with: [e])
-				}
-			}
-			return result
-		}
-		public mutating func replaced(e: Element, op: ((Element, Element)->(Element))? ) {
-			self = self.replace(e, op: op)
-		}
-	}
-
 ## Define new operator
 
 Arithmetic operator( + - * /) following with !.
@@ -214,7 +287,9 @@ Arithmetic operator( + - * /) following with !.
 	(not implement)
 
 ****
-
+*/
+/*
+{
 	infix operator *! { associativity left precedence 150 }
 	func *! <T: SummableMultipliable>(lhs: [T], rhs: T) -> [T] {
 		return lhs.replace(rhs, op: *)
@@ -302,6 +377,7 @@ Arithmetic operator( + - * /) following with !.
 	func -!= <T: SummableMultipliable>(inout lhs: [[T]], rhs: T){
 		lhs = lhs -! rhs
 	}
+}
 */
 let vet = [1,2,3]
 (vet +! 5).visualizeView()
@@ -327,6 +403,7 @@ example: [1,2,3] + [4,5,6] ==> [5,7,9],   [1,2,3] + [5,6] ==> [1,2,3,5,6], [1,2,
 
 */
 /*
+{
 func + <T: SummableMultipliable>(lhs: [T], rhs: [T]) -> [T] {
 	guard lhs.count == rhs.count else {
 		var result = lhs
@@ -366,7 +443,6 @@ func / <T: SummableMultipliable>(lhs: [T], rhs: [T]) -> [T] {
 	}
 	return result
 }
-
 func + <T: SummableMultipliable>(lhs: [[T]], rhs: [[T]]) -> [[T]] {
 	guard lhs.count == rhs.count else {
 		var result = lhs
@@ -430,14 +506,19 @@ func / <T: SummableMultipliable>(lhs: [[T]], rhs: [[T]]) -> [[T]] {
 	}
 	return result
 }
+}
 */
-var vet1 = [6,5,4], vet2 = [3,2,1], vet3 = [1,2]
+vet1
+vet2
+vet3
 (vet1 + vet2).visualizeView()
 (vet1 + vet3).visualizeView()
 (vet1 - vet2).visualizeView()
 (vet1 * vet2).visualizeView()
 (vet1 / vet2).visualizeView()
-var mat1 = [[6,5,4],[3,2,1]], mat2 = [[2,2,2],[1,1,1]], mat3 = [[1,2]]
+mat1
+mat2
+mat3
 (mat1 + mat2).visualizeView()
 (mat1 + mat3).visualizeView()
 (mat1 - mat2).visualizeView()
@@ -466,7 +547,6 @@ func ** <T: SummableMultipliable>(lhs: [T], rhs: [T]) -> T {
 Remark: Only for 3-dimensional vectors
 
 example: [3,4,0] × [-3,-1,0] = [0,0,9]
-
 */
 /*
 func × <T: SummableMultipliable>(lhs: [T], rhs: [T]) -> [T] {
@@ -483,7 +563,6 @@ func × <T: SummableMultipliable>(lhs: [T], rhs: [T]) -> [T] {
 ## Defind operator for transpose of a vector
 example: [6,5,4] -| = [[6], [5], [4]]
 */
-
 /*
 postfix func -| <T: SummableMultipliable>(lhs: [[T]]) -> [[T]] {
 	guard !lhs.isEmpty else { return lhs }
@@ -503,7 +582,6 @@ vet1.visualizeView()
 ## Defind operator for Matrix multiplication
 
 example: [[6, 5, 4], [3, 2, 1]] × [[2, 1], [2, 1], [2, 1]] = [[30, 15], [12, 6]]
-
 */
 /*
 public func × <T: SummableMultipliable>(lhs: [[T]], rhs: [[T]]) -> [[T]] {
@@ -544,7 +622,6 @@ example: [3,4] ⨂ [-3,-4] = [[-9, -12], [-12, -16]]
 */
 /*
 infix operator ⨂ { associativity left precedence 150 }
-
 func ⨂ <T: SummableMultipliable>(lhs: [T], rhs:[T]) -> [[T]] {
 	let mat1 = [lhs]-|
 	let mat2 = [rhs]
@@ -558,7 +635,6 @@ example: ∑[1,2,3,4,5,6,7,8,9] = 45
 */
 /*
 prefix operator ∑ {}
-
 prefix func ∑ <T: SummableMultipliable>(rhs:[T]) -> T {
 	return rhs.reduce(T()){ $0 + $1 }
 }
@@ -616,10 +692,49 @@ func ∀ <T: SummableMultipliable>(lhs: Int, rhs:[[T]]) -> [T] {
 0∀[[1,2,3],[4,5,6],[7,8,9]]
 1∀[[1,2,3],[4,5,6],[7,8,9]]
 
-/*
-## Defind operator for everage value of all elements in an array
-example: ∀[1,2,3,4,5,6,7,8,9] = 5
+/*:
+## Creat a propobility check matrix which maped elementwise compare to random number true(1) for > 
+
+## Softmax function transformation for vector & matrix
+ softmax function, or normalized exponential
+
+![](2.png)
+
 */
+/*
+public extension Array where Element: CollectionType, Element.Generator.Element: SummableMultipliable {
+	public func probToBinaryMat() -> [[Element.Generator.Element]] {
+		let one = Element.Generator.Element.one
+		let zero = Element.Generator.Element.zero
+		return self.mapMat{ $0.toDouble() > Double.rand() ? one : zero }
+	}
+	public func softmaxMat() -> [[Element.Generator.Element]] {
+		var x = Array<Element.Generator.Element>.zeroMat(self.count, col: self[0].count as! Int)
+		x = self.mapMat{ $0 }
+		return x.map{ $0.softmaxVec() }
+	}
+}
+public extension Array where Element: SummableMultipliable {
+	public func softmaxVec() -> [Element] {
+		guard let max = self.maxElement() else { fatalError("vec wrong: wrong to get max") }
+		let preSoftmaxVec = self.map{ x in
+			return Element() is Double ? exp((x - max) as! Double) as! Element : exp(Double((x - max).toInt())).toInt() as! Element
+		}
+		return preSoftmaxVec.map{ $0 / ∑preSoftmaxVec }
+	}
+	
+}
+*/
+
+let x = Array<Double>.randnMat(3, col: 5, mean: 0, sigma: 2)
+x.probToBinaryMat()
+Math.probToBinaryMat(x)
+vet1.softmaxVec()
+Math.softmaxVec(vet1)
+
+var mat4 = mat1 × mat2-|
+mat4.softmaxMat()
+Math.softmaxMat(mat4)
 
 
 /*:

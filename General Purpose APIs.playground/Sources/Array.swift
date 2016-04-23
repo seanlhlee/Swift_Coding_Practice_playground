@@ -1,59 +1,5 @@
 import Foundation
-public extension Array where Element: SummableMultipliable {
-	public static func zeroVec(n: Int) -> [Element] {
-		return [Element](count: n, repeatedValue: Element())
-	}
-	public static func zeroMat(row: Int, col: Int) -> [[Element]] {
-		return [[Element]](count: row, repeatedValue: [Element](count: col, repeatedValue: Element()))
-	}
-	public static func oneVec(n: Int) -> [Element] {
-		if Element() is Double {
-			return [Element](count: n, repeatedValue: 1.toDouble() as! Element)
-		}
-		return [Element](count: n, repeatedValue: 1 as! Element)
-	}
-	public static func oneMat(row: Int, col: Int) -> [[Element]] {
-		if Element() is Double {
-			return [[Element]](count: row, repeatedValue: [Element](count: col, repeatedValue: 1.toDouble() as! Element))
-		}
-		return [[Element]](count: row, repeatedValue: [Element](count: col, repeatedValue: 1 as! Element))
-	}
-	public static func randVec(n: Int, lower: Element, upper: Element) -> [Element] {
-		let l = lower <= upper ? lower.toDouble() : upper.toDouble()
-		let u = lower <= upper ? upper.toDouble() : upper.toDouble()
-		let result = [Double].zeroVec(n)
-		if Element() is Double {
-			return result.map{ _ in l + (u - l) * Double.rand() as! Element }
-		}
-		return result.flatMap{ _ in ((l + (u - l) * Double.rand()).toInt() as! Element) }
-	}
-	public static func randMat(row: Int, col: Int, lower: Element, upper: Element) -> [[Element]] {
-		let result = zeroMat(row, col: col)
-		return result.map{ _ in randVec(col, lower: lower, upper: upper) }
-	}
-	
-	public static func randnVec(n: Int, mean: Element, sigma: Element) -> [Element] {
-		let result = zeroVec(n)
-		return result.map{ _ in
-			if Element() is Double {
-				return mean.toDouble() + sigma.toDouble() * Double.randn() as! Element
-			}
-			return (mean.toDouble() + sigma.toDouble() * Double.randn()).toInt() as! Element
-		}
-	}
-	public static func randnMat(row: Int, col: Int, mean: Element, sigma: Element) -> [[Element]] {
-		let result = zeroMat(row, col: col)
-		return result.map{ _ in randnVec(col, mean: mean, sigma: sigma) }
-	}
-	public static func identity(n: Int) -> [[Element]] {
-		var result = zeroMat(n, col: n)
-		for i in 0..<n {
-			result[i][i] = Element() is Double ? 1.0 as! Element : 1.0.toInt() as! Element
-		}
-		return result
-	}
-	
-}
+/// General Use
 public extension Array where Element: SummableMultipliable {
 	public func replace(e: Element, op: ((Element, Element)->(Element))? ) -> Array<Element> {
 		var result = self
@@ -113,6 +59,7 @@ public extension Array where Element: SummableMultipliable {
 		return result
 	}
 }
+/// General Use
 public extension Array where Element: ArrayLiteralConvertible {
 	public func replace(e: Element, op: ((Element, Element)->(Element))? ) -> Array<Element> {
 		var result = self
@@ -133,6 +80,132 @@ public extension Array where Element: ArrayLiteralConvertible {
 	}
 }
 
+/// For DNN
+public extension Array where Element: SummableMultipliable {
+	public static func zeroVec(n: Int) -> [Element] {
+		return [Element](count: n, repeatedValue: Element())
+	}
+	public static func zeroMat(row: Int, col: Int) -> [[Element]] {
+		return [[Element]](count: row, repeatedValue: [Element](count: col, repeatedValue: Element()))
+	}
+	public static func oneVec(n: Int) -> [Element] {
+		if Element() is Double {
+			return [Element](count: n, repeatedValue: 1.toDouble() as! Element)
+		}
+		return [Element](count: n, repeatedValue: 1 as! Element)
+	}
+	public static func oneMat(row: Int, col: Int) -> [[Element]] {
+		if Element() is Double {
+			return [[Element]](count: row, repeatedValue: [Element](count: col, repeatedValue: 1.toDouble() as! Element))
+		}
+		return [[Element]](count: row, repeatedValue: [Element](count: col, repeatedValue: 1 as! Element))
+	}
+	public static func fillVec(n: Int, value:Element) -> [Element] {
+		return [Element](count: n, repeatedValue: value)
+	}
+	public static func fillMat(row: Int, col: Int, value:Element) -> [[Element]] {
+		return [[Element]](count: row, repeatedValue: [Element](count: col, repeatedValue: value))
+	}
+	public static func randVec(n: Int, lower: Element, upper: Element) -> [Element] {
+		let l = lower <= upper ? lower.toDouble() : upper.toDouble()
+		let u = lower <= upper ? upper.toDouble() : upper.toDouble()
+		let result = [Double].zeroVec(n)
+		if Element() is Double {
+			return result.map{ _ in l + (u - l) * Double.rand() as! Element }
+		}
+		return result.flatMap{ _ in ((l + (u - l) * Double.rand()).toInt() as! Element) }
+	}
+	public static func randMat(row: Int, col: Int, lower: Element, upper: Element) -> [[Element]] {
+		let result = zeroMat(row, col: col)
+		return result.map{ _ in randVec(col, lower: lower, upper: upper) }
+	}
+	
+	public static func randnVec(n: Int, mean: Element, sigma: Element) -> [Element] {
+		let result = zeroVec(n)
+		return result.map{ _ in
+			if Element() is Double {
+				return mean.toDouble() + sigma.toDouble() * Double.randn() as! Element
+			}
+			return (mean.toDouble() + sigma.toDouble() * Double.randn()).toInt() as! Element
+		}
+	}
+	public static func randnMat(row: Int, col: Int, mean: Element, sigma: Element) -> [[Element]] {
+		let result = zeroMat(row, col: col)
+		return result.map{ _ in randnVec(col, mean: mean, sigma: sigma) }
+	}
+	public static func identity(n: Int) -> [[Element]] {
+		var result = zeroMat(n, col: n)
+		for i in 0..<n {
+			result[i][i] = Element() is Double ? 1.0 as! Element : 1.0.toInt() as! Element
+		}
+		return result
+	}
+	public static func mapTwoVec(vec1: [Element], vec2: [Element], activation: (Element, Element) -> Element) -> [Element] {
+		guard vec1.count == vec2.count else { fatalError("Matrix shape error : not same") }
+		var result = vec1
+		for i in vec1.indices {
+			result[i] = activation(vec1[i], vec2[i])
+		}
+		return result
+	}
+	public static func mapTwoMat(mat1: [[Element]], mat2: [[Element]], activation: (Element, Element) -> Element) -> [[Element]] {
+		guard mat1.count == mat2.count && mat1[0].count == mat2[0].count else { fatalError("Matrix shape error : not same") }
+		var result = mat1
+		for i in 0..<mat1.count {
+			for j in 0..<mat1[0].count {
+				result[i][j] = activation(mat1[i][j],mat2[i][j])
+			}
+		}
+		return result
+	}
+	public func min() -> Element {
+		guard let min = self.minElement() else { fatalError("wrong to get min") }
+		return min
+	}
+	public func max() -> Element {
+		guard let max = self.maxElement() else { fatalError("wrong to get max") }
+		return max
+	}
+	public func squareVec() -> [Element] {
+		return self.map{ $0 * $0 }
+	}
+	public func softmaxVec() -> [Element] {
+		guard let max = self.maxElement() else { fatalError("vec wrong: wrong to get max") }
+		let preSoftmaxVec = self.map{ x in
+			return Element() is Double ? exp((x - max) as! Double) as! Element : exp(Double((x - max).toInt())).toInt() as! Element
+		}
+		return preSoftmaxVec.map{ $0 / ∑preSoftmaxVec }
+	}
+}
+/// For DNN
+public extension Array where Element: CollectionType, Element.Generator.Element: SummableMultipliable {
+	public func min() -> Element.Generator.Element {
+		let x = self.flatten().map{ $0 }
+		guard let min = x.minElement() else { fatalError("wrong to get min") }
+		return min
+	}
+	public func max() -> Element.Generator.Element {
+		let x = self.flatten().map{ $0 }
+		guard let max = x.maxElement() else { fatalError("wrong to get max") }
+		return max
+	}
+	public func mapMat(activation: (Element.Generator.Element) -> Element.Generator.Element) -> [[Element.Generator.Element]] {
+		return self.map{ $0.map{ activation($0) } }
+	}
+	public func squareMat() -> [[Element.Generator.Element]] {
+		return self.mapMat{ $0 * $0 }
+	}
+	public func probToBinaryMat() -> [[Element.Generator.Element]] {
+		let one = Element.Generator.Element.one
+		let zero = Element.Generator.Element.zero
+		return self.mapMat{ $0.toDouble() > Double.rand() ? one : zero }
+	}
+	public func softmaxMat() -> [[Element.Generator.Element]] {
+		var x = Array<Element.Generator.Element>.zeroMat(self.count, col: self[0].count as! Int)
+		x = self.mapMat{ $0 }
+		return x.map{ $0.softmaxVec() }
+	}
+}
 
 infix operator *! { associativity left precedence 150 }
 public func *! <T: SummableMultipliable>(lhs: [T], rhs: T) -> [T] {

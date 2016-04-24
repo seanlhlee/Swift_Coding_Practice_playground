@@ -19,6 +19,9 @@
         <page name='Hidden Layer'/>
         <page name='Multilayer Perceptron - MLP'/>
         <page name='Deep belief network - DBN'/>
+        <page name='LogisticRegression'/>
+        <page name='Convolutional neural network - CDBN'/>
+        <page name='Conditional Restricted Boltzmann Machines - CRBM'/>
         <page name='Graph Traversal'/>
         <page name='Path Finding'/>
         <page name='Puzzle Search'/>

@@ -30,7 +30,24 @@ extension Range {
 	}
 }
 
-
-
-
+///Array的型別擴充, 其Scope只在相同的命名空間, 其為Generic型別不可public給其他命名空間
+extension Array {
+	///取得陣列中隨機的陣列索引
+	public func randomIndex() -> Int? {
+		return self.isEmpty ? nil : (0..<self.count).rand()
+	}
+	///陣列中元素隨機分佈
+	public func randomize() -> [Element] {
+		if !self.isEmpty {
+			var tempArray = self
+			var randomedArray: [Element] = []
+			for _ in self {
+				randomedArray.append(tempArray.removeAtIndex(tempArray.randomIndex()!))
+			}
+			return randomedArray
+		} else {
+			return []
+		}
+	}
+}
 

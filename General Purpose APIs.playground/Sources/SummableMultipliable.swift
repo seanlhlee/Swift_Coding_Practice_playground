@@ -96,34 +96,47 @@ public extension SummableMultipliable {
 /// extensions for DNN
 public extension Double {
 	public func sigmoid() -> Double {
-		var s = (1.0 / (1.0 + exp(-self.toDouble())))
-		if(s == 1) {
-			s = 0.99999999999999
-		} else if(s == 0) {
-			s = 1e-14
-		}
+		var s = 1.0 / (1.0 + exp(-self))
+		s = s == 1 ? 0.99999999999999 : s
+		s = s == 0 ? 1e-14 : s
+		return s
+	}
+	public static func sigmoid(x: Double) -> Double {
+		var s = 1.0 / (1.0 + exp(-x))
+		s = s == 1 ? 0.99999999999999 : s
+		s = s == 0 ? 1e-14 : s
 		return s
 	}
 	public func dSigmoid() -> Double {
-		self.sigmoid()
-		let x = self
+		let x = self.sigmoid()
+		return  x * (1 - x)
+	}
+	public static func dSigmoid(y: Double) -> Double {
+		let x = y.sigmoid()
 		return  x * (1 - x)
 	}
 }
 public extension Int {
 	public func sigmoid() -> Int {
 		var s = (1.0 / (1.0 + exp(-self.toDouble())))
-		if(s == 1) {
-			s = 0.99999999999999
-		} else if(s == 0) {
-			s = 1e-14
-		}
+		s = s == 1 ? 0.99999999999999 : s
+		s = s == 0 ? 1e-14 : s
+		return s.toInt()
+	}
+	public static func sigmoid(x: Int) -> Int {
+		var s = 1.0 / (1.0 + exp(-x.toDouble()))
+		s = s == 1 ? 0.99999999999999 : s
+		s = s == 0 ? 1e-14 : s
 		return s.toInt()
 	}
 	public func dSigmoid() -> Int {
 		let d = self.toDouble()
 		d.dSigmoid()
 		return d.toInt()
+	}
+	public static func dSigmoid(y: Int) -> Int {
+		let x = y.toDouble().sigmoid()
+		return  (x * (1.0 - x)).toInt()
 	}
 }
 

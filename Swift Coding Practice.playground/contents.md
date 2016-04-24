@@ -15,6 +15,9 @@
 - 隱藏層(Hidden Layer)											
 - 多層感知器(Multilayer perceptron - MLP)								
 - 深度置信網路(Deep belief network - DBN)
+- 邏輯迴歸(Logistic Regression)
+- 卷積神經網絡(Convolutional neural network)
+- 條件受限玻爾茲曼機(Conditional Restricted Boltzmann Machines - CRBM)
 - 圖形搜尋簡介
 - 老鼠走迷宮
 - 拼圖問題

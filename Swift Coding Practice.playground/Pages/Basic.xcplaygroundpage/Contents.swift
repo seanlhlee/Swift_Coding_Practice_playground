@@ -142,7 +142,7 @@ func primeTable(inout primes: [Int], from: Int, to n: Int) throws -> [Int] {
 }
 var primes = [2,3]
 do {
-	try primeTable(&primes, from: 20, to: 100)
+	try primeTable(&primes, from: 2, to: 32)
 } catch InputError.Negative {
 	print("範圍中不可有負數或小於2的數字")
 } catch InputError.RangeErr {

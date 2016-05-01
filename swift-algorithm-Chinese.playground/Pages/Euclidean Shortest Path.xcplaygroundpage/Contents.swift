@@ -2,7 +2,7 @@
 [Previous](@previous) | 本文來源: [演算法筆記](http://www.csie.ntnu.edu.tw/~u91029/Backtracking.html#5) | [Next](@next)
 ****
 # Euclidean Shortest Path
-## © 2010 tkcn(http://tkcnandy.blogspot.com/). All rights reserved.
+## © 2010 [tkcn](http://tkcnandy.blogspot.com/ ""). All rights reserved.
 
 ![](1.png "")
 

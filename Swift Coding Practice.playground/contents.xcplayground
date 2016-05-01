@@ -10,18 +10,9 @@
         <page name='Recursive'/>
         <page name='Algorithm'/>
         <page name='Objective Programming'/>
+        <page name='Cross Bridge'/>
         <page name='Cheryls-Birthday'/>
         <page name='Simulated Annealing'/>
-        <page name='Artificial neural network'/>
-        <page name='Perceptron'/>
-        <page name='Multilayer Perceptron'/>
-        <page name='Restricted Boltzmann machine - RBM'/>
-        <page name='Hidden Layer'/>
-        <page name='Multilayer Perceptron - MLP'/>
-        <page name='Deep belief network - DBN'/>
-        <page name='LogisticRegression'/>
-        <page name='Convolutional neural network - CDBN'/>
-        <page name='Conditional Restricted Boltzmann Machines - CRBM'/>
         <page name='Graph Traversal'/>
         <page name='Path Finding'/>
         <page name='Puzzle Search'/>
@@ -29,5 +20,15 @@
         <page name='Gomoku'/>
         <page name='Code Testion Page'/>
         <page name='Matrix Chain Multiplication'/>
+        <page name='Conditional Restricted Boltzmann Machines - CRBM'/>
+        <page name='Convolutional neural network - CDBN'/>
+        <page name='LogisticRegression'/>
+        <page name='Deep belief network - DBN'/>
+        <page name='Multilayer Perceptron - MLP'/>
+        <page name='Hidden Layer'/>
+        <page name='Restricted Boltzmann machine - RBM'/>
+        <page name='Multilayer Perceptron'/>
+        <page name='Perceptron'/>
+        <page name='Artificial neural network'/>
     </pages>
 </playground>

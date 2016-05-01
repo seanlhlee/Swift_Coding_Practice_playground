@@ -41,8 +41,26 @@
 			backtrack(0);
 	}
 */
-// 枚舉 {0,1,2,3,4} 所有組合
+
 import Foundation
+
+var track: [Int] = [Int]()
+func backtrack(n: Int) {
+	guard n < 3 else {
+		return
+	}
+	track.append(n)
+	backtrack(n + 1)
+	track.append(n)
+	backtrack(n + 1)
+}
+
+backtrack(0) //track = [0, 1, 2, 2, 1, 2, 2, 0, 1, 2, 2, 1, 2, 2]
+
+/*:
+觀察上面範例，可了解backtrack的完整執行流程
+*/
+// 枚舉 {0,1,2,3,4} 所有組合
 var solution = [Bool](count: 5, repeatedValue: true)
 // sorting method
 func increment(a: [Int], _ b: [Int]) -> Bool {
@@ -54,6 +72,7 @@ func increment(a: [Int], _ b: [Int]) -> Bool {
 	return false
 }
 // transform an `i-th element` existing matrix to form a real Int matrix. i.e. [F,T,T] x [1,2,3] = [2,3]
+// 此方法可以藉助zip函式完成
 func trans(combination: [Bool]) -> [Int] {
 	var array:[Int] = [Int]()
 	var source = [0, 1, 2, 3, 4]
@@ -77,10 +96,10 @@ func enumerateCombinations() -> [[Int]] {
 		backtrack(n + 1)
 		solution[n] = false
 		backtrack(n + 1)
-		
 	}
 	backtrack(0)
-	return array.flatMap{ trans($0) }
+	return array.flatMap{ zip($0, source).flatMap{$0 ? $1 : nil} }
+//	return array.flatMap{ trans($0) }
 }
 let combined = enumerateCombinations().sort{ increment($0, $1) }
 combined
@@ -139,6 +158,8 @@ let t1 = timeElapsedInSecondsWhenRunningCode({ enumerateCombinations_1() })
 t0
 t1
 
+
+
 /*:
 ## 範例：枚舉 {0,1,2,3,4} 所有組合
 ****
@@ -166,7 +187,6 @@ t1
 			backtrack(0);
 	}
 */
-
 
 
 /*:

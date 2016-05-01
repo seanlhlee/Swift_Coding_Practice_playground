@@ -262,5 +262,217 @@ matrixPrint(m)
 
 在上面的輸出結果中，* 代表該位置是牆壁，而空格則代表是可以走的路，老鼠走過的地方會放下一個 . 符號，於是您可以看到在上述程式的輸出中，老鼠最後走出了迷宮，完成了任務。
 
+## An example.
+* experiment: Hunter have a wolf, a sheep and a basket of vegetables. He wants to go across the bridge from the westside.
+The bridge is not strong enough to make him walk across with more than two belongings. In other words, he can carry one item or just himself to walk across the bridge.
+Wolf will eat sheep and sheep will eat vegetables when hunter is absent.
+Please find a way to help hunter go to the eastside of the bridge without losses.
+*/
+
+enum Role: Int, CustomStringConvertible {
+	case hunter = 0, wolf, veg, sheep
+	var description: String {
+		switch self {
+		case .hunter:
+			return "Hunter"
+		case .sheep:
+			return "Sheep"
+		case .wolf:
+			return "Wolf"
+		case .veg:
+			return "Vegetables"
+		}
+	}
+}
+
+func == (lhs: [Role], rhs: [Role]) -> Bool {
+	guard lhs.count == rhs.count else { return false }
+	for i in lhs.indices {
+		guard lhs[i] == rhs[i] else { return false }
+	}
+	return true
+}
+
+enum Dir {
+	case west, east
+}
+
+var record = [[Role]]()
+
+struct Solution: CustomStringConvertible, Equatable {
+	var westState: [Role]
+	var eastState: [Role]
+	init() {
+		self.westState = [.hunter, .sheep, .veg, .wolf]
+		self.eastState = []
+		record.append(self.westState.sort{$0.rawValue < $1.rawValue})
+	}
+	init(westState: [Role], eastState: [Role]) {
+		self.westState = westState
+		self.eastState = eastState
+	}
+	static func willPass(sol: Solution) -> Bool {
+		func safe(state: [Role]) -> Bool {
+			guard !state.isEmpty else { return true }
+			guard !state.contains(.hunter) else { return true }
+			if state.contains(.sheep) && state.contains(.wolf) {
+				return false
+			}
+			if state.contains(.sheep) && state.contains(.veg) {
+				return false
+			}
+			return true
+		}
+		return safe(sol.westState) && safe(sol.eastState)
+	}
+	static func getOppositeState(formThisSideState: [Role]) -> [Role] {
+		let initState: [Role] = [.hunter, .sheep, .veg, .wolf]
+		return initState.flatMap{ formThisSideState.contains($0) ? nil : $0}
+	}
+	mutating func go(dir: Dir, who: [Role]) {
+		switch dir {
+		case .east:
+			eastState += who
+			westState = Solution.getOppositeState(eastState)
+		case .west:
+			westState += who
+			eastState = Solution.getOppositeState(westState)
+		}
+	}
+	mutating func goNeibor() -> Bool {
+		guard eastState != [.hunter, .sheep, .veg, .wolf] else { return true }
+		let dir:Dir = westState.contains(.hunter) ? .east : .west
+		let candidate:[Role] =  westState.contains(.hunter) ? westState.filter{ $0 != .hunter } : eastState.filter{ $0 != .hunter }
+		var who = [Role.hunter]
+		var possible = [(Dir, [Role])]()
+		for i in 0...candidate.count {
+			var temp = self
+			who = i == candidate.count ? [Role.hunter] : [Role.hunter, candidate[i]]
+			temp.go(dir, who: who)
+			if Solution.willPass(temp) && !(record.contains{$0 == temp.westState.sort{$0.rawValue < $1.rawValue}  }) {
+				possible.append((dir,who))
+			}
+		}
+		if possible.isEmpty { return false }
+		else if possible.count == 1 {
+			self.go(possible[0].0, who: possible[0].1)
+			record.append(westState.sort{$0.rawValue<$1.rawValue})
+		} else {
+			let me = self
+			for i in 0..<possible.count {
+				self.go(possible[i].0, who: possible[i].1)
+				record.append(westState.sort{$0.rawValue<$1.rawValue})
+				self =  i < possible.count - 1 ? me : self
+			}
+		}
+		print(self)
+		goNeibor()
+		return true
+	}
+	var description: String {
+		return "east:\(eastState)"
+	}
+}
+
+func == (lhs: Solution, rhs: Solution) -> Bool {
+	return lhs.eastState == rhs.eastState && lhs.westState == rhs.westState
+}
+
+var sol = Solution()
+sol.goNeibor()
+
+/*:
+## Use dfs method to solve hunter cross bridge problem.
+*/
+
+/*
+
+var objs:[Role]	= [.hunter, .wolf, .sheep, .veg]
+var state	= [ 0, 0, 0, 0 ]
+func neighbors(s: [Int]) {
+	var side = s[0]
+	var next = []
+	checkAdd(next, move(s,0))
+	for i in 1..<s.count {
+		if s[i] == side {
+			checkAdd(next, move(s,i))
+		}
+	}
+	return next
+}
+
+
+func checkAdd(next, s: [Int]) {
+	if (!isDead(s)) {
+		next.push(s);
+	}
+}
+
+func isDead(s: [Int]) -> Bool {
+	if (s[1] == s[2] && s[1] != s[0]) { return true }
+	if (s[2] == s[3] && s[2] != s[0]) { return true }
+	return false
+}
+
+// 人帶著 obj 移到另一邊
+func move(s: [Int], obj: Role) -> [Int] {
+	var newS = s // 複製一份陣列
+	let side = s[0]
+	let anotherSide = (side==0) ? 1 : 0
+	newS[0] = anotherSide
+	newS[obj.rawValue] = anotherSide
+	return newS
+}
+
+var visitedMap = {}
+
+func visited(s: [Int]) {
+	var str = s.join('');
+	return (typeof visitedMap[str] !== "undefined")
+}
+
+function isSuccess(s) {
+	for (var i=0; i<s.length; i++) {
+		if (s[i]===0) return false;
+	}
+	return true;
+}
+
+function state2str(s) {
+	var str = "";
+	for (var i=0; i<s.length; i++) {
+		str += objs[i]+s[i]+" ";
+	}
+	return str;
+}
+
+var path = [];
+
+function printPath(path) {
+	for (var i=0; i<path.length; i++)
+	c.log(state2str(path[i]));
+}
+
+function dfs(s) {
+	if (visited(s)) return;
+	path.push(s);
+	//  c.log('visit:', state2str(s));
+	if (isSuccess(s)) {
+		c.log("success!");
+		printPath(path);
+		return;
+	}
+	visitedMap[s.join('')] = true;
+	var neighborsList = neighbors(s);
+	for (var i in neighborsList) {
+		dfs(neighborsList[i]);
+	}
+	path.pop();
+}
+
+dfs(state);
+
+*/
+/*:
 [Next](@next)
 */

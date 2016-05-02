@@ -270,16 +270,16 @@ Please find a way to help hunter go to the eastside of the bridge without losses
 */
 
 enum Role: Int, CustomStringConvertible {
-	case hunter = 0, wolf, veg, sheep
+	case Hunter = 0, Wolf, Veg, Sheep
 	var description: String {
 		switch self {
-		case .hunter:
+		case .Hunter:
 			return "Hunter"
-		case .sheep:
+		case .Sheep:
 			return "Sheep"
-		case .wolf:
+		case .Wolf:
 			return "Wolf"
-		case .veg:
+		case .Veg:
 			return "Vegetables"
 		}
 	}
@@ -303,7 +303,7 @@ struct Solution: CustomStringConvertible, Equatable {
 	var westState: [Role]
 	var eastState: [Role]
 	init() {
-		self.westState = [.hunter, .sheep, .veg, .wolf]
+		self.westState = [.Hunter, .Sheep, .Veg, .Wolf]
 		self.eastState = []
 		record.append(self.westState.sort{$0.rawValue < $1.rawValue})
 	}
@@ -314,11 +314,11 @@ struct Solution: CustomStringConvertible, Equatable {
 	static func willPass(sol: Solution) -> Bool {
 		func safe(state: [Role]) -> Bool {
 			guard !state.isEmpty else { return true }
-			guard !state.contains(.hunter) else { return true }
-			if state.contains(.sheep) && state.contains(.wolf) {
+			guard !state.contains(.Hunter) else { return true }
+			if state.contains(.Sheep) && state.contains(.Wolf) {
 				return false
 			}
-			if state.contains(.sheep) && state.contains(.veg) {
+			if state.contains(.Sheep) && state.contains(.Veg) {
 				return false
 			}
 			return true
@@ -326,7 +326,7 @@ struct Solution: CustomStringConvertible, Equatable {
 		return safe(sol.westState) && safe(sol.eastState)
 	}
 	static func getOppositeState(formThisSideState: [Role]) -> [Role] {
-		let initState: [Role] = [.hunter, .sheep, .veg, .wolf]
+		let initState: [Role] = [.Hunter, .Sheep, .Veg, .Wolf]
 		return initState.flatMap{ formThisSideState.contains($0) ? nil : $0}
 	}
 	mutating func go(dir: Dir, who: [Role]) {
@@ -340,14 +340,14 @@ struct Solution: CustomStringConvertible, Equatable {
 		}
 	}
 	mutating func goNeibor() -> Bool {
-		guard eastState != [.hunter, .sheep, .veg, .wolf] else { return true }
-		let dir:Dir = westState.contains(.hunter) ? .east : .west
-		let candidate:[Role] =  westState.contains(.hunter) ? westState.filter{ $0 != .hunter } : eastState.filter{ $0 != .hunter }
-		var who = [Role.hunter]
+		guard eastState != [.Hunter, .Sheep, .Veg, .Wolf] else { return true }
+		let dir:Dir = westState.contains(.Hunter) ? .east : .west
+		let candidate:[Role] =  westState.contains(.Hunter) ? westState.filter{ $0 != .Hunter } : eastState.filter{ $0 != .Hunter }
+		var who = [Role.Hunter]
 		var possible = [(Dir, [Role])]()
 		for i in 0...candidate.count {
 			var temp = self
-			who = i == candidate.count ? [Role.hunter] : [Role.hunter, candidate[i]]
+			who = i == candidate.count ? [Role.Hunter] : [Role.Hunter, candidate[i]]
 			temp.go(dir, who: who)
 			if Solution.willPass(temp) && !(record.contains{$0 == temp.westState.sort{$0.rawValue < $1.rawValue}  }) {
 				possible.append((dir,who))
@@ -385,7 +385,7 @@ sol.goNeibor()
 ## Use dfs method to solve hunter cross bridge problem.
 */
 
-var objs:[Role]	= [.hunter, .wolf, .sheep, .veg]
+var objs:[Role]	= [.Hunter, .Wolf, .Sheep, .Veg]
 var state	= [ 0, 0, 0, 0 ]
 func neighbors(s: [Int]) -> [[Int]] {
 	let side = s[0]

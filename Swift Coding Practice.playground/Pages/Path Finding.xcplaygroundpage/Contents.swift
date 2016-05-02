@@ -385,26 +385,24 @@ sol.goNeibor()
 ## Use dfs method to solve hunter cross bridge problem.
 */
 
-/*
-
 var objs:[Role]	= [.hunter, .wolf, .sheep, .veg]
 var state	= [ 0, 0, 0, 0 ]
-func neighbors(s: [Int]) {
-	var side = s[0]
-	var next = []
-	checkAdd(next, move(s,0))
+func neighbors(s: [Int]) -> [[Int]] {
+	let side = s[0]
+	var next:[[Int]] = []
+	checkAdd(&next, s: move(s,obj: Role(rawValue: 0)!))
 	for i in 1..<s.count {
 		if s[i] == side {
-			checkAdd(next, move(s,i))
+			checkAdd(&next, s: move(s,obj: Role(rawValue: i)!))
 		}
 	}
 	return next
 }
 
 
-func checkAdd(next, s: [Int]) {
+func checkAdd(inout next: [[Int]], s: [Int]) {
 	if (!isDead(s)) {
-		next.push(s);
+		next.append(s)
 	}
 }
 
@@ -424,55 +422,58 @@ func move(s: [Int], obj: Role) -> [Int] {
 	return newS
 }
 
-var visitedMap = {}
+var visitedMap: [String: Bool] = [:]
 
-func visited(s: [Int]) {
-	var str = s.join('');
-	return (typeof visitedMap[str] !== "undefined")
-}
-
-function isSuccess(s) {
-	for (var i=0; i<s.length; i++) {
-		if (s[i]===0) return false;
+func visited(s: [Int]) -> Bool {
+	let str = state2str(s)
+	if let x = visitedMap[str] {
+		return x
 	}
-	return true;
+	return false
 }
 
-function state2str(s) {
-	var str = "";
-	for (var i=0; i<s.length; i++) {
-		str += objs[i]+s[i]+" ";
+func isSuccess(s: [Int]) -> Bool {
+	for i in 0..<s.count {
+		if (s[i] == 0) { return false }
 	}
-	return str;
+	return true
 }
 
-var path = [];
-
-function printPath(path) {
-	for (var i=0; i<path.length; i++)
-	c.log(state2str(path[i]));
+func state2str(s: [Int]) -> String {
+	var str = ""
+	for i in 0..<s.count {
+		str += "\(objs[i]): \(s[i]) "
+	}
+	return str
 }
 
-function dfs(s) {
-	if (visited(s)) return;
-	path.push(s);
-	//  c.log('visit:', state2str(s));
+var path:[[Int]] = []
+
+func printPath(path: [[Int]]) {
+	for i in 0..<path.count {
+		print(state2str(path[i]))
+	}
+}
+
+func dfs(s: [Int]) {
+	if (visited(s)) { return }
+	path.append(s)
 	if (isSuccess(s)) {
-		c.log("success!");
-		printPath(path);
-		return;
+		print("success!")
+		printPath(path)
+		return
 	}
-	visitedMap[s.join('')] = true;
-	var neighborsList = neighbors(s);
-	for (var i in neighborsList) {
-		dfs(neighborsList[i]);
+	visitedMap[state2str(s)] = true
+	var neighborsList = neighbors(s)
+	for i in neighborsList.indices {
+		dfs(neighborsList[i])
 	}
-	path.pop();
+	path.removeLast()
 }
 
-dfs(state);
+dfs(state)
 
-*/
+
 /*:
 [Next](@next)
 */

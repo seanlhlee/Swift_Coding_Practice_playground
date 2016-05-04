@@ -78,7 +78,11 @@ public extension Array2D {
 
 extension Array2D: CustomStringConvertible {
 	public var description: String {
-		return "Array2D: \(rows) x \(columns)\t" + array.description
+		var matrixStyle_description = ""
+		for row in rowIndices {
+			matrixStyle_description += "\n" + self[row, nil].description
+		}
+		return "Array2D: \(rows) x \(columns)\t" + array.description + matrixStyle_description
 	}
 }
 
@@ -93,7 +97,7 @@ for i in a.rowIndices {
 	}
 }
 
-
+print(a)
 
 let colIndices = a.colIndices
 let rowIndices = a.rowIndices

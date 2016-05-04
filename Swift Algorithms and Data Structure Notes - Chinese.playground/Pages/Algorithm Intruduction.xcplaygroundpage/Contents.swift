@@ -105,24 +105,24 @@ _____________________
 		return a;
 	}
 */
-enum ArithmeticError: ErrorType {
-	case NegativeValue
-}
-func gcd<T: IntegerType>(a: T, _ b: T)throws -> T {
-	guard a > T.allZeros && b > T.allZeros else { throw ArithmeticError.NegativeValue }
-	var a_ = a, b_ = b
-	while a_ != b_ {
-		if a_ > b_ {
-			a_ -= b_
-		} else {
-			b_ -= a_
-		}
+	enum ArithmeticError: ErrorType {
+		case NegativeValue
 	}
-	return a_
-}
+	func gcd<T: IntegerType>(a: T, _ b: T)throws -> T {
+		guard a > T.allZeros && b > T.allZeros else { throw ArithmeticError.NegativeValue }
+		var a_ = a, b_ = b
+		while a_ != b_ {
+			if a_ > b_ {
+				a_ -= b_
+			} else {
+				b_ -= a_
+			}
+		}
+		return a_
+	}
 
-try? gcd(15, 21)
-try? gcd(120,72)
+	try? gcd(15, 21)
+	try? gcd(120,72)
 
 /*:
 對於電機系學生來說，自然就是把演算法設計成[電子電路](http://zh.wikipedia.org/wiki/電子電路)，在[麵包板](http://zh.wikipedia.org/wiki/麵包板)、[印刷電路板](http://zh.wikipedia.org/wiki/印刷電路板)、[PLD](http://zh.wikipedia.org/wiki/可程式邏輯裝置)上面執行。
@@ -168,17 +168,17 @@ _____________________
 	_______________________________________________
 
 */
-func bubbleSort(inout array: [Int]) {
-	for i in 0..<array.count {						// n steps				i被賦予值n次
-		for j in 0..<array.count - i - 1 {			// n * (n - 1) / 2		j被賦予值n * (n - 1) / 2次
-			if array[j] < array[j + 1] {			// n * (n - 1) / 2		判斷式執行n * (n - 1) / 2次
-				swap(&array[j], &array[j + 1])		// n * (n - 1) / 2 * 3	(swap函式有3步驟)
-			}										//						swap函式執行少於n * (n - 1) / 2次
-		}
-	}												// Total steps = n + 5 * n * (n - 1) / 2 = 2.5n² - 1.5n
-}													// O(n2)
-var a = [3, 6, 1, 9, 4, 0, 5]
-bubbleSort(&a)
+	func bubbleSort(inout array: [Int]) {
+		for i in 0..<array.count {						// n steps				i被賦予值n次
+			for j in 0..<array.count - i - 1 {			// n * (n - 1) / 2		j被賦予值n * (n - 1) / 2次
+				if array[j] < array[j + 1] {			// n * (n - 1) / 2		判斷式執行n * (n - 1) / 2次
+					swap(&array[j], &array[j + 1])		// n * (n - 1) / 2 * 3	(swap函式有3步驟)
+				}										//						swap函式執行少於n * (n - 1) / 2次
+			}
+		}												// Total steps = n + 5 * n * (n - 1) / 2 = 2.5n² - 1.5n
+	}													// O(n2)
+	var a = [3, 6, 1, 9, 4, 0, 5]
+	bubbleSort(&a)
 
 
 /*:

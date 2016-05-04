@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<playground version='6.0' target-platform='ios' display-mode='rendered'>
+    <pages>
+        <page name='Table of Contemts'/>
+        <page name='Algorithm Note'/>
+        <page name='Algorithm Intruduction'/>
+        <page name='Incremental Method'/>
+        <page name='Memoization'/>
+        <page name='Emumeration'/>
+        <page name='Iterative Method'/>
+        <page name='Recursive Method'/>
+        <page name='Divide and Conquer'/>
+        <page name='Dynamic Programming'/>
+        <page name='Greedy Method'/>
+        <page name='Scaling Method'/>
+        <page name='UC-External Memory Algorithm '/>
+        <page name='UC-Parallel Algorithm'/>
+        <page name='UC-Randomized Algorithm'/>
+        <page name='Simulation'/>
+        <page name='Modeling'/>
+        <page name='Backtracking'/>
+        <page name='Enumerate Permutations'/>
+        <page name='Enumerate Combinations'/>
+        <page name='8 Queen Problem'/>
+        <page name='Euclidean Shortest Path'/>
+        <page name='0_1 Knapsack Problem'/>
+        <page name='Inclusion-Exclusion Principle'/>
+        <page name='Data'/>
+        <page name='Array - List'/>
+        <page name='Stack'/>
+        <page name='Queue'/>
+        <page name='Swift Algorithm Club'/>
+        <page name='Insertion Sort'/>
+        <page name='Linear Search'/>
+        <page name='Binary Search'/>
+        <page name='Binary Tree'/>
+        <page name='Merge Sort'/>
+        <page name='Boyer-Moore'/>
+        <page name='Count Occurrences'/>
+        <page name='Min-Max'/>
+        <page name='Selection Sort'/>
+        <page name='Quicksort'/>
+        <page name='Bubble Sort'/>
+        <page name='Shuffle'/>
+        <page name='Greatest Common Divisor (GCD)'/>
+        <page name='Permutations and Combinations'/>
+        <page name='Array2D'/>
+        <page name='Fixed Size Array'/>
+        <page name='Ring Buffer'/>
+        <page name='Singly Linked List'/>
+        <page name='Heap'/>
+        <page name='Hash Set'/>
+        <page name='Hash Table'/>
+        <page name='Two-Sum Problem'/>
+        <page name='Combinatorics'/>
+        <page name='Appendix - Table of Contents'/>
+        <page name='Appendix - C and C++'/>
+        <page name='Appendix - Engineering'/>
+        <page name='Appendix - Book'/>
+        <page name='Appendix - Web'/>
+        <page name='Appendix - Essay'/>
+        <page name='Appendix - About'/>
+    </pages>
+</playground>

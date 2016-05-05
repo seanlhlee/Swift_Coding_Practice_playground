@@ -1,11 +1,11 @@
 /*:
-[Previous](@previous)
+[Previous](@previous) | 回到[目錄](Algorithm%20Note) |本文來源: [演算法筆記](http://www.csie.ntnu.edu.tw/~u91029/Data.html#1) | [Next](@next)
 _____________________
 # Data
 _____________________
 ## Data
 
-英文的「 Data 」是複數形，是指大量資料，而非一筆資料。
+英文的「Data」是複數形，是指大量資料，而非一筆資料。
 
 中文的「資料」，大家國文造詣都很棒，應該都知道是什麼意思。不過為求慎重，還是查一下國語字典吧：
 
@@ -19,53 +19,58 @@ _____________________
 聽起來有點複雜，就當我沒查吧。
 
 簡單來說，計算機拿來儲存、拿來計算的東西，就叫做資料。
-
-## 程式語言的變數
 _____________________
-
+## 程式語言的變數
 「資料」聽起來不明不白，有點抽象。對於初學者來說，從程式語言的變數入手，會比較有感覺。
+*/
+import Foundation
+// 一個整數，它是一筆資料。
+let i: Int = 0
 
-	// 一個整數，它是一筆資料。
-	int i = 0;
+// 一個字串，它是一筆資料。
+let str: String = "Hello World!"
 
-	// 一個字串，它是一筆資料。
-	char* s[10] = "Hello World!";
+// 一個boolean，它是一筆資料。
+let b: Bool = false
 
-	// 一個boolean，它是一筆資料。
-	bool b = false;
+// 一個座標，它是一筆資料。
+struct Point { var x, y: Int }
+let point = Point(x: 2, y: 3)
 
-	// 一個座標，它是一筆資料。
-	struct Point {int x, y;} point = {2, 3};
+// 一顆從別處偷借來的球，它是一筆資料。
+struct Ball {
+	private var _radius: Double // 半徑
+	private var _name: String   // 名稱
+	
+	var radius: Double {
+		get {
+			return _radius
+		}
+		set {
+			self._radius = newValue
+		}
+	}
+	var name: String {
+		get {
+			return _name
+		}
+		set {
+			self._name = newValue
+		}
+	}
+	var volumn: Double {
+		return 4.0 / 3.0 * M_PI * _radius * _radius * _radius
+	}
+}
 
-	// 一顆從別處偷借來的球，它是一筆資料。
-	class Ball
-	{
-		public:
-		Ball();
-		Ball(double, const char*);
-		Ball(double, string&);
-	 
-		double radius();
-		string& name();
-	 
-		void radius(double);
-		void name(const char*);
-		void name(string&);
-	 
-		double volumn();
-	 
-		private:
-		double _radius; // 半徑
-		string _name;   // 名稱
-	};
-
-	Ball ball;
-
-上面這些都是一筆資料的 C++ 程式碼範例。可是如果有非常多筆資料怎麼辦呢？
-
-	// 五筆資料
-	int i1 = 1, i2 = 1, i3 = 1, i4 = 1, i5 = 1;
-
+let ball = Ball(_radius: 3.0, _name: "my ball")
+ball.volumn		//113.097
+/*:
+上面這些都是一筆資料的Swift程式碼範例。可是如果有非常多筆資料怎麼辦呢？
+*/
+// 五筆資料
+let i1 = 1, i2 = 1, i3 = 1, i4 = 1, i5 = 1
+/*:
 可是如果有一萬筆、一億筆資料怎麼辦呢？
 
 是的，這時候你就必須學習「資料結構 Data Structure 」。要不然你會抓狂的。
@@ -81,5 +86,5 @@ _____________________
 * [用十分鐘 學會【資料結構、演算法和計算理論】]
 
 _____________________
-[Next](@next)
+[Previous](@previous) | 回到[目錄](Algorithm%20Note) |本文來源: [演算法筆記](http://www.csie.ntnu.edu.tw/~u91029/Data.html#1) | [Next](@next)
 */

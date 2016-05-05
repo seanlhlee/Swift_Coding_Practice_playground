@@ -1,12 +1,19 @@
 /*:
 [Previous](@previous) | 本文來源: [演算法筆記](http://www.csie.ntnu.edu.tw/~u91029/index.html) | [Next](@next)
-****
+____________________
 
-# Algorithm		演算法筆記
+# Algorithm 演算法筆記
 ____________________
 
 # 目錄
-****
+____________________
+
+## Data													資料與資料結構
+
+- [*Data*](Data)																*資料*
+- [*Array - List*](Array%20-%20List)															*陣列與串列*
+- [*Stack*](Stack)																*堆疊*
+- [*Queue*](Queue)																*佇列*
 
 ## Algorithm											演算法
 
@@ -35,21 +42,10 @@ ____________________
 - [*0/1 Knapsack Problem*](0_1%20Knapsack%20Problem)													*0/1背包問題*
 - [*Inclusion-Exclusion Principle*](Inclusion-Exclusion%20Principle)												*容斥原理*
 
-## Data													資料與資料結構
-
-- [*Data*](Data)																*資料*
-- [*Array - List*](Array%20-%20List)															*陣列與串列*
-- [*Stack*](Stack)																*堆疊*
-- [*Queue*](Queue)																*佇列*
 
 ## Appendix
 
-- [**Appendix - Table of Contents**](Appendix%20-%20Table%20of%20Contents)
-- [*C and C++*](Appendix%20-%20C%20and%20C++)
-- [*Engineering*](Appendix%20-%20Engineering)
-- [*Book*](Appendix%20-%20Book)
 - [*Web*](Appendix%20-%20Web)
-- [*Essay*](Appendix%20-%20Essay)
 - [*About*](Appendix%20-%20About)
 
 

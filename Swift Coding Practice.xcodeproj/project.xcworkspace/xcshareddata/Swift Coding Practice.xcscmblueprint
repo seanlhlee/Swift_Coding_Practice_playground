@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "01801FC011A162540A2ACD556BCD5663C38C23AF",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "01801FC011A162540A2ACD556BCD5663C38C23AF" : 0,
+    "62BD0B6367E3E320F9CC07AB1798DEBB1659AB6B" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "DFC8DC19-1CFC-4852-AC5C-73F47CC26EB4",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "01801FC011A162540A2ACD556BCD5663C38C23AF" : "Swift_Coding_Practice_playground\/",
+    "62BD0B6367E3E320F9CC07AB1798DEBB1659AB6B" : "Swift_Coding_Practice_playground\/swift-algorithm-note\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "Swift Coding Practice",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Swift Coding Practice.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/seanlhlee\/Swift_Coding_Practice_playground.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "01801FC011A162540A2ACD556BCD5663C38C23AF"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/git.gitbook.com\/seanlhlee\/swift-algorithm-note.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "62BD0B6367E3E320F9CC07AB1798DEBB1659AB6B"
+    }
+  ]
+}

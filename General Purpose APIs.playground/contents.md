@@ -12,6 +12,8 @@ General Purpose APIs using in Swift playgrounds for learning and experimenting S
 - Matrix tests page
 - Matrix Chain Multiplication_Array
 - Matrix Chain Multiplication_Matrix
+- Binary Search Tree - BST
+- AVL tree
 - Code Testion Page
 
 
@@ -23,3 +25,5 @@ General Purpose APIs using in Swift playgrounds for learning and experimenting S
 ../Sources/String.swift
 ../Sources/Vector.swift
 ../Sources/Visualization.swift
+../Sources/AVLTree.swift
+../Sources/Binary Search Tree.swift

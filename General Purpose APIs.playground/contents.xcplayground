@@ -12,6 +12,8 @@
         <page name='MatrixTests'/>
         <page name='Matrix Chain Multiplication_Array'/>
         <page name='Matrix Chain Multiplication_Matrix'/>
+        <page name='Binary Search Tree - BST'/>
+        <page name='AVL Tree'/>
         <page name='Code Testion Page'/>
     </pages>
 </playground>

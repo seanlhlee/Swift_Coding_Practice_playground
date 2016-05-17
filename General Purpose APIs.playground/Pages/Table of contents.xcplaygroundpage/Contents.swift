@@ -28,6 +28,8 @@ General Purpose APIs using in Swift playgrounds for learning and experimenting S
 - [*MatrixTests*](MatrixTests)												矩陣相關測試
 - [*Matrix Chain Multiplication_Array*](Matrix%20Chain%20Multiplication_Array)							矩陣乘法鏈-陣列篇
 - [*Matrix Chain Multiplication_Matrix*](Matrix%20Chain%20Multiplication_Matrix)						矩陣乘法鏈-矩陣篇
+- [*Binary Search Tree - BST*](Binary%20Search%20Tree%20-%20BST)									二元搜尋樹
+- [*AVL tree*](AVL%20Tree)												高度平衡樹
 
 
 ### 程式碼測試頁

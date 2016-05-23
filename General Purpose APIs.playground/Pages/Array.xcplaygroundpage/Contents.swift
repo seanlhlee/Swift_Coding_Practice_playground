@@ -736,6 +736,20 @@ var mat4 = mat1 × mat2-|
 mat4.softmaxMat()
 Math.softmaxMat(mat4)
 
+extension Array {
+	public mutating func shuffle() {
+		for i in (count - 1).stride(through: 1, by: -1) {
+			let j = Int(arc4random_uniform(UInt32(i + 1)))
+			if i != j {
+				swap(&self[i], &self[j])
+			}
+		}
+	}
+}
+
+var card = [Int](1...13)
+card.shuffle()
+card.visualizeView()
 
 /*:
 ****

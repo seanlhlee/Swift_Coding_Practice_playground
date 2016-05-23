@@ -79,6 +79,19 @@ public extension Array where Element: ArrayLiteralConvertible {
 		self = self.replace(e, op: op)
 	}
 }
+/// General Use
+public extension Array {
+	/// shuffle: randly reorder array `self`
+	public mutating func shuffle() {
+		for i in (count - 1).stride(through: 1, by: -1) {
+			let j = Int(arc4random_uniform(UInt32(i + 1)))
+			if i != j {
+				swap(&self[i], &self[j])
+			}
+		}
+	}
+}
+
 
 /// For DNN
 public extension Array where Element: SummableMultipliable {
